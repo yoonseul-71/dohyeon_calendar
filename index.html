@@ -281,14 +281,14 @@
             const firstDayIndex = new Date(currentYear, currentMonth, 1).getDay();
             const totalDays = new Date(currentYear, currentMonth + 1, 0).getDate();
 
-            // 이전 달 빈 칸 생성
+            // 이전 달 빈 칸 생성 (높이 44~52로 확장)
             for (let i = 0; i < firstDayIndex; i++) {
                 const emptyCell = document.createElement('div');
-                emptyCell.className = "h-36 md:h-44 bg-zinc-50/50 rounded-xl border border-transparent";
+                emptyCell.className = "h-44 md:h-52 bg-zinc-50/50 rounded-xl border border-transparent";
                 grid.appendChild(emptyCell);
             }
 
-            // 이번 달 날짜 생성
+            // 이번 달 날짜 생성 (높이 44~52로 확장하여 최대 5줄까지 여유있게 수용)
             for (let day = 1; day <= totalDays; day++) {
                 const dateStr = formatDateStr(currentYear, currentMonth, day);
 
@@ -304,7 +304,7 @@
                 }
 
                 const cell = document.createElement('div');
-                let cellBaseClass = "h-36 md:h-44 border rounded-xl p-1.5 md:p-2 flex flex-col justify-start transition hover:shadow-md cursor-pointer relative overflow-hidden ";
+                let cellBaseClass = "h-44 md:h-52 border rounded-xl p-1.5 md:p-2 flex flex-col justify-start transition hover:shadow-md cursor-pointer relative overflow-hidden ";
                 
                 let bgStyle = "bg-white border-zinc-200";
                 let hasRest = matchedSchedules.some(s => s.type === 'rest');
@@ -342,12 +342,12 @@
 
                 cell.appendChild(topHeader);
 
-                // 내부 일정 목록
+                // 내부 일정 목록 (최대 5줄까지 표시하도록 idx < 5 설정)
                 const listContainer = document.createElement('div');
                 listContainer.className = "flex flex-col gap-1 overflow-hidden w-full";
 
                 matchedSchedules.forEach((sch, idx) => {
-                    if (idx < 3) {
+                    if (idx < 5) {
                         const badge = document.createElement('div');
                         
                         if (sch.type === 'rest') {
@@ -362,10 +362,10 @@
                     }
                 });
 
-                if (matchedSchedules.length > 3) {
+                if (matchedSchedules.length > 5) {
                     const moreBadge = document.createElement('div');
                     moreBadge.className = "text-[9px] text-zinc-500 font-bold text-right mt-0.5";
-                    moreBadge.innerText = `+${matchedSchedules.length - 3}개 더보기`;
+                    moreBadge.innerText = `+${matchedSchedules.length - 5}개 더보기`;
                     listContainer.appendChild(moreBadge);
                 }
 
@@ -427,7 +427,6 @@
                             <div class="text-zinc-300 text-xs leading-relaxed whitespace-pre-wrap break-words">${sch.desc}</div>
                         </div>` : '';
                     
-                    // 📺 등록된 다중 다시보기 링크 리스트 렌더링
                     let linksHtml = "";
                     if (sch.links && sch.links.length > 0) {
                         let linkItems = "";
@@ -537,7 +536,6 @@
             const members = document.getElementById('form-members').value;
             const desc = document.getElementById('form-desc').value;
 
-            // 입력된 다중 링크 수집
             const linkRows = document.querySelectorAll('.link-row-item');
             let links = [];
             linkRows.forEach(row => {
@@ -582,7 +580,6 @@
             document.getElementById('form-members').value = item.members || '';
             document.getElementById('form-desc').value = item.desc || '';
             
-            // 기존 링크 로드
             const container = document.getElementById('form-links-container');
             container.innerHTML = '';
             if (item.links && item.links.length > 0) {
