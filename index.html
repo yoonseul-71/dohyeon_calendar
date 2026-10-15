@@ -166,7 +166,7 @@
                     </div>
                 </div>
 
-                <!-- 🎨 [신규] 개별 일정 항목 배경색 프리셋 픽커 -->
+                <!-- 🎨 개별 일정 항목 배경색 프리셋 픽커 (연주황 추가됨) -->
                 <div>
                     <label class="block text-xs text-zinc-400 mb-1.5">📌 개별 항목 배경색 선택 (강조용 파스텔 픽커)</label>
                     <div class="flex flex-wrap gap-2 items-center" id="color-picker-group">
@@ -175,6 +175,9 @@
                         </button>
                         <button type="button" onclick="selectItemColor('yellow')" data-color-key="yellow" class="color-btn border border-zinc-700 bg-amber-100 text-amber-900 px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1 transition">
                             <span class="w-3 h-3 rounded-full bg-amber-200 border border-amber-400 inline-block"></span> 연노랑
+                        </button>
+                        <button type="button" onclick="selectItemColor('orange')" data-color-key="orange" class="color-btn border border-zinc-700 bg-orange-100 text-orange-900 px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1 transition">
+                            <span class="w-3 h-3 rounded-full bg-orange-200 border border-orange-400 inline-block"></span> 연주황
                         </button>
                         <button type="button" onclick="selectItemColor('pink')" data-color-key="pink" class="color-btn border border-zinc-700 bg-pink-100 text-pink-900 px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1 transition">
                             <span class="w-3 h-3 rounded-full bg-pink-200 border border-pink-400 inline-block"></span> 연분홍
@@ -273,10 +276,11 @@
             rest: '#a1a1aa'    // zinc-400
         };
 
-        // 개별 항목 파스텔 스타일 맵핑
+        // 개별 항목 파스텔 스타일 맵핑 (orange 추가)
         const ITEM_COLOR_MAP = {
             default: "bg-zinc-100 text-zinc-800 border-zinc-200/80",
             yellow: "bg-amber-100 text-amber-900 border-amber-300/80",
+            orange: "bg-orange-100 text-orange-900 border-orange-300/80",
             pink: "bg-pink-100 text-pink-900 border-pink-300/80",
             blue: "bg-sky-100 text-sky-900 border-sky-300/80",
             green: "bg-emerald-100 text-emerald-900 border-emerald-300/80",
