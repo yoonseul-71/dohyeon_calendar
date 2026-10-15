@@ -281,14 +281,14 @@
             const firstDayIndex = new Date(currentYear, currentMonth, 1).getDay();
             const totalDays = new Date(currentYear, currentMonth + 1, 0).getDate();
 
-            // 이전 달 빈 칸 생성 (높이 44~52로 확장)
+            // 이전 달 빈 칸 생성
             for (let i = 0; i < firstDayIndex; i++) {
                 const emptyCell = document.createElement('div');
                 emptyCell.className = "h-44 md:h-52 bg-zinc-50/50 rounded-xl border border-transparent";
                 grid.appendChild(emptyCell);
             }
 
-            // 이번 달 날짜 생성 (높이 44~52로 확장하여 최대 5줄까지 여유있게 수용)
+            // 이번 달 날짜 생성
             for (let day = 1; day <= totalDays; day++) {
                 const dateStr = formatDateStr(currentYear, currentMonth, day);
 
@@ -324,25 +324,29 @@
 
                 const isToday = (day === today.getDate() && currentMonth === today.getMonth() && currentYear === today.getFullYear());
                 
-                // 상단 영역 (날짜 숫자 + 카테고리 태그)
+                // 상단 영역 (날짜 숫자 + 그날 선택된 모든 카테고리/게임 태그 모음)
                 const topHeader = document.createElement('div');
-                topHeader.className = "flex items-center gap-1.5 mb-1.5 flex-wrap";
+                topHeader.className = "flex items-center gap-1 mb-1.5 flex-wrap";
 
                 const dayNumber = document.createElement('div');
                 dayNumber.className = `text-xs md:text-sm font-bold w-6 h-6 flex items-center justify-center rounded-full shrink-0 ${isToday ? 'bg-red-600 text-white' : 'text-zinc-700'}`;
                 dayNumber.innerText = day;
                 topHeader.appendChild(dayNumber);
 
-                if (matchedSchedules.length > 0 && matchedSchedules[0].game) {
-                    const gameBadge = document.createElement('span');
-                    gameBadge.className = "text-[9px] md:text-[10px] bg-white text-black font-extrabold px-1.5 py-0.5 rounded-full border border-black truncate max-w-[80px]";
-                    gameBadge.innerText = matchedSchedules[0].game;
-                    topHeader.appendChild(gameBadge);
+                // ✨ 그날의 일정에서 카테고리 중복 제거해서 전부 나열하기
+                if (matchedSchedules.length > 0) {
+                    const uniqueGames = [...new Set(matchedSchedules.map(s => s.game).filter(Boolean))];
+                    uniqueGames.forEach(gName => {
+                        const gameBadge = document.createElement('span');
+                        gameBadge.className = "text-[9px] md:text-[10px] bg-white text-black font-extrabold px-1 py-0.5 rounded-full border border-black truncate max-w-[65px]";
+                        gameBadge.innerText = gName;
+                        topHeader.appendChild(gameBadge);
+                    });
                 }
 
                 cell.appendChild(topHeader);
 
-                // 내부 일정 목록 (최대 5줄까지 표시하도록 idx < 5 설정)
+                // 내부 일정 목록 (최대 5줄까지 표시)
                 const listContainer = document.createElement('div');
                 listContainer.className = "flex flex-col gap-1 overflow-hidden w-full";
 
