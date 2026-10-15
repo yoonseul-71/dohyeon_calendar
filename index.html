@@ -83,9 +83,12 @@
     </div>
 
     <!-- 푸터 -->
-    <footer class="text-center py-6 text-zinc-500 text-xs border-t border-zinc-800 mt-12 flex flex-col items-center gap-2">
-        <p>본 사이트는 비공식 일정표로 스트리머의 상황에 따라 변동될 수 있습니다.</p>
-        <button onclick="openAdminLogin()" class="text-zinc-400 hover:text-white bg-zinc-900 border border-zinc-800 px-3 py-1 rounded-md text-xs transition cursor-pointer mt-1">⚙️ 관리자 모드 (일정 추가/편집)</button>
+    <footer class="max-w-5xl mx-auto w-full px-4 py-6 text-zinc-500 text-xs border-t border-zinc-800 mt-12 flex flex-col md:flex-row items-center justify-between gap-4">
+        <p class="text-center md:text-left">본 사이트는 비공식 일정표로 스트리머의 상황에 따라 변동될 수 있습니다.</p>
+        <div class="flex items-center gap-3">
+            <button onclick="openAdminLogin()" class="text-zinc-400 hover:text-white bg-zinc-900 border border-zinc-800 px-3 py-1 rounded-md text-xs transition cursor-pointer">⚙️ 관리자 모드</button>
+            <span class="text-zinc-600 font-semibold tracking-wide">made by 윤슬ツ</span>
+        </div>
     </footer>
 
     <!-- [모달 1] 날짜 클릭 시 상세 및 다시보기 팝업 -->
@@ -258,7 +261,6 @@
                 const cell = document.createElement('div');
                 let cellBaseClass = "h-28 md:h-36 border rounded-xl p-1.5 md:p-2 flex flex-col transition hover:shadow-md cursor-pointer relative overflow-hidden ";
                 
-                // 디자인 적용: 휴방이면 전체 회색, 아니면 기본 흰색 테두리
                 let bgStyle = "bg-white border-zinc-200";
                 let hasRest = matchedSchedules.some(s => s.type === 'rest');
                 let hasActive = matchedSchedules.length > 0;
@@ -266,7 +268,6 @@
                 if (hasRest) {
                     bgStyle = "bg-zinc-200 border-zinc-300 text-zinc-800"; // 휴방인 날은 전체 회색 채우기
                 } else if (hasActive) {
-                    // 합방, 갠방, 이벤트 중 첫 번째 종류에 따라 테두리에 포인트 색상 부여
                     const firstType = matchedSchedules[0].type;
                     if (firstType === 'collab') bgStyle = "bg-white border-2 border-emerald-400";
                     else if (firstType === 'solo') bgStyle = "bg-white border-2 border-sky-400";
@@ -283,7 +284,6 @@
                 dayNumber.innerText = day;
                 cell.appendChild(dayNumber);
 
-                // 내부 일정 항목 뱃지 리스트업
                 const listContainer = document.createElement('div');
                 listContainer.className = "flex flex-col gap-1 overflow-hidden mt-auto";
 
