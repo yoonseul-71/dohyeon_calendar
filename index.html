@@ -199,10 +199,10 @@
                     <input type="text" id="form-summary" placeholder="예: 도현x수피 랜드 합방" class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500">
                 </div>
 
-                <!-- 📌 [개선] 하단 강조 문구 (기념일 / 공지사항 입력란) -->
+                <!-- 📌 하단 강조 문구 입력란 -->
                 <div>
                     <label class="block text-xs text-zinc-400 mb-1">📌 하단 강조 문구 (기념일/공지사항 등, 선택사항)</label>
-                    <input type="text" id="form-anniversary" placeholder="예: 🎉 BIRTHDAY 🎉, 📢 오후 8시 방송" class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500">
+                    <input type="text" id="form-anniversary" placeholder="예: 🎉 BIRTHDAY 🎉, 📢 마이크 고장 - 소리이슈" class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500">
                 </div>
 
                 <!-- 👥 참여 멤버 세로 길게 여러 줄 입력란 -->
@@ -477,7 +477,7 @@
                 topGroup.appendChild(listContainer);
                 cell.appendChild(topGroup);
 
-                // 📌 [하단 강조 문구 영역 - 풍선 이모지 제거 및 직접 작성 텍스트만 표시]
+                // 📌 [달력 셀 하단 강조 문구 영역]
                 const anniversaryItem = matchedSchedules.find(s => s.anniversary && s.anniversary.trim() !== '');
                 if (anniversaryItem) {
                     const anniFooter = document.createElement('div');
@@ -512,6 +512,7 @@
             renderCalendar();
         }
 
+        // ✨ [핵심 수정] 모달 클릭 시 특정 일정 카드가 아닌 팝업 최상단에 독립적인 배너로 강조 문구 표시
         function openDetailModal(dateStr, schedulesList) {
             const modal = document.getElementById('detail-modal');
             const titleEl = document.getElementById('modal-date-title');
@@ -521,6 +522,21 @@
 
             if (schedulesList && schedulesList.length > 0) {
                 let html = "";
+
+                // 1. 그날 존재하는 모든 강조 문구(공지/기념일)를 최상단 독립 상자로 수집 및 표출
+                const uniqueAnniversaries = [...new Set(schedulesList.map(s => s.anniversary).filter(a => a && a.trim() !== ''))];
+                
+                if (uniqueAnniversaries.length > 0) {
+                    uniqueAnniversaries.forEach(anniText => {
+                        html += `
+                            <div class="bg-red-950/60 border border-red-800/80 p-3 rounded-xl text-center mb-4">
+                                <span class="text-sm font-black text-red-400">${anniText}</span>
+                            </div>
+                        `;
+                    });
+                }
+
+                // 2. 개별 일정 카드 목록 표출 (내부에서는 강조 문구 배너 제거)
                 schedulesList.forEach((sch) => {
                     let typeText = "";
                     if (sch.type === 'solo') typeText = "🔵 갠방";
@@ -530,12 +546,6 @@
 
                     let gameText = sch.game ? `<span class="bg-white text-black border border-black px-2 py-0.5 rounded text-xs ml-2 font-bold">${sch.game}</span>` : '';
                     let periodText = sch.endDate && sch.endDate !== sch.startDate ? `<p class="text-xs text-zinc-400 mt-1">기간: ${sch.startDate} ~ ${sch.endDate}</p>` : '';
-                    
-                    // ✨ [수정] 풍선 이모지 제거 -> 직접 입력하신 이모지/문구만 표출
-                    let anniBadge = sch.anniversary ? `
-                        <div class="mt-2 bg-red-950/60 border border-red-800/80 p-2.5 rounded-xl text-center">
-                            <span class="text-xs font-black text-red-400">${sch.anniversary}</span>
-                        </div>` : '';
 
                     let membersText = sch.members ? `
                         <div class="mt-2.5 bg-zinc-800/90 p-3 rounded-xl border border-zinc-700/60">
@@ -555,7 +565,6 @@
                                 <span class="font-bold text-white">${typeText} ${gameText}</span>
                             </div>
                             <p class="font-bold text-sm md:text-base mt-1.5 text-white">${sch.summary}</p>
-                            ${anniBadge}
                             ${periodText}
                             ${membersText}
                             ${descText}
