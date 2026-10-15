@@ -199,10 +199,10 @@
                     <input type="text" id="form-summary" placeholder="예: 도현x수피 랜드 합방" class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500">
                 </div>
 
-                <!-- 🎈 [신규] 기념일 / 특별 문구 (빨간 글씨 하단 표시) -->
+                <!-- 📌 [개선] 하단 강조 문구 (기념일 / 공지사항 입력란) -->
                 <div>
-                    <label class="block text-xs text-zinc-400 mb-1">🎈 기념일 / 축하 문구 (달력 셀 하단 빨간 글씨 표시, 선택사항)</label>
-                    <input type="text" id="form-anniversary" placeholder="예: 🎉 도현 생일!, 🎂 데뷔 1000일!" class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500">
+                    <label class="block text-xs text-zinc-400 mb-1">📌 하단 강조 문구 (기념일/공지사항 등, 선택사항)</label>
+                    <input type="text" id="form-anniversary" placeholder="예: 🎉 BIRTHDAY 🎉, 📢 오후 8시 방송" class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500">
                 </div>
 
                 <!-- 👥 참여 멤버 세로 길게 여러 줄 입력란 -->
@@ -254,7 +254,7 @@
 
                 <!-- 키워드 빠른 검색창 -->
                 <div class="mb-3">
-                    <input type="text" id="admin-search-input" onkeyup="renderAdminList()" placeholder="🔍 내용, 게임, 멤버, 기념일로 검색..." class="w-full bg-zinc-800/80 border border-zinc-700 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:border-red-500">
+                    <input type="text" id="admin-search-input" onkeyup="renderAdminList()" placeholder="🔍 내용, 게임, 멤버, 기념일/공지로 검색..." class="w-full bg-zinc-800/80 border border-zinc-700 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:border-red-500">
                 </div>
 
                 <!-- 일정 리스트 화면 -->
@@ -477,7 +477,7 @@
                 topGroup.appendChild(listContainer);
                 cell.appendChild(topGroup);
 
-                // 🎈 [하단 빨간 글씨 기념일 문구 영역]
+                // 📌 [하단 강조 문구 영역 - 풍선 이모지 제거 및 직접 작성 텍스트만 표시]
                 const anniversaryItem = matchedSchedules.find(s => s.anniversary && s.anniversary.trim() !== '');
                 if (anniversaryItem) {
                     const anniFooter = document.createElement('div');
@@ -531,9 +531,10 @@
                     let gameText = sch.game ? `<span class="bg-white text-black border border-black px-2 py-0.5 rounded text-xs ml-2 font-bold">${sch.game}</span>` : '';
                     let periodText = sch.endDate && sch.endDate !== sch.startDate ? `<p class="text-xs text-zinc-400 mt-1">기간: ${sch.startDate} ~ ${sch.endDate}</p>` : '';
                     
+                    // ✨ [수정] 풍선 이모지 제거 -> 직접 입력하신 이모지/문구만 표출
                     let anniBadge = sch.anniversary ? `
                         <div class="mt-2 bg-red-950/60 border border-red-800/80 p-2.5 rounded-xl text-center">
-                            <span class="text-xs font-black text-red-400">🎈 ${sch.anniversary}</span>
+                            <span class="text-xs font-black text-red-400">${sch.anniversary}</span>
                         </div>` : '';
 
                     let membersText = sch.members ? `
@@ -748,7 +749,7 @@
                 const item = schedules[id];
                 const dateDisplay = item.endDate && item.endDate !== item.startDate ? `${item.startDate} ~ ${item.endDate}` : item.startDate;
                 const gameTag = item.game ? `[${item.game}] ` : '';
-                const anniTag = item.anniversary ? ` <span class="text-red-400 font-bold">(🎈 ${item.anniversary})</span>` : '';
+                const anniTag = item.anniversary ? ` <span class="text-red-400 font-bold">(${item.anniversary})</span>` : '';
 
                 const row = document.createElement('div');
                 row.className = "flex items-center justify-between bg-zinc-800/80 hover:bg-zinc-800 p-2.5 rounded-xl border border-zinc-700/80 transition";
