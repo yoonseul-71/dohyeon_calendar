@@ -95,7 +95,7 @@
     <div id="detail-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
         <div class="bg-zinc-900 border border-zinc-800 rounded-2xl max-w-md w-full p-6 text-white shadow-2xl relative">
             <h3 id="modal-date-title" class="text-lg font-black text-red-500 mb-2">2026-10-15 일정</h3>
-            <div id="modal-content-body" class="space-y-4 my-4 text-sm text-zinc-300 max-h-60 overflow-y-auto pr-1">
+            <div id="modal-content-body" class="space-y-4 my-4 text-sm text-zinc-300 max-h-72 overflow-y-auto pr-1">
                 <!-- 동적 내용 -->
             </div>
             <div class="flex justify-end gap-2 mt-6">
@@ -167,9 +167,15 @@
                     <label class="block text-xs text-zinc-400 mb-1">방송 요약 내용 (달력에 표시)</label>
                     <input type="text" id="form-summary" placeholder="예: 도현x수피 랜드 합방" class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500">
                 </div>
+                <!-- 👥 참여 멤버 분리 입력란 -->
                 <div>
-                    <label class="block text-xs text-zinc-400 mb-1">상세 설명 / 참여 멤버 등 (선택사항)</label>
-                    <textarea id="form-desc" rows="2" placeholder="예: 참여 멤버 - 수피, 도현, 킴성태..." class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500"></textarea>
+                    <label class="block text-xs text-zinc-400 mb-1">👥 참여 멤버 (선택사항)</label>
+                    <input type="text" id="form-members" placeholder="예: 수피, 킴성태, 봉준" class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500">
+                </div>
+                <!-- 📝 상세 설명 분리 입력란 -->
+                <div>
+                    <label class="block text-xs text-zinc-400 mb-1">📝 상세 설명 (선택사항)</label>
+                    <textarea id="form-desc" rows="2" placeholder="예: 멸망전 연습 및 상금 관련 랜드 방송" class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500"></textarea>
                 </div>
                 <div>
                     <label class="block text-xs text-zinc-400 mb-1">다시보기 링크 (선택사항, 유튜브/SOOP URL)</label>
@@ -194,7 +200,7 @@
     <!-- 핵심 로직 스크립트 -->
     <script>
         // 🔑 [관리자 비밀번호 설정] 아래 "1234" 부분을 원하는 비밀번호로 변경하세요!
-        const ADMIN_PASSWORD = "dobby1520manager";
+        const ADMIN_PASSWORD = "도현캘린더1520711";
 
         let schedules = JSON.parse(localStorage.getItem('stream_schedules_v2')) || {};
 
@@ -281,7 +287,8 @@
                 let hasActive = matchedSchedules.length > 0;
 
                 if (hasRest) {
-                    bgStyle = "bg-zinc-200 border-zinc-300 text-zinc-800"; // 휴방인 날은 전체 회색
+                    // 이미지처럼 휴방 전체 칸 색상을 연한 회색(bg-zinc-200)으로 설정
+                    bgStyle = "bg-zinc-200 border-zinc-300 text-zinc-800";
                 } else if (hasActive) {
                     const firstType = matchedSchedules[0].type;
                     if (firstType === 'collab') bgStyle = "bg-white border-2 border-emerald-400";
@@ -294,7 +301,7 @@
 
                 const isToday = (day === today.getDate() && currentMonth === today.getMonth() && currentYear === today.getFullYear());
                 
-                // 상단 영역 (날짜 숫자 + 검정색/흰색 스타일 게임 카테고리 태그)
+                // 상단 영역 (날짜 숫자 + 카테고리 태그)
                 const topHeader = document.createElement('div');
                 topHeader.className = "flex items-center gap-1.5 mb-1.5 flex-wrap";
 
@@ -303,7 +310,6 @@
                 dayNumber.innerText = day;
                 topHeader.appendChild(dayNumber);
 
-                // 첫 번째 일정에 카테고리가 등록되어 있을 때 날짜 옆에 검정 글씨, 흰 배경, 검정 테두리 태그로 표시
                 if (matchedSchedules.length > 0 && matchedSchedules[0].game) {
                     const gameBadge = document.createElement('span');
                     gameBadge.className = "text-[9px] md:text-[10px] bg-white text-black font-extrabold px-1.5 py-0.5 rounded-full border border-black truncate max-w-[80px]";
@@ -320,7 +326,13 @@
                 matchedSchedules.forEach((sch, idx) => {
                     if (idx < 3) {
                         const badge = document.createElement('div');
-                        badge.className = "text-[10px] md:text-xs px-2 py-1 rounded bg-zinc-100 text-zinc-800 font-semibold truncate border border-zinc-200/80";
+                        
+                        // 휴방 항목인 경우 배경색을 투명하게(bg-transparent) 처리하여 사진처럼 전체 칸 색상과 완전히 통일
+                        if (sch.type === 'rest') {
+                            badge.className = "text-[10px] md:text-xs px-2 py-1 rounded bg-transparent text-zinc-800 font-semibold truncate";
+                        } else {
+                            badge.className = "text-[10px] md:text-xs px-2 py-1 rounded bg-zinc-100 text-zinc-800 font-semibold truncate border border-zinc-200/80";
+                        }
                         
                         const gamePrefix = sch.game ? `[${sch.game}] ` : '';
                         badge.innerText = `${gamePrefix}${sch.summary}`;
@@ -380,16 +392,31 @@
 
                     let gameText = sch.game ? `<span class="bg-white text-black border border-black px-2 py-0.5 rounded text-xs ml-2 font-bold">${sch.game}</span>` : '';
                     let periodText = sch.endDate && sch.endDate !== sch.startDate ? `<p class="text-xs text-zinc-400 mt-1">기간: ${sch.startDate} ~ ${sch.endDate}</p>` : '';
-                    let descText = sch.desc ? `<p class="mt-2 text-zinc-200 bg-zinc-800/80 p-2.5 rounded-lg text-xs whitespace-pre-wrap border border-zinc-700/50"><strong>상세/멤버:</strong><br>${sch.desc}</p>` : '';
-                    let linkText = sch.link ? `<p class="mt-2"><a href="${sch.link}" target="_blank" class="inline-block bg-red-600 hover:bg-red-700 text-white font-bold px-3 py-1.5 rounded-lg text-xs transition">📺 다시보기 / 관련 링크 ↗</a></p>` : '';
+                    
+                    // 👥 참여 멤버 영역
+                    let membersText = sch.members ? `
+                        <div class="mt-2.5 bg-zinc-800/90 p-3 rounded-xl border border-zinc-700/60">
+                            <span class="block text-xs font-bold text-red-400 mb-1">👥 참여 멤버</span>
+                            <p class="text-zinc-200 text-xs whitespace-pre-wrap">${sch.members}</p>
+                        </div>` : '';
+
+                    // 📝 상세 설명 영역
+                    let descText = sch.desc ? `
+                        <div class="mt-2 bg-zinc-800/50 p-3 rounded-xl border border-zinc-700/40">
+                            <span class="block text-xs font-bold text-sky-400 mb-1">📝 상세 설명</span>
+                            <p class="text-zinc-300 text-xs whitespace-pre-wrap">${sch.desc}</p>
+                        </div>` : '';
+                    
+                    let linkText = sch.link ? `<p class="mt-3"><a href="${sch.link}" target="_blank" class="inline-block bg-red-600 hover:bg-red-700 text-white font-bold px-3 py-1.5 rounded-lg text-xs transition">📺 다시보기 / 관련 링크 ↗</a></p>` : '';
 
                     html += `
-                        <div class="border-b border-zinc-800 pb-3 mb-3 last:border-b-0 last:pb-0 last:mb-0">
+                        <div class="border-b border-zinc-800 pb-4 mb-4 last:border-b-0 last:pb-0 last:mb-0">
                             <div class="flex items-center justify-between">
                                 <span class="font-bold text-white">${typeText} ${gameText}</span>
                             </div>
                             <p class="font-bold text-sm mt-1.5 text-white">${sch.summary}</p>
                             ${periodText}
+                            ${membersText}
                             ${descText}
                             ${linkText}
                         </div>
@@ -455,6 +482,7 @@
             document.getElementById('form-type').value = 'collab';
             document.getElementById('form-game').value = '';
             document.getElementById('form-summary').value = '';
+            document.getElementById('form-members').value = '';
             document.getElementById('form-desc').value = '';
             document.getElementById('form-link').value = '';
             document.getElementById('form-mode-title').innerText = '일정 추가';
@@ -468,6 +496,7 @@
             const type = document.getElementById('form-type').value;
             const game = document.getElementById('form-game').value;
             const summary = document.getElementById('form-summary').value;
+            const members = document.getElementById('form-members').value;
             const desc = document.getElementById('form-desc').value;
             const link = document.getElementById('form-link').value;
 
@@ -483,13 +512,13 @@
 
             const scheduleId = editId ? editId : 'sch_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7);
 
-            schedules[scheduleId] = { startDate, endDate, type, game, summary, desc, link };
+            schedules[scheduleId] = { startDate, endDate, type, game, summary, members, desc, link };
             localStorage.setItem('stream_schedules_v2', JSON.stringify(schedules));
             
             alert(editId ? '일정이 성공적으로 수정되었습니다!' : '일정이 성공적으로 추가되었습니다!');
             resetForm();
             renderAdminList();
-            renderCalendar(); 
+            renderCalendar();
         }
 
         function editSchedule(id) {
@@ -502,6 +531,7 @@
             document.getElementById('form-type').value = item.type;
             document.getElementById('form-game').value = item.game || '';
             document.getElementById('form-summary').value = item.summary;
+            document.getElementById('form-members').value = item.members || '';
             document.getElementById('form-desc').value = item.desc || '';
             document.getElementById('form-link').value = item.link || '';
             
@@ -516,7 +546,7 @@
                 delete schedules[id];
                 localStorage.setItem('stream_schedules_v2', JSON.stringify(schedules));
                 renderAdminList();
-                renderCalendar(); 
+                renderCalendar();
             }
         }
 
