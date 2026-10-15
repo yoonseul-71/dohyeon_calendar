@@ -392,14 +392,14 @@
                     let gameText = sch.game ? `<span class="bg-white text-black border border-black px-2 py-0.5 rounded text-xs ml-2 font-bold">${sch.game}</span>` : '';
                     let periodText = sch.endDate && sch.endDate !== sch.startDate ? `<p class="text-xs text-zinc-400 mt-1">기간: ${sch.startDate} ~ ${sch.endDate}</p>` : '';
                     
-                    // 👥 참여 멤버 (기본 Pretendard 폰트 + 세로 줄바꿈 whitespace-pre-wrap 완벽 적용)
+                    // 👥 참여 멤버 (글씨 크기를 상세 설명과 완전히 동일하게 text-xs 로 변경)
                     let membersText = sch.members ? `
                         <div class="mt-2.5 bg-zinc-800/90 p-3 rounded-xl border border-zinc-700/60">
                             <span class="block text-xs font-bold text-red-400 mb-1.5">👥 참여 멤버</span>
-                            <div class="text-zinc-200 text-xs md:text-sm leading-relaxed whitespace-pre-wrap break-words">${sch.members}</div>
+                            <div class="text-zinc-200 text-xs leading-relaxed whitespace-pre-wrap break-words">${sch.members}</div>
                         </div>` : '';
 
-                    // 📝 상세 설명
+                    // 📝 상세 설명 (text-xs)
                     let descText = sch.desc ? `
                         <div class="mt-2 bg-zinc-800/50 p-3 rounded-xl border border-zinc-700/40">
                             <span class="block text-xs font-bold text-sky-400 mb-1.5">📝 상세 설명</span>
