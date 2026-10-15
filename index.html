@@ -142,7 +142,6 @@
                 <div class="grid grid-cols-2 gap-2">
                     <div>
                         <label class="block text-xs text-zinc-400 mb-1">방송 종류</label>
-                        <!-- 순서: 갠방 -> 합방 -> 이벤트 -> 휴방 (기본값: 갠방) -->
                         <select id="form-type" class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500">
                             <option value="solo" selected>갠방</option>
                             <option value="collab">합방</option>
@@ -171,17 +170,25 @@
                 <!-- 👥 참여 멤버 세로 길게 여러 줄 입력란 -->
                 <div>
                     <label class="block text-xs text-zinc-400 mb-1">👥 참여 멤버 (엔터로 세로 줄바꿈 작성)</label>
-                    <textarea id="form-members" rows="6" placeholder="갓데드 vs 켄&#10;에스카 vs 콩석&#10;도현 vs 히든&#10;수피 vs 졔리&#10;꿀탱탱 vs 삐삐" class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2.5 text-sm focus:outline-none focus:border-red-500 leading-relaxed"></textarea>
+                    <textarea id="form-members" rows="4" placeholder="예:&#10;도현 vs 켄&#10;수피 vs 콩석" class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2.5 text-sm focus:outline-none focus:border-red-500 leading-relaxed"></textarea>
                 </div>
                 <!-- 📝 상세 설명 분리 입력란 -->
                 <div>
                     <label class="block text-xs text-zinc-400 mb-1">📝 상세 설명 (선택사항)</label>
                     <textarea id="form-desc" rows="2" placeholder="예: 멸망전 연습 및 상금 관련 랜드 방송" class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500"></textarea>
                 </div>
-                <div>
-                    <label class="block text-xs text-zinc-400 mb-1">다시보기 링크 (선택사항, 유튜브/SOOP URL)</label>
-                    <input type="text" id="form-link" placeholder="https://..." class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500">
+                
+                <!-- 📺 하루 통틀어 여러 개 달 수 있는 다시보기 링크 섹션 -->
+                <div class="border-t border-zinc-700/60 pt-3 mt-3">
+                    <div class="flex justify-between items-center mb-2">
+                        <label class="block text-xs font-bold text-red-400">📺 다시보기 링크 모음 (선택사항, 여러 개 추가 가능)</label>
+                        <button type="button" onclick="addLinkRow()" class="bg-zinc-700 hover:bg-zinc-600 text-white px-2.5 py-1 rounded-lg text-xs font-bold transition cursor-pointer">+ 링크 추가</button>
+                    </div>
+                    <div id="form-links-container" class="space-y-2">
+                        <!-- 동적으로 링크 입력줄 생성 -->
+                    </div>
                 </div>
+
                 <div class="flex justify-end gap-2 pt-2">
                     <button onclick="resetForm()" class="px-3 py-1.5 bg-zinc-700 hover:bg-zinc-600 rounded-lg text-xs font-bold transition cursor-pointer">취소/초기화</button>
                     <button onclick="saveSchedule()" id="save-btn" class="px-4 py-1.5 bg-red-600 hover:bg-red-700 rounded-lg text-xs font-bold transition cursor-pointer">저장하기</button>
@@ -203,7 +210,7 @@
         // 🔑 [관리자 비밀번호 설정]
         const ADMIN_PASSWORD = "1520711";
 
-        let schedules = JSON.parse(localStorage.getItem('stream_schedules_v2')) || {};
+        let schedules = JSON.parse(localStorage.getItem('stream_schedules_v3')) || {};
 
         const today = new Date();
         let currentYear = today.getFullYear();
@@ -245,6 +252,22 @@
             const m = String(month + 1).padStart(2, '0');
             const d = String(day).padStart(2, '0');
             return `${year}-${m}-${d}`;
+        }
+
+        // 🔗 관리자 폼에서 링크 입력 행 추가 함수
+        function addLinkRow(title = '', url = '') {
+            const container = document.getElementById('form-links-container');
+            const rowId = 'link_row_' + Date.now() + '_' + Math.random().toString(36).substring(2, 5);
+            
+            const div = document.createElement('div');
+            div.className = "flex items-center gap-2 link-row-item";
+            div.id = rowId;
+            div.innerHTML = `
+                <input type="text" placeholder="링크 이름 (예: 1부 듀오랭크 다시보기)" value="${title}" class="link-title-input w-1/3 bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-xs focus:outline-none focus:border-red-500">
+                <input type="text" placeholder="URL 주소 (https://...)" value="${url}" class="link-url-input w-2/3 bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-xs focus:outline-none focus:border-red-500">
+                <button type="button" onclick="document.getElementById('${rowId}').remove()" class="bg-red-900/40 hover:bg-red-700 text-red-300 px-2 py-2 rounded-lg text-xs font-bold transition shrink-0 cursor-pointer">삭제</button>
+            `;
+            container.appendChild(div);
         }
 
         function renderCalendar() {
@@ -392,21 +415,37 @@
                     let gameText = sch.game ? `<span class="bg-white text-black border border-black px-2 py-0.5 rounded text-xs ml-2 font-bold">${sch.game}</span>` : '';
                     let periodText = sch.endDate && sch.endDate !== sch.startDate ? `<p class="text-xs text-zinc-400 mt-1">기간: ${sch.startDate} ~ ${sch.endDate}</p>` : '';
                     
-                    // 👥 참여 멤버 (글씨 크기를 상세 설명과 완전히 동일하게 text-xs 로 변경)
                     let membersText = sch.members ? `
                         <div class="mt-2.5 bg-zinc-800/90 p-3 rounded-xl border border-zinc-700/60">
                             <span class="block text-xs font-bold text-red-400 mb-1.5">👥 참여 멤버</span>
                             <div class="text-zinc-200 text-xs leading-relaxed whitespace-pre-wrap break-words">${sch.members}</div>
                         </div>` : '';
 
-                    // 📝 상세 설명 (text-xs)
                     let descText = sch.desc ? `
                         <div class="mt-2 bg-zinc-800/50 p-3 rounded-xl border border-zinc-700/40">
                             <span class="block text-xs font-bold text-sky-400 mb-1.5">📝 상세 설명</span>
                             <div class="text-zinc-300 text-xs leading-relaxed whitespace-pre-wrap break-words">${sch.desc}</div>
                         </div>` : '';
                     
-                    let linkText = sch.link ? `<p class="mt-3"><a href="${sch.link}" target="_blank" class="inline-block bg-red-600 hover:bg-red-700 text-white font-bold px-3 py-1.5 rounded-lg text-xs transition">📺 다시보기 / 관련 링크 ↗</a></p>` : '';
+                    // 📺 등록된 다중 다시보기 링크 리스트 렌더링
+                    let linksHtml = "";
+                    if (sch.links && sch.links.length > 0) {
+                        let linkItems = "";
+                        sch.links.forEach(l => {
+                            if (l.url) {
+                                let linkTitle = l.title ? l.title : l.url;
+                                linkItems += `<a href="${l.url}" target="_blank" class="block bg-zinc-800 hover:bg-zinc-700 text-red-400 hover:text-red-300 border border-zinc-700 px-3 py-2 rounded-lg text-xs font-bold transition truncate">📺 ${linkTitle} ↗</a>`;
+                            }
+                        });
+                        if (linkItems) {
+                            linksHtml = `
+                                <div class="mt-3 space-y-1.5">
+                                    <span class="block text-xs font-bold text-zinc-400">다시보기 링크 모음</span>
+                                    ${linkItems}
+                                </div>
+                            `;
+                        }
+                    }
 
                     html += `
                         <div class="border-b border-zinc-800 pb-4 mb-4 last:border-b-0 last:pb-0 last:mb-0">
@@ -417,7 +456,7 @@
                             ${periodText}
                             ${membersText}
                             ${descText}
-                            ${linkText}
+                            ${linksHtml}
                         </div>
                     `;
                 });
@@ -478,12 +517,12 @@
             document.getElementById('edit-target-id').value = '';
             document.getElementById('form-start-date').value = '';
             document.getElementById('form-end-date').value = '';
-            document.getElementById('form-type').value = 'solo'; // 기본값 갠방
+            document.getElementById('form-type').value = 'solo';
             document.getElementById('form-game').value = '';
             document.getElementById('form-summary').value = '';
             document.getElementById('form-members').value = '';
             document.getElementById('form-desc').value = '';
-            document.getElementById('form-link').value = '';
+            document.getElementById('form-links-container').innerHTML = '';
             document.getElementById('form-mode-title').innerText = '일정 추가';
             document.getElementById('save-btn').innerText = '저장하기';
         }
@@ -497,7 +536,17 @@
             const summary = document.getElementById('form-summary').value;
             const members = document.getElementById('form-members').value;
             const desc = document.getElementById('form-desc').value;
-            const link = document.getElementById('form-link').value;
+
+            // 입력된 다중 링크 수집
+            const linkRows = document.querySelectorAll('.link-row-item');
+            let links = [];
+            linkRows.forEach(row => {
+                const title = row.querySelector('.link-title-input').value.trim();
+                const url = row.querySelector('.link-url-input').value.trim();
+                if (url) {
+                    links.push({ title, url });
+                }
+            });
 
             if (!startDate || !summary) {
                 alert('시작일과 방송 요약은 필수 입력 항목입니다!');
@@ -511,8 +560,8 @@
 
             const scheduleId = editId ? editId : 'sch_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7);
 
-            schedules[scheduleId] = { startDate, endDate, type, game, summary, members, desc, link };
-            localStorage.setItem('stream_schedules_v2', JSON.stringify(schedules));
+            schedules[scheduleId] = { startDate, endDate, type, game, summary, members, desc, links };
+            localStorage.setItem('stream_schedules_v3', JSON.stringify(schedules));
             
             alert(editId ? '일정이 성공적으로 수정되었습니다!' : '일정이 성공적으로 추가되었습니다!');
             resetForm();
@@ -532,7 +581,15 @@
             document.getElementById('form-summary').value = item.summary;
             document.getElementById('form-members').value = item.members || '';
             document.getElementById('form-desc').value = item.desc || '';
-            document.getElementById('form-link').value = item.link || '';
+            
+            // 기존 링크 로드
+            const container = document.getElementById('form-links-container');
+            container.innerHTML = '';
+            if (item.links && item.links.length > 0) {
+                item.links.forEach(l => {
+                    addLinkRow(l.title, l.url);
+                });
+            }
             
             document.getElementById('form-mode-title').innerText = '일정 수정 중...';
             document.getElementById('save-btn').innerText = '수정 완료하기';
@@ -543,7 +600,7 @@
         function deleteSchedule(id) {
             if (confirm('해당 일정을 삭제하시겠습니까?')) {
                 delete schedules[id];
-                localStorage.setItem('stream_schedules_v2', JSON.stringify(schedules));
+                localStorage.setItem('stream_schedules_v3', JSON.stringify(schedules));
                 renderAdminList();
                 renderCalendar();
             }
