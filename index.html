@@ -91,7 +91,7 @@
         </div>
     </footer>
 
-    <!-- [모달 1] 날짜 클릭 시 상세 및 다시보기 팝업 (너비를 max-w-lg로 확장) -->
+    <!-- [모달 1] 날짜 클릭 시 상세 및 다시보기 팝업 -->
     <div id="detail-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
         <div class="bg-zinc-900 border border-zinc-800 rounded-2xl max-w-lg w-full p-6 text-white shadow-2xl relative">
             <h3 id="modal-date-title" class="text-lg font-black text-red-500 mb-2">2026-10-15 일정</h3>
@@ -117,7 +117,7 @@
         </div>
     </div>
 
-    <!-- [모달 3] 관리자 편집(추가/수정/삭제) 대시보드 팝업 -->
+    <!-- [모달 3] 관리자 편집 대시보드 팝업 -->
     <div id="admin-panel-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden items-center justify-center z-50 p-4 overflow-y-auto">
         <div class="bg-zinc-900 border border-zinc-800 rounded-2xl max-w-xl w-full p-6 text-white shadow-2xl my-8">
             <div class="flex justify-between items-center mb-4 border-b border-zinc-800 pb-3">
@@ -142,7 +142,7 @@
                 <div class="grid grid-cols-2 gap-2">
                     <div>
                         <label class="block text-xs text-zinc-400 mb-1">방송 종류</label>
-                        <!-- 순서 변경: 갠방 -> 합방 -> 이벤트 -> 휴방 (기본값: 갠방) -->
+                        <!-- 순서: 갠방 -> 합방 -> 이벤트 -> 휴방 (기본값: 갠방) -->
                         <select id="form-type" class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500">
                             <option value="solo" selected>갠방</option>
                             <option value="collab">합방</option>
@@ -168,10 +168,10 @@
                     <label class="block text-xs text-zinc-400 mb-1">방송 요약 내용 (달력에 표시)</label>
                     <input type="text" id="form-summary" placeholder="예: 도현x수피 랜드 합방" class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500">
                 </div>
-                <!-- 👥 참여 멤버 영역 (여러 줄 입력 가능한 textarea로 변경) -->
+                <!-- 👥 참여 멤버 세로 길게 여러 줄 입력란 -->
                 <div>
-                    <label class="block text-xs text-zinc-400 mb-1">👥 참여 멤버 (선택사항, 줄바꿈 작성 가능)</label>
-                    <textarea id="form-members" rows="4" placeholder="예:&#10;갓데드 vs  켄 &#10;에스카 vs 콩 석&#10;도 현 vs 히 든" class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500 font-mono"></textarea>
+                    <label class="block text-xs text-zinc-400 mb-1">👥 참여 멤버 (엔터로 세로 줄바꿈 작성)</label>
+                    <textarea id="form-members" rows="6" placeholder="갓데드 vs 켄&#10;에스카 vs 콩석&#10;도현 vs 히든&#10;수피 vs 졔리&#10;꿀탱탱 vs 삐삐" class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2.5 text-sm focus:outline-none focus:border-red-500 leading-relaxed"></textarea>
                 </div>
                 <!-- 📝 상세 설명 분리 입력란 -->
                 <div>
@@ -200,7 +200,7 @@
 
     <!-- 핵심 로직 스크립트 -->
     <script>
-        // 🔑 [관리자 비밀번호 설정] 아래 "1234" 부분을 원하는 비밀번호로 변경하세요!
+        // 🔑 [관리자 비밀번호 설정]
         const ADMIN_PASSWORD = "1520711";
 
         let schedules = JSON.parse(localStorage.getItem('stream_schedules_v2')) || {};
@@ -392,18 +392,18 @@
                     let gameText = sch.game ? `<span class="bg-white text-black border border-black px-2 py-0.5 rounded text-xs ml-2 font-bold">${sch.game}</span>` : '';
                     let periodText = sch.endDate && sch.endDate !== sch.startDate ? `<p class="text-xs text-zinc-400 mt-1">기간: ${sch.startDate} ~ ${sch.endDate}</p>` : '';
                     
-                    // 👥 참여 멤버 영역 (정렬이 잘맞도록 font-mono 및 넉넉한 공간 적용)
+                    // 👥 참여 멤버 (기본 Pretendard 폰트 + 세로 줄바꿈 whitespace-pre-wrap 완벽 적용)
                     let membersText = sch.members ? `
                         <div class="mt-2.5 bg-zinc-800/90 p-3 rounded-xl border border-zinc-700/60">
-                            <span class="block text-xs font-bold text-red-400 mb-1">👥 참여 멤버</span>
-                            <p class="text-zinc-200 text-xs md:text-sm font-mono leading-relaxed whitespace-pre">${sch.members}</p>
+                            <span class="block text-xs font-bold text-red-400 mb-1.5">👥 참여 멤버</span>
+                            <div class="text-zinc-200 text-xs md:text-sm leading-relaxed whitespace-pre-wrap break-words">${sch.members}</div>
                         </div>` : '';
 
-                    // 📝 상세 설명 영역
+                    // 📝 상세 설명
                     let descText = sch.desc ? `
                         <div class="mt-2 bg-zinc-800/50 p-3 rounded-xl border border-zinc-700/40">
-                            <span class="block text-xs font-bold text-sky-400 mb-1">📝 상세 설명</span>
-                            <p class="text-zinc-300 text-xs leading-relaxed whitespace-pre-wrap">${sch.desc}</p>
+                            <span class="block text-xs font-bold text-sky-400 mb-1.5">📝 상세 설명</span>
+                            <div class="text-zinc-300 text-xs leading-relaxed whitespace-pre-wrap break-words">${sch.desc}</div>
                         </div>` : '';
                     
                     let linkText = sch.link ? `<p class="mt-3"><a href="${sch.link}" target="_blank" class="inline-block bg-red-600 hover:bg-red-700 text-white font-bold px-3 py-1.5 rounded-lg text-xs transition">📺 다시보기 / 관련 링크 ↗</a></p>` : '';
@@ -478,7 +478,7 @@
             document.getElementById('edit-target-id').value = '';
             document.getElementById('form-start-date').value = '';
             document.getElementById('form-end-date').value = '';
-            document.getElementById('form-type').value = 'solo'; // 초기화 시 갠방 세팅
+            document.getElementById('form-type').value = 'solo'; // 기본값 갠방
             document.getElementById('form-game').value = '';
             document.getElementById('form-summary').value = '';
             document.getElementById('form-members').value = '';
