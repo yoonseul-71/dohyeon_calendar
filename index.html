@@ -91,7 +91,7 @@
         </div>
     </footer>
 
-    <!-- [모달 1] 날짜 클릭 시 상세 및 다시보기 팝업 -->
+    <!-- [모달 1] 날짜 클릭 시 상세 팝업 -->
     <div id="detail-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
         <div class="bg-zinc-900 border border-zinc-800 rounded-2xl max-w-lg w-full p-6 text-white shadow-2xl relative">
             <h3 id="modal-date-title" class="text-lg font-black text-red-500 mb-2">2026-10-15 일정</h3>
@@ -177,17 +177,6 @@
                     <label class="block text-xs text-zinc-400 mb-1">📝 상세 설명 (선택사항)</label>
                     <textarea id="form-desc" rows="2" placeholder="예: 멸망전 연습 및 상금 관련 랜드 방송" class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500"></textarea>
                 </div>
-                
-                <!-- 📺 하루 통틀어 여러 개 달 수 있는 다시보기 링크 섹션 -->
-                <div class="border-t border-zinc-700/60 pt-3 mt-3">
-                    <div class="flex justify-between items-center mb-2">
-                        <label class="block text-xs font-bold text-red-400">📺 다시보기 링크 모음 (선택사항, 여러 개 추가 가능)</label>
-                        <button type="button" onclick="addLinkRow()" class="bg-zinc-700 hover:bg-zinc-600 text-white px-2.5 py-1 rounded-lg text-xs font-bold transition cursor-pointer">+ 링크 추가</button>
-                    </div>
-                    <div id="form-links-container" class="space-y-2">
-                        <!-- 동적으로 링크 입력줄 생성 -->
-                    </div>
-                </div>
 
                 <div class="flex justify-end gap-2 pt-2">
                     <button onclick="resetForm()" class="px-3 py-1.5 bg-zinc-700 hover:bg-zinc-600 rounded-lg text-xs font-bold transition cursor-pointer">취소/초기화</button>
@@ -195,14 +184,13 @@
                 </div>
             </div>
 
-            <!-- 📋 [개선] 등록된 일정 필터 & 리스트 영역 -->
+            <!-- 📋 등록된 일정 필터 & 리스트 영역 -->
             <div class="border-t border-zinc-800 pt-4">
                 <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 mb-3">
                     <h4 class="font-bold text-sm text-zinc-200">📋 등록된 일정 목록</h4>
                     <!-- 연월 검색 및 필터 컨트롤 바 -->
                     <div class="flex flex-wrap items-center gap-1.5 w-full sm:w-auto">
                         <select id="admin-filter-year" onchange="renderAdminList()" class="bg-zinc-800 text-xs border border-zinc-700 rounded-md px-2 py-1 focus:outline-none text-zinc-300">
-                            <!-- JS로 년도 옵션 생성 -->
                         </select>
                         <select id="admin-filter-month" onchange="renderAdminList()" class="bg-zinc-800 text-xs border border-zinc-700 rounded-md px-2 py-1 focus:outline-none text-zinc-300">
                             <option value="all">전체 월</option>
@@ -294,22 +282,6 @@
             const m = String(month + 1).padStart(2, '0');
             const d = String(day).padStart(2, '0');
             return `${year}-${m}-${d}`;
-        }
-
-        // 🔗 관리자 폼에서 링크 입력 행 추가 함수
-        function addLinkRow(title = '', url = '') {
-            const container = document.getElementById('form-links-container');
-            const rowId = 'link_row_' + Date.now() + '_' + Math.random().toString(36).substring(2, 5);
-            
-            const div = document.createElement('div');
-            div.className = "flex items-center gap-2 link-row-item";
-            div.id = rowId;
-            div.innerHTML = `
-                <input type="text" placeholder="링크 이름 (예: 1부 듀오랭크 다시보기)" value="${title}" class="link-title-input w-1/3 bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-xs focus:outline-none focus:border-red-500">
-                <input type="text" placeholder="URL 주소 (https://...)" value="${url}" class="link-url-input w-2/3 bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-xs focus:outline-none focus:border-red-500">
-                <button type="button" onclick="document.getElementById('${rowId}').remove()" class="bg-red-900/40 hover:bg-red-700 text-red-300 px-2 py-2 rounded-lg text-xs font-bold transition shrink-0 cursor-pointer">삭제</button>
-            `;
-            container.appendChild(div);
         }
 
         function renderCalendar() {
@@ -471,25 +443,6 @@
                             <span class="block text-xs font-bold text-sky-400 mb-1.5">📝 상세 설명</span>
                             <div class="text-zinc-300 text-xs leading-relaxed whitespace-pre-wrap break-words">${sch.desc}</div>
                         </div>` : '';
-                    
-                    let linksHtml = "";
-                    if (sch.links && sch.links.length > 0) {
-                        let linkItems = "";
-                        sch.links.forEach(l => {
-                            if (l.url) {
-                                let linkTitle = l.title ? l.title : l.url;
-                                linkItems += `<a href="${l.url}" target="_blank" class="block bg-zinc-800 hover:bg-zinc-700 text-red-400 hover:text-red-300 border border-zinc-700 px-3 py-2 rounded-lg text-xs font-bold transition truncate">📺 ${linkTitle} ↗</a>`;
-                            }
-                        });
-                        if (linkItems) {
-                            linksHtml = `
-                                <div class="mt-3 space-y-1.5">
-                                    <span class="block text-xs font-bold text-zinc-400">다시보기 링크 모음</span>
-                                    ${linkItems}
-                                </div>
-                            `;
-                        }
-                    }
 
                     html += `
                         <div class="border-b border-zinc-800 pb-4 mb-4 last:border-b-0 last:pb-0 last:mb-0">
@@ -500,7 +453,6 @@
                             ${periodText}
                             ${membersText}
                             ${descText}
-                            ${linksHtml}
                         </div>
                     `;
                 });
@@ -544,7 +496,6 @@
 
         function openAdminPanel() {
             resetForm();
-            // 관리자 패널 열 시, 필터 기본값을 현재 메인 달력의 년/월로 세팅
             document.getElementById('admin-filter-year').value = currentYear;
             document.getElementById('admin-filter-month').value = currentMonth;
             document.getElementById('admin-search-input').value = '';
@@ -571,7 +522,6 @@
             document.getElementById('form-summary').value = '';
             document.getElementById('form-members').value = '';
             document.getElementById('form-desc').value = '';
-            document.getElementById('form-links-container').innerHTML = '';
             document.getElementById('form-mode-title').innerText = '일정 추가';
             document.getElementById('save-btn').innerText = '저장하기';
         }
@@ -586,16 +536,6 @@
             const members = document.getElementById('form-members').value;
             const desc = document.getElementById('form-desc').value;
 
-            const linkRows = document.querySelectorAll('.link-row-item');
-            let links = [];
-            linkRows.forEach(row => {
-                const title = row.querySelector('.link-title-input').value.trim();
-                const url = row.querySelector('.link-url-input').value.trim();
-                if (url) {
-                    links.push({ title, url });
-                }
-            });
-
             if (!startDate || !summary) {
                 alert('시작일과 방송 요약은 필수 입력 항목입니다!');
                 return;
@@ -608,7 +548,7 @@
 
             const scheduleId = editId ? editId : 'sch_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7);
 
-            schedules[scheduleId] = { startDate, endDate, type, game, summary, members, desc, links };
+            schedules[scheduleId] = { startDate, endDate, type, game, summary, members, desc };
             localStorage.setItem('stream_schedules_v3', JSON.stringify(schedules));
             
             alert(editId ? '일정이 성공적으로 수정되었습니다!' : '일정이 성공적으로 추가되었습니다!');
@@ -630,14 +570,6 @@
             document.getElementById('form-members').value = item.members || '';
             document.getElementById('form-desc').value = item.desc || '';
             
-            const container = document.getElementById('form-links-container');
-            container.innerHTML = '';
-            if (item.links && item.links.length > 0) {
-                item.links.forEach(l => {
-                    addLinkRow(l.title, l.url);
-                });
-            }
-            
             document.getElementById('form-mode-title').innerText = '일정 수정 중...';
             document.getElementById('save-btn').innerText = '수정 완료하기';
             
@@ -653,7 +585,6 @@
             }
         }
 
-        // 📋 [개선] 연도/월 필터 및 검색어 기능이 포함된 목록 렌더링 함수
         function renderAdminList() {
             const listContainer = document.getElementById('admin-schedule-list');
             listContainer.innerHTML = '';
@@ -665,12 +596,10 @@
 
             let keys = Object.keys(schedules);
 
-            // 1. 연도 필터링
             if (selectedYear !== 'all') {
                 keys = keys.filter(id => schedules[id].startDate.startsWith(selectedYear));
             }
 
-            // 2. 월 필터링
             if (selectedMonth !== 'all') {
                 const targetM = String(parseInt(selectedMonth) + 1).padStart(2, '0');
                 keys = keys.filter(id => {
@@ -679,7 +608,6 @@
                 });
             }
 
-            // 3. 키워드 검색 필터링
             if (searchText) {
                 keys = keys.filter(id => {
                     const item = schedules[id];
@@ -691,7 +619,6 @@
                 });
             }
 
-            // 4. 정렬 (최신순 / 과거순)
             keys.sort((a, b) => {
                 if (sortOrder === 'desc') {
                     return schedules[b].startDate.localeCompare(schedules[a].startDate);
