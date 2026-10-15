@@ -37,10 +37,10 @@
             
             <!-- 범례 및 컨트롤러 바 -->
             <div class="flex flex-col md:flex-row items-center justify-between gap-4 mb-6 bg-zinc-900/80 p-4 rounded-xl border border-zinc-800">
-                <!-- 범례 -->
+                <!-- 범례 (순서: 갠방 -> 합방 -> 이벤트 -> 휴방) -->
                 <div class="flex flex-wrap items-center justify-center gap-4 text-xs md:text-sm font-bold">
-                    <div class="flex items-center gap-1.5"><span class="w-3.5 h-3.5 rounded-full bg-emerald-400 inline-block"></span><span>합방</span></div>
                     <div class="flex items-center gap-1.5"><span class="w-3.5 h-3.5 rounded-full bg-sky-400 inline-block"></span><span>갠방</span></div>
+                    <div class="flex items-center gap-1.5"><span class="w-3.5 h-3.5 rounded-full bg-emerald-400 inline-block"></span><span>합방</span></div>
                     <div class="flex items-center gap-1.5"><span class="w-3.5 h-3.5 rounded-full bg-amber-400 inline-block"></span><span>이벤트</span></div>
                     <div class="flex items-center gap-1.5"><span class="w-3.5 h-3.5 rounded-full bg-zinc-400 inline-block"></span><span>휴방</span></div>
                 </div>
@@ -91,11 +91,11 @@
         </div>
     </footer>
 
-    <!-- [모달 1] 날짜 클릭 시 상세 및 다시보기 팝업 -->
+    <!-- [모달 1] 날짜 클릭 시 상세 및 다시보기 팝업 (너비를 max-w-lg로 상향) -->
     <div id="detail-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
-        <div class="bg-zinc-900 border border-zinc-800 rounded-2xl max-w-md w-full p-6 text-white shadow-2xl relative">
+        <div class="bg-zinc-900 border border-zinc-800 rounded-2xl max-w-lg w-full p-6 text-white shadow-2xl relative">
             <h3 id="modal-date-title" class="text-lg font-black text-red-500 mb-2">2026-10-15 일정</h3>
-            <div id="modal-content-body" class="space-y-4 my-4 text-sm text-zinc-300 max-h-72 overflow-y-auto pr-1">
+            <div id="modal-content-body" class="space-y-4 my-4 text-sm text-zinc-300 max-h-96 overflow-y-auto pr-1">
                 <!-- 동적 내용 -->
             </div>
             <div class="flex justify-end gap-2 mt-6">
@@ -142,9 +142,10 @@
                 <div class="grid grid-cols-2 gap-2">
                     <div>
                         <label class="block text-xs text-zinc-400 mb-1">방송 종류</label>
+                        <!-- 순서 변경: 갠방 -> 합방 -> 이벤트 -> 휴방 (기본값: 갠방) -->
                         <select id="form-type" class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500">
+                            <option value="solo" selected>갠방</option>
                             <option value="collab">합방</option>
-                            <option value="solo">갠방</option>
                             <option value="event">이벤트</option>
                             <option value="rest">휴방</option>
                         </select>
@@ -167,10 +168,10 @@
                     <label class="block text-xs text-zinc-400 mb-1">방송 요약 내용 (달력에 표시)</label>
                     <input type="text" id="form-summary" placeholder="예: 도현x수피 랜드 합방" class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500">
                 </div>
-                <!-- 👥 참여 멤버 분리 입력란 -->
+                <!-- 👥 참여 멤버 분리 입력란 (줄바꿈 및 VS 구도 작성 지원) -->
                 <div>
-                    <label class="block text-xs text-zinc-400 mb-1">👥 참여 멤버 (선택사항)</label>
-                    <input type="text" id="form-members" placeholder="예: 수피, 킴성태, 봉준" class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500">
+                    <label class="block text-xs text-zinc-400 mb-1">👥 참여 멤버 (선택사항, 줄바꿈 작성 가능)</label>
+                    <textarea id="form-members" rows="4" placeholder="예:&#10;갓데드 vs  켄 &#10;에스카 vs 콩 석&#10;도 현 vs 히 든" class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500 font-mono"></textarea>
                 </div>
                 <!-- 📝 상세 설명 분리 입력란 -->
                 <div>
@@ -287,12 +288,11 @@
                 let hasActive = matchedSchedules.length > 0;
 
                 if (hasRest) {
-                    // 이미지처럼 휴방 전체 칸 색상을 연한 회색(bg-zinc-200)으로 설정
                     bgStyle = "bg-zinc-200 border-zinc-300 text-zinc-800";
                 } else if (hasActive) {
                     const firstType = matchedSchedules[0].type;
-                    if (firstType === 'collab') bgStyle = "bg-white border-2 border-emerald-400";
-                    else if (firstType === 'solo') bgStyle = "bg-white border-2 border-sky-400";
+                    if (firstType === 'solo') bgStyle = "bg-white border-2 border-sky-400";
+                    else if (firstType === 'collab') bgStyle = "bg-white border-2 border-emerald-400";
                     else if (firstType === 'event') bgStyle = "bg-white border-2 border-amber-400";
                 }
 
@@ -327,7 +327,6 @@
                     if (idx < 3) {
                         const badge = document.createElement('div');
                         
-                        // 휴방 항목인 경우 배경색을 투명하게(bg-transparent) 처리하여 사진처럼 전체 칸 색상과 완전히 통일
                         if (sch.type === 'rest') {
                             badge.className = "text-[10px] md:text-xs px-2 py-1 rounded bg-transparent text-zinc-800 font-semibold truncate";
                         } else {
@@ -385,26 +384,26 @@
                 let html = "";
                 schedulesList.forEach((sch) => {
                     let typeText = "";
-                    if (sch.type === 'collab') typeText = "🟢 합방";
-                    else if (sch.type === 'solo') typeText = "🔵 갠방";
+                    if (sch.type === 'solo') typeText = "🔵 갠방";
+                    else if (sch.type === 'collab') typeText = "🟢 합방";
                     else if (sch.type === 'event') typeText = "🟡 이벤트";
                     else if (sch.type === 'rest') typeText = "⚪ 휴방";
 
                     let gameText = sch.game ? `<span class="bg-white text-black border border-black px-2 py-0.5 rounded text-xs ml-2 font-bold">${sch.game}</span>` : '';
                     let periodText = sch.endDate && sch.endDate !== sch.startDate ? `<p class="text-xs text-zinc-400 mt-1">기간: ${sch.startDate} ~ ${sch.endDate}</p>` : '';
                     
-                    // 👥 참여 멤버 영역
+                    // 👥 참여 멤버 영역 (정렬이 잘맞도록 font-mono 및 넉넉한 공간 적용)
                     let membersText = sch.members ? `
                         <div class="mt-2.5 bg-zinc-800/90 p-3 rounded-xl border border-zinc-700/60">
                             <span class="block text-xs font-bold text-red-400 mb-1">👥 참여 멤버</span>
-                            <p class="text-zinc-200 text-xs whitespace-pre-wrap">${sch.members}</p>
+                            <p class="text-zinc-200 text-xs md:text-sm font-mono leading-relaxed whitespace-pre">${sch.members}</p>
                         </div>` : '';
 
                     // 📝 상세 설명 영역
                     let descText = sch.desc ? `
                         <div class="mt-2 bg-zinc-800/50 p-3 rounded-xl border border-zinc-700/40">
                             <span class="block text-xs font-bold text-sky-400 mb-1">📝 상세 설명</span>
-                            <p class="text-zinc-300 text-xs whitespace-pre-wrap">${sch.desc}</p>
+                            <p class="text-zinc-300 text-xs leading-relaxed whitespace-pre-wrap">${sch.desc}</p>
                         </div>` : '';
                     
                     let linkText = sch.link ? `<p class="mt-3"><a href="${sch.link}" target="_blank" class="inline-block bg-red-600 hover:bg-red-700 text-white font-bold px-3 py-1.5 rounded-lg text-xs transition">📺 다시보기 / 관련 링크 ↗</a></p>` : '';
@@ -414,7 +413,7 @@
                             <div class="flex items-center justify-between">
                                 <span class="font-bold text-white">${typeText} ${gameText}</span>
                             </div>
-                            <p class="font-bold text-sm mt-1.5 text-white">${sch.summary}</p>
+                            <p class="font-bold text-sm md:text-base mt-1.5 text-white">${sch.summary}</p>
                             ${periodText}
                             ${membersText}
                             ${descText}
@@ -479,7 +478,7 @@
             document.getElementById('edit-target-id').value = '';
             document.getElementById('form-start-date').value = '';
             document.getElementById('form-end-date').value = '';
-            document.getElementById('form-type').value = 'collab';
+            document.getElementById('form-type').value = 'solo'; // 초기화 시 갠방 세팅
             document.getElementById('form-game').value = '';
             document.getElementById('form-summary').value = '';
             document.getElementById('form-members').value = '';
