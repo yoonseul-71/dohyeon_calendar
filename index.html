@@ -294,33 +294,32 @@
 
                 const isToday = (day === today.getDate() && currentMonth === today.getMonth() && currentYear === today.getFullYear());
                 
-                // 상단 영역 (날짜 숫자 + 미니 태그)
+                // 상단 영역 (날짜 숫자 + 검정색/흰색 스타일 게임 카테고리 태그)
                 const topHeader = document.createElement('div');
-                topHeader.className = "flex items-center gap-1 mb-1.5 flex-wrap";
+                topHeader.className = "flex items-center gap-1.5 mb-1.5 flex-wrap";
 
                 const dayNumber = document.createElement('div');
                 dayNumber.className = `text-xs md:text-sm font-bold w-6 h-6 flex items-center justify-center rounded-full shrink-0 ${isToday ? 'bg-red-600 text-white' : 'text-zinc-700'}`;
                 dayNumber.innerText = day;
                 topHeader.appendChild(dayNumber);
 
-                // 첫 번째 일정에 카테고리가 등록되어 있을 때 날짜 옆에 표시
+                // 첫 번째 일정에 카테고리가 등록되어 있을 때 날짜 옆에 검정 글씨, 흰 배경, 검정 테두리 태그로 표시
                 if (matchedSchedules.length > 0 && matchedSchedules[0].game) {
                     const gameBadge = document.createElement('span');
-                    gameBadge.className = "text-[9px] md:text-[10px] bg-red-100 text-red-700 font-extrabold px-1.5 py-0.5 rounded-full border border-red-200 truncate max-w-[80px]";
+                    gameBadge.className = "text-[9px] md:text-[10px] bg-white text-black font-extrabold px-1.5 py-0.5 rounded-full border border-black truncate max-w-[80px]";
                     gameBadge.innerText = matchedSchedules[0].game;
                     topHeader.appendChild(gameBadge);
                 }
 
                 cell.appendChild(topHeader);
 
-                // 내부 일정 목록 (개별 색상 없이 깔끔하게 통일된 텍스트 형태로 나열)
+                // 내부 일정 목록
                 const listContainer = document.createElement('div');
                 listContainer.className = "flex flex-col gap-1 overflow-hidden w-full";
 
                 matchedSchedules.forEach((sch, idx) => {
                     if (idx < 3) {
                         const badge = document.createElement('div');
-                        // 개별 방송종류 색상을 지우고 깔끔한 공통 톤(bg-zinc-100 / text-zinc-800)으로 통일
                         badge.className = "text-[10px] md:text-xs px-2 py-1 rounded bg-zinc-100 text-zinc-800 font-semibold truncate border border-zinc-200/80";
                         
                         const gamePrefix = sch.game ? `[${sch.game}] ` : '';
@@ -379,7 +378,7 @@
                     else if (sch.type === 'event') typeText = "🟡 이벤트";
                     else if (sch.type === 'rest') typeText = "⚪ 휴방";
 
-                    let gameText = sch.game ? `<span class="bg-red-900/60 text-red-300 border border-red-700 px-2 py-0.5 rounded text-xs ml-2 font-bold">${sch.game}</span>` : '';
+                    let gameText = sch.game ? `<span class="bg-white text-black border border-black px-2 py-0.5 rounded text-xs ml-2 font-bold">${sch.game}</span>` : '';
                     let periodText = sch.endDate && sch.endDate !== sch.startDate ? `<p class="text-xs text-zinc-400 mt-1">기간: ${sch.startDate} ~ ${sch.endDate}</p>` : '';
                     let descText = sch.desc ? `<p class="mt-2 text-zinc-200 bg-zinc-800/80 p-2.5 rounded-lg text-xs whitespace-pre-wrap border border-zinc-700/50"><strong>상세/멤버:</strong><br>${sch.desc}</p>` : '';
                     let linkText = sch.link ? `<p class="mt-2"><a href="${sch.link}" target="_blank" class="inline-block bg-red-600 hover:bg-red-700 text-white font-bold px-3 py-1.5 rounded-lg text-xs transition">📺 다시보기 / 관련 링크 ↗</a></p>` : '';
@@ -387,7 +386,7 @@
                     html += `
                         <div class="border-b border-zinc-800 pb-3 mb-3 last:border-b-0 last:pb-0 last:mb-0">
                             <div class="flex items-center justify-between">
-                                <span class="font-bold text-red-400">${typeText} ${gameText}</span>
+                                <span class="font-bold text-white">${typeText} ${gameText}</span>
                             </div>
                             <p class="font-bold text-sm mt-1.5 text-white">${sch.summary}</p>
                             ${periodText}
@@ -490,6 +489,7 @@
             alert(editId ? '일정이 성공적으로 수정되었습니다!' : '일정이 성공적으로 추가되었습니다!');
             resetForm();
             renderAdminList();
+            renderCalendar(); 
         }
 
         function editSchedule(id) {
@@ -516,6 +516,7 @@
                 delete schedules[id];
                 localStorage.setItem('stream_schedules_v2', JSON.stringify(schedules));
                 renderAdminList();
+                renderCalendar(); 
             }
         }
 
