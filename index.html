@@ -9,25 +9,6 @@
     <style>
         @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
         body { font-family: 'Pretendard', sans-serif; }
-
-        /* Multi-type gradient border styling */
-        .multi-border-cell {
-            position: relative;
-            background-clip: padding-box;
-            border: 2px solid transparent !important;
-        }
-        .multi-border-cell::before {
-            content: '';
-            position: absolute;
-            inset: -2px;
-            border-radius: 0.75rem; /* rounded-xl */
-            padding: 2px;
-            background: var(--border-gradient);
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            pointer-events: none;
-        }
     </style>
 </head>
 <body class="bg-[#121212] text-white min-h-screen flex flex-col justify-between">
@@ -348,32 +329,35 @@
                 
                 let bgStyle = "bg-white border border-zinc-200";
                 let hasRest = matchedSchedules.some(s => s.type === 'rest');
-                let hasActive = matchedSchedules.length > 0;
-
-                // 선택된 유형들 가져오기 (중복 제거)
+                
+                // 중복 없는 방송 유형 수집
                 const uniqueTypes = [...new Set(matchedSchedules.map(s => s.type))];
+
+                cell.removeAttribute('style');
 
                 if (hasRest) {
                     bgStyle = "bg-zinc-200 border border-zinc-300 text-zinc-800";
                 } else if (uniqueTypes.length === 1) {
+                    // 단일 유형일 경우 뚜렷한 2px 단색 테두리
                     const type = uniqueTypes[0];
                     if (type === 'solo') bgStyle = "bg-white border-2 border-sky-400";
                     else if (type === 'collab') bgStyle = "bg-white border-2 border-emerald-400";
                     else if (type === 'event') bgStyle = "bg-white border-2 border-amber-400";
                 } else if (uniqueTypes.length > 1) {
-                    // ✨ 여러 유형이 섞여 있을 때: conic-gradient 반반 분할 테두리 적용
+                    // ✨ 2개 이상 유형일 경우 4면에 또렷하게 칼라 분할 적용
                     const colors = uniqueTypes.map(t => TYPE_COLORS[t] || '#38bdf8');
-                    const step = 100 / colors.length;
-                    
-                    let stops = [];
-                    colors.forEach((col, idx) => {
-                        const startPct = idx * step;
-                        const endPct = (idx + 1) * step;
-                        stops.push(`${col} ${startPct}% ${endPct}%`);
-                    });
+                    bgStyle = "bg-white border-2";
 
-                    bgStyle = "bg-white multi-border-cell";
-                    cell.style.setProperty('--border-gradient', `conic-gradient(${stops.join(', ')})`);
+                    if (colors.length === 2) {
+                        // 2개 유형일 때: 위/왼쪽은 첫 번째 색, 아래/오른쪽은 두 번째 색
+                        cell.style.borderColor = `${colors[0]} ${colors[1]} ${colors[1]} ${colors[0]}`;
+                    } else if (colors.length === 3) {
+                        // 3개 유형일 때: 상 / 우 / 하·좌 나누어 배치
+                        cell.style.borderColor = `${colors[0]} ${colors[1]} ${colors[2]} ${colors[2]}`;
+                    } else {
+                        // 4개 이상: 상 / 우 / 하 / 좌 각각 뚜렷 배치
+                        cell.style.borderColor = `${colors[0]} ${colors[1]} ${colors[2]} ${colors[3]}`;
+                    }
                 }
 
                 cell.className = cellBaseClass + bgStyle;
