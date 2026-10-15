@@ -119,7 +119,7 @@
 
     <!-- [모달 3] 관리자 편집 대시보드 팝업 -->
     <div id="admin-panel-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden items-center justify-center z-50 p-4 overflow-y-auto">
-        <div class="bg-zinc-900 border border-zinc-800 rounded-2xl max-w-xl w-full p-6 text-white shadow-2xl my-8">
+        <div class="bg-zinc-900 border border-zinc-800 rounded-2xl max-w-2xl w-full p-6 text-white shadow-2xl my-8">
             <div class="flex justify-between items-center mb-4 border-b border-zinc-800 pb-3">
                 <h3 id="admin-panel-title" class="text-xl font-black text-red-500">🛠️ 일정 관리 패널 (관리자 모드)</h3>
                 <button onclick="closeAdminPanel()" class="text-zinc-400 hover:text-white font-bold text-lg cursor-pointer">✕</button>
@@ -195,10 +195,44 @@
                 </div>
             </div>
 
-            <!-- 등록된 일정 목록 보기 및 삭제/수정 -->
-            <div>
-                <h4 class="font-bold text-sm text-zinc-200 mb-2">등록된 전체 일정 목록</h4>
-                <div id="admin-schedule-list" class="max-h-48 overflow-y-auto space-y-2 pr-1 text-xs">
+            <!-- 📋 [개선] 등록된 일정 필터 & 리스트 영역 -->
+            <div class="border-t border-zinc-800 pt-4">
+                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 mb-3">
+                    <h4 class="font-bold text-sm text-zinc-200">📋 등록된 일정 목록</h4>
+                    <!-- 연월 검색 및 필터 컨트롤 바 -->
+                    <div class="flex flex-wrap items-center gap-1.5 w-full sm:w-auto">
+                        <select id="admin-filter-year" onchange="renderAdminList()" class="bg-zinc-800 text-xs border border-zinc-700 rounded-md px-2 py-1 focus:outline-none text-zinc-300">
+                            <!-- JS로 년도 옵션 생성 -->
+                        </select>
+                        <select id="admin-filter-month" onchange="renderAdminList()" class="bg-zinc-800 text-xs border border-zinc-700 rounded-md px-2 py-1 focus:outline-none text-zinc-300">
+                            <option value="all">전체 월</option>
+                            <option value="0">1월</option>
+                            <option value="1">2월</option>
+                            <option value="2">3월</option>
+                            <option value="3">4월</option>
+                            <option value="4">5월</option>
+                            <option value="5">6월</option>
+                            <option value="6">7월</option>
+                            <option value="7">8월</option>
+                            <option value="8">9월</option>
+                            <option value="9">10월</option>
+                            <option value="10">11월</option>
+                            <option value="11">12월</option>
+                        </select>
+                        <select id="admin-filter-sort" onchange="renderAdminList()" class="bg-zinc-800 text-xs border border-zinc-700 rounded-md px-2 py-1 focus:outline-none text-zinc-300">
+                            <option value="desc">최신순</option>
+                            <option value="asc">과거순</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- 키워드 빠른 검색창 -->
+                <div class="mb-3">
+                    <input type="text" id="admin-search-input" onkeyup="renderAdminList()" placeholder="🔍 내용, 게임, 멤버 이름으로 검색..." class="w-full bg-zinc-800/80 border border-zinc-700 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:border-red-500">
+                </div>
+
+                <!-- 일정 리스트 화면 -->
+                <div id="admin-schedule-list" class="max-h-60 overflow-y-auto space-y-2 pr-1 text-xs">
                     <!-- 자바스크립트로 로드 -->
                 </div>
             </div>
@@ -219,13 +253,21 @@
         function initSelectBoxes() {
             const yearSelect = document.getElementById('year-select');
             const monthSelect = document.getElementById('month-select');
+            const adminFilterYear = document.getElementById('admin-filter-year');
 
             yearSelect.innerHTML = '';
+            adminFilterYear.innerHTML = '<option value="all">전체 연도</option>';
+
             for (let y = 2024; y <= today.getFullYear() + 2; y++) {
                 const opt = document.createElement('option');
                 opt.value = y;
                 opt.innerText = `${y}년`;
                 yearSelect.appendChild(opt);
+
+                const optFilter = document.createElement('option');
+                optFilter.value = y;
+                optFilter.innerText = `${y}년`;
+                adminFilterYear.appendChild(optFilter);
             }
 
             monthSelect.innerHTML = '';
@@ -333,7 +375,6 @@
                 dayNumber.innerText = day;
                 topHeader.appendChild(dayNumber);
 
-                // ✨ 그날의 일정에서 카테고리 중복 제거해서 전부 나열하기
                 if (matchedSchedules.length > 0) {
                     const uniqueGames = [...new Set(matchedSchedules.map(s => s.game).filter(Boolean))];
                     uniqueGames.forEach(gName => {
@@ -503,6 +544,11 @@
 
         function openAdminPanel() {
             resetForm();
+            // 관리자 패널 열 시, 필터 기본값을 현재 메인 달력의 년/월로 세팅
+            document.getElementById('admin-filter-year').value = currentYear;
+            document.getElementById('admin-filter-month').value = currentMonth;
+            document.getElementById('admin-search-input').value = '';
+            
             renderAdminList();
             const modal = document.getElementById('admin-panel-modal');
             modal.classList.remove('hidden');
@@ -607,16 +653,55 @@
             }
         }
 
+        // 📋 [개선] 연도/월 필터 및 검색어 기능이 포함된 목록 렌더링 함수
         function renderAdminList() {
             const listContainer = document.getElementById('admin-schedule-list');
             listContainer.innerHTML = '';
 
-            const keys = Object.keys(schedules).sort((a, b) => {
-                return schedules[b].startDate.localeCompare(schedules[a].startDate);
+            const selectedYear = document.getElementById('admin-filter-year').value;
+            const selectedMonth = document.getElementById('admin-filter-month').value;
+            const sortOrder = document.getElementById('admin-filter-sort').value;
+            const searchText = document.getElementById('admin-search-input').value.toLowerCase().trim();
+
+            let keys = Object.keys(schedules);
+
+            // 1. 연도 필터링
+            if (selectedYear !== 'all') {
+                keys = keys.filter(id => schedules[id].startDate.startsWith(selectedYear));
+            }
+
+            // 2. 월 필터링
+            if (selectedMonth !== 'all') {
+                const targetM = String(parseInt(selectedMonth) + 1).padStart(2, '0');
+                keys = keys.filter(id => {
+                    const startM = schedules[id].startDate.split('-')[1];
+                    return startM === targetM;
+                });
+            }
+
+            // 3. 키워드 검색 필터링
+            if (searchText) {
+                keys = keys.filter(id => {
+                    const item = schedules[id];
+                    const summaryMatch = item.summary && item.summary.toLowerCase().includes(searchText);
+                    const gameMatch = item.game && item.game.toLowerCase().includes(searchText);
+                    const membersMatch = item.members && item.members.toLowerCase().includes(searchText);
+                    const descMatch = item.desc && item.desc.toLowerCase().includes(searchText);
+                    return summaryMatch || gameMatch || membersMatch || descMatch;
+                });
+            }
+
+            // 4. 정렬 (최신순 / 과거순)
+            keys.sort((a, b) => {
+                if (sortOrder === 'desc') {
+                    return schedules[b].startDate.localeCompare(schedules[a].startDate);
+                } else {
+                    return schedules[a].startDate.localeCompare(schedules[b].startDate);
+                }
             });
 
             if (keys.length === 0) {
-                listContainer.innerHTML = `<p class="text-zinc-500 text-center py-4">등록된 일정이 없습니다.</p>`;
+                listContainer.innerHTML = `<p class="text-zinc-500 text-center py-6">선택한 조건에 해당하는 일정이 없습니다.</p>`;
                 return;
             }
 
@@ -626,15 +711,15 @@
                 const gameTag = item.game ? `[${item.game}] ` : '';
 
                 const row = document.createElement('div');
-                row.className = "flex items-center justify-between bg-zinc-800 p-2.5 rounded-xl border border-zinc-700";
+                row.className = "flex items-center justify-between bg-zinc-800/80 hover:bg-zinc-800 p-2.5 rounded-xl border border-zinc-700/80 transition";
                 row.innerHTML = `
-                    <div class="overflow-hidden pr-2">
-                        <span class="font-bold text-red-400 mr-2">[${dateDisplay}]</span>
-                        <span class="text-zinc-200 truncate">${gameTag}${item.summary}</span>
+                    <div class="overflow-hidden pr-2 flex items-center gap-2">
+                        <span class="font-bold text-red-400 shrink-0 text-xs">[${dateDisplay}]</span>
+                        <span class="text-zinc-200 truncate font-medium text-xs">${gameTag}${item.summary}</span>
                     </div>
                     <div class="flex gap-1.5 shrink-0">
-                        <button onclick="editSchedule('${id}')" class="bg-sky-900/50 hover:bg-sky-700 text-sky-300 px-2.5 py-1 rounded-lg text-[11px] transition cursor-pointer">수정</button>
-                        <button onclick="deleteSchedule('${id}')" class="bg-red-900/40 hover:bg-red-700 text-red-300 px-2.5 py-1 rounded-lg text-[11px] transition cursor-pointer">삭제</button>
+                        <button onclick="editSchedule('${id}')" class="bg-sky-900/50 hover:bg-sky-700 text-sky-300 px-2.5 py-1 rounded-lg text-[11px] font-bold transition cursor-pointer">수정</button>
+                        <button onclick="deleteSchedule('${id}')" class="bg-red-900/40 hover:bg-red-700 text-red-300 px-2.5 py-1 rounded-lg text-[11px] font-bold transition cursor-pointer">삭제</button>
                     </div>
                 `;
                 listContainer.appendChild(row);
