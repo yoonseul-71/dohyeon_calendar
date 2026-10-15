@@ -16,7 +16,7 @@
     <div>
         <!-- 상단 배너 영역 -->
         <header class="w-full bg-[#0a0a0a] border-b border-red-900/45 relative overflow-hidden">
-            <div class="max-w-6xl mx-auto px-4 py-8 md:py-12 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="max-w-[1400px] mx-auto px-4 py-8 md:py-12 flex flex-col md:flex-row items-center justify-between gap-6">
                 <div class="text-center md:text-left z-10">
                     <h1 class="text-3xl md:text-5xl font-black italic tracking-wider text-white drop-shadow-[0_2px_10px_rgba(255,0,0,0.5)]">
                         DOHYEON <span class="text-red-600">CALENDAR</span>
@@ -32,8 +32,8 @@
             <div class="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-red-600 via-red-900 to-transparent"></div>
         </header>
 
-        <!-- 메인 콘텐츠 -->
-        <main class="max-w-5xl mx-auto px-4 py-8">
+        <!-- 메인 콘텐츠 (가로 폭 1400px) -->
+        <main class="max-w-[1400px] mx-auto px-4 py-8">
             
             <!-- 범례 및 컨트롤러 바 -->
             <div class="flex flex-col md:flex-row items-center justify-between gap-4 mb-6 bg-zinc-900/80 p-4 rounded-xl border border-zinc-800">
@@ -59,7 +59,7 @@
                 <div class="flex justify-between items-center mb-6">
                     <button onclick="changeMonth(-1)" class="px-3.5 py-2 bg-zinc-100 hover:bg-zinc-200 text-zinc-700 rounded-xl font-bold transition text-sm cursor-pointer">&lt; 이전달</button>
                     <div class="flex items-center gap-3">
-                        <h2 id="calendar-title" class="text-xl md:text-2xl font-black text-zinc-800">2024년 8월</h2>
+                        <h2 id="calendar-title" class="text-xl md:text-2xl font-black text-zinc-800">2026년 10월</h2>
                         <button onclick="goToday()" class="px-2.5 py-1 bg-red-50 text-red-600 border border-red-200 hover:bg-red-100 rounded-lg text-xs font-bold transition cursor-pointer">오늘</button>
                     </div>
                     <button onclick="changeMonth(1)" class="px-3.5 py-2 bg-zinc-100 hover:bg-zinc-200 text-zinc-700 rounded-xl font-bold transition text-sm cursor-pointer">다음달 &gt;</button>
@@ -83,7 +83,7 @@
     </div>
 
     <!-- 푸터 -->
-    <footer class="max-w-5xl mx-auto w-full px-4 py-6 text-zinc-500 text-xs border-t border-zinc-800 mt-12 flex flex-col md:flex-row items-center justify-between gap-4">
+    <footer class="max-w-[1400px] mx-auto w-full px-4 py-6 text-zinc-500 text-xs border-t border-zinc-800 mt-12 flex flex-col md:flex-row items-center justify-between gap-4">
         <p class="text-center md:text-left">본 사이트는 비공식 일정표로 스트리머의 상황에 따라 변동될 수 있습니다.</p>
         <div class="flex items-center gap-3">
             <button onclick="openAdminLogin()" class="text-zinc-400 hover:text-white bg-zinc-900 border border-zinc-800 px-3 py-1 rounded-md text-xs transition cursor-pointer">⚙️ 관리자 모드</button>
@@ -94,7 +94,7 @@
     <!-- [모달 1] 날짜 클릭 시 상세 및 다시보기 팝업 -->
     <div id="detail-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
         <div class="bg-zinc-900 border border-zinc-800 rounded-2xl max-w-md w-full p-6 text-white shadow-2xl relative">
-            <h3 id="modal-date-title" class="text-lg font-black text-red-500 mb-2">2024-08-01 일정</h3>
+            <h3 id="modal-date-title" class="text-lg font-black text-red-500 mb-2">2026-10-15 일정</h3>
             <div id="modal-content-body" class="space-y-4 my-4 text-sm text-zinc-300 max-h-60 overflow-y-auto pr-1">
                 <!-- 동적 내용 -->
             </div>
@@ -139,26 +139,41 @@
                         <input type="date" id="form-end-date" class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500">
                     </div>
                 </div>
-                <div>
-                    <label class="block text-xs text-zinc-400 mb-1">방송 종류</label>
-                    <select id="form-type" class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500">
-                        <option value="collab">합방</option>
-                        <option value="solo">갠방</option>
-                        <option value="event">이벤트</option>
-                        <option value="rest">휴방</option>
-                    </select>
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <label class="block text-xs text-zinc-400 mb-1">방송 종류</label>
+                        <select id="form-type" class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500">
+                            <option value="collab">합방</option>
+                            <option value="solo">갠방</option>
+                            <option value="event">이벤트</option>
+                            <option value="rest">휴방</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs text-zinc-400 mb-1">게임 / 카테고리</label>
+                        <select id="form-game" class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500">
+                            <option value="">없음</option>
+                            <option value="발로">발로</option>
+                            <option value="마크">마크</option>
+                            <option value="롤">롤</option>
+                            <option value="소통">소통</option>
+                            <option value="종겜">종겜</option>
+                            <option value="옵치">옵치</option>
+                            <option value="배그">배그</option>
+                        </select>
+                    </div>
                 </div>
                 <div>
                     <label class="block text-xs text-zinc-400 mb-1">방송 요약 내용 (달력에 표시)</label>
-                    <input type="text" id="form-summary" placeholder="예: 마인크래프트 합동 방송" class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500">
+                    <input type="text" id="form-summary" placeholder="예: 도현x수피 랜드 합방" class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500">
                 </div>
                 <div>
                     <label class="block text-xs text-zinc-400 mb-1">상세 설명 / 참여 멤버 등 (선택사항)</label>
-                    <textarea id="form-desc" rows="2" placeholder="예: 참여 멤버 - 홍길동, 김철수..." class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500"></textarea>
+                    <textarea id="form-desc" rows="2" placeholder="예: 참여 멤버 - 수피, 도현, 킴성태..." class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500"></textarea>
                 </div>
                 <div>
-                    <label class="block text-xs text-zinc-400 mb-1">다시보기 링크 (선택사항, 유튜브 URL 등)</label>
-                    <input type="text" id="form-link" placeholder="https://youtube.com/..." class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500">
+                    <label class="block text-xs text-zinc-400 mb-1">다시보기 링크 (선택사항, 유튜브/SOOP URL)</label>
+                    <input type="text" id="form-link" placeholder="https://..." class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500">
                 </div>
                 <div class="flex justify-end gap-2 pt-2">
                     <button onclick="resetForm()" class="px-3 py-1.5 bg-zinc-700 hover:bg-zinc-600 rounded-lg text-xs font-bold transition cursor-pointer">취소/초기화</button>
@@ -179,7 +194,7 @@
     <!-- 핵심 로직 스크립트 -->
     <script>
         // 🔑 [관리자 비밀번호 설정] 아래 "1234" 부분을 원하는 비밀번호로 변경하세요!
-        const ADMIN_PASSWORD = "1520711";
+        const ADMIN_PASSWORD = "dobby1520manager";
 
         let schedules = JSON.parse(localStorage.getItem('stream_schedules_v2')) || {};
 
@@ -239,7 +254,7 @@
             // 이전 달 빈 칸 생성
             for (let i = 0; i < firstDayIndex; i++) {
                 const emptyCell = document.createElement('div');
-                emptyCell.className = "h-28 md:h-36 bg-zinc-50/50 rounded-xl border border-transparent";
+                emptyCell.className = "h-36 md:h-44 bg-zinc-50/50 rounded-xl border border-transparent";
                 grid.appendChild(emptyCell);
             }
 
@@ -259,14 +274,14 @@
                 }
 
                 const cell = document.createElement('div');
-                let cellBaseClass = "h-28 md:h-36 border rounded-xl p-1.5 md:p-2 flex flex-col transition hover:shadow-md cursor-pointer relative overflow-hidden ";
+                let cellBaseClass = "h-36 md:h-44 border rounded-xl p-1.5 md:p-2 flex flex-col justify-start transition hover:shadow-md cursor-pointer relative overflow-hidden ";
                 
                 let bgStyle = "bg-white border-zinc-200";
                 let hasRest = matchedSchedules.some(s => s.type === 'rest');
                 let hasActive = matchedSchedules.length > 0;
 
                 if (hasRest) {
-                    bgStyle = "bg-zinc-200 border-zinc-300 text-zinc-800"; // 휴방인 날은 전체 회색 채우기
+                    bgStyle = "bg-zinc-200 border-zinc-300 text-zinc-800"; // 휴방인 날은 전체 회색
                 } else if (hasActive) {
                     const firstType = matchedSchedules[0].type;
                     if (firstType === 'collab') bgStyle = "bg-white border-2 border-emerald-400";
@@ -279,33 +294,45 @@
 
                 const isToday = (day === today.getDate() && currentMonth === today.getMonth() && currentYear === today.getFullYear());
                 
-                const dayNumber = document.createElement('div');
-                dayNumber.className = `text-xs md:text-sm font-bold w-6 h-6 flex items-center justify-center rounded-full mb-1 ${isToday ? 'bg-red-600 text-white' : 'text-zinc-700'}`;
-                dayNumber.innerText = day;
-                cell.appendChild(dayNumber);
+                // 상단 영역 (날짜 숫자 + 미니 태그)
+                const topHeader = document.createElement('div');
+                topHeader.className = "flex items-center gap-1 mb-1.5 flex-wrap";
 
+                const dayNumber = document.createElement('div');
+                dayNumber.className = `text-xs md:text-sm font-bold w-6 h-6 flex items-center justify-center rounded-full shrink-0 ${isToday ? 'bg-red-600 text-white' : 'text-zinc-700'}`;
+                dayNumber.innerText = day;
+                topHeader.appendChild(dayNumber);
+
+                // 첫 번째 일정에 카테고리가 등록되어 있을 때 날짜 옆에 표시
+                if (matchedSchedules.length > 0 && matchedSchedules[0].game) {
+                    const gameBadge = document.createElement('span');
+                    gameBadge.className = "text-[9px] md:text-[10px] bg-red-100 text-red-700 font-extrabold px-1.5 py-0.5 rounded-full border border-red-200 truncate max-w-[80px]";
+                    gameBadge.innerText = matchedSchedules[0].game;
+                    topHeader.appendChild(gameBadge);
+                }
+
+                cell.appendChild(topHeader);
+
+                // 내부 일정 목록 (개별 색상 없이 깔끔하게 통일된 텍스트 형태로 나열)
                 const listContainer = document.createElement('div');
-                listContainer.className = "flex flex-col gap-1 overflow-hidden mt-auto";
+                listContainer.className = "flex flex-col gap-1 overflow-hidden w-full";
 
                 matchedSchedules.forEach((sch, idx) => {
-                    if (idx < 2) {
+                    if (idx < 3) {
                         const badge = document.createElement('div');
-                        let badgeColor = "bg-zinc-100 text-zinc-800";
-                        if (sch.type === 'collab') badgeColor = "bg-emerald-100 text-emerald-950 font-bold";
-                        else if (sch.type === 'solo') badgeColor = "bg-sky-100 text-sky-950 font-bold";
-                        else if (sch.type === 'event') badgeColor = "bg-amber-100 text-amber-950 font-bold";
-                        else if (sch.type === 'rest') badgeColor = "bg-zinc-300 text-zinc-800 font-bold";
-
-                        badge.className = `text-[10px] md:text-xs px-1.5 py-0.5 rounded truncate ${badgeColor}`;
-                        badge.innerText = sch.summary;
+                        // 개별 방송종류 색상을 지우고 깔끔한 공통 톤(bg-zinc-100 / text-zinc-800)으로 통일
+                        badge.className = "text-[10px] md:text-xs px-2 py-1 rounded bg-zinc-100 text-zinc-800 font-semibold truncate border border-zinc-200/80";
+                        
+                        const gamePrefix = sch.game ? `[${sch.game}] ` : '';
+                        badge.innerText = `${gamePrefix}${sch.summary}`;
                         listContainer.appendChild(badge);
                     }
                 });
 
-                if (matchedSchedules.length > 2) {
+                if (matchedSchedules.length > 3) {
                     const moreBadge = document.createElement('div');
-                    moreBadge.className = "text-[9px] text-zinc-500 font-bold text-right";
-                    moreBadge.innerText = `+${matchedSchedules.length - 2}개 더보기`;
+                    moreBadge.className = "text-[9px] text-zinc-500 font-bold text-right mt-0.5";
+                    moreBadge.innerText = `+${matchedSchedules.length - 3}개 더보기`;
                     listContainer.appendChild(moreBadge);
                 }
 
@@ -352,16 +379,17 @@
                     else if (sch.type === 'event') typeText = "🟡 이벤트";
                     else if (sch.type === 'rest') typeText = "⚪ 휴방";
 
-                    let periodText = sch.endDate && sch.endDate !== sch.startDate ? `<p class="text-xs text-zinc-400">기간: ${sch.startDate} ~ ${sch.endDate}</p>` : '';
-                    let descText = sch.desc ? `<p class="mt-1 text-zinc-200 bg-zinc-800/80 p-2 rounded-lg text-xs whitespace-pre-wrap"><strong>상세/멤버:</strong><br>${sch.desc}</p>` : '';
+                    let gameText = sch.game ? `<span class="bg-red-900/60 text-red-300 border border-red-700 px-2 py-0.5 rounded text-xs ml-2 font-bold">${sch.game}</span>` : '';
+                    let periodText = sch.endDate && sch.endDate !== sch.startDate ? `<p class="text-xs text-zinc-400 mt-1">기간: ${sch.startDate} ~ ${sch.endDate}</p>` : '';
+                    let descText = sch.desc ? `<p class="mt-2 text-zinc-200 bg-zinc-800/80 p-2.5 rounded-lg text-xs whitespace-pre-wrap border border-zinc-700/50"><strong>상세/멤버:</strong><br>${sch.desc}</p>` : '';
                     let linkText = sch.link ? `<p class="mt-2"><a href="${sch.link}" target="_blank" class="inline-block bg-red-600 hover:bg-red-700 text-white font-bold px-3 py-1.5 rounded-lg text-xs transition">📺 다시보기 / 관련 링크 ↗</a></p>` : '';
 
                     html += `
                         <div class="border-b border-zinc-800 pb-3 mb-3 last:border-b-0 last:pb-0 last:mb-0">
                             <div class="flex items-center justify-between">
-                                <span class="font-bold text-red-400">${typeText}</span>
+                                <span class="font-bold text-red-400">${typeText} ${gameText}</span>
                             </div>
-                            <p class="font-bold text-sm mt-1 text-white">${sch.summary}</p>
+                            <p class="font-bold text-sm mt-1.5 text-white">${sch.summary}</p>
                             ${periodText}
                             ${descText}
                             ${linkText}
@@ -426,6 +454,7 @@
             document.getElementById('form-start-date').value = '';
             document.getElementById('form-end-date').value = '';
             document.getElementById('form-type').value = 'collab';
+            document.getElementById('form-game').value = '';
             document.getElementById('form-summary').value = '';
             document.getElementById('form-desc').value = '';
             document.getElementById('form-link').value = '';
@@ -438,6 +467,7 @@
             const startDate = document.getElementById('form-start-date').value;
             const endDate = document.getElementById('form-end-date').value || startDate;
             const type = document.getElementById('form-type').value;
+            const game = document.getElementById('form-game').value;
             const summary = document.getElementById('form-summary').value;
             const desc = document.getElementById('form-desc').value;
             const link = document.getElementById('form-link').value;
@@ -454,7 +484,7 @@
 
             const scheduleId = editId ? editId : 'sch_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7);
 
-            schedules[scheduleId] = { startDate, endDate, type, summary, desc, link };
+            schedules[scheduleId] = { startDate, endDate, type, game, summary, desc, link };
             localStorage.setItem('stream_schedules_v2', JSON.stringify(schedules));
             
             alert(editId ? '일정이 성공적으로 수정되었습니다!' : '일정이 성공적으로 추가되었습니다!');
@@ -470,6 +500,7 @@
             document.getElementById('form-start-date').value = item.startDate;
             document.getElementById('form-end-date').value = item.endDate || item.startDate;
             document.getElementById('form-type').value = item.type;
+            document.getElementById('form-game').value = item.game || '';
             document.getElementById('form-summary').value = item.summary;
             document.getElementById('form-desc').value = item.desc || '';
             document.getElementById('form-link').value = item.link || '';
@@ -504,13 +535,14 @@
             keys.forEach(id => {
                 const item = schedules[id];
                 const dateDisplay = item.endDate && item.endDate !== item.startDate ? `${item.startDate} ~ ${item.endDate}` : item.startDate;
-                
+                const gameTag = item.game ? `[${item.game}] ` : '';
+
                 const row = document.createElement('div');
                 row.className = "flex items-center justify-between bg-zinc-800 p-2.5 rounded-xl border border-zinc-700";
                 row.innerHTML = `
                     <div class="overflow-hidden pr-2">
                         <span class="font-bold text-red-400 mr-2">[${dateDisplay}]</span>
-                        <span class="text-zinc-200 truncate">${item.summary}</span>
+                        <span class="text-zinc-200 truncate">${gameTag}${item.summary}</span>
                     </div>
                     <div class="flex gap-1.5 shrink-0">
                         <button onclick="editSchedule('${id}')" class="bg-sky-900/50 hover:bg-sky-700 text-sky-300 px-2.5 py-1 rounded-lg text-[11px] transition cursor-pointer">수정</button>
