@@ -166,7 +166,7 @@
                     </div>
                 </div>
 
-                <!-- 🎨 개별 일정 항목 배경색 프리셋 픽커 (연주황 추가됨) -->
+                <!-- 🎨 개별 일정 항목 배경색 프리셋 픽커 -->
                 <div>
                     <label class="block text-xs text-zinc-400 mb-1.5">📌 개별 항목 배경색 선택 (강조용 파스텔 픽커)</label>
                     <div class="flex flex-wrap gap-2 items-center" id="color-picker-group">
@@ -198,6 +198,13 @@
                     <label class="block text-xs text-zinc-400 mb-1">방송 요약 내용 (달력에 표시)</label>
                     <input type="text" id="form-summary" placeholder="예: 도현x수피 랜드 합방" class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500">
                 </div>
+
+                <!-- 🎈 [신규] 기념일 / 특별 문구 (빨간 글씨 하단 표시) -->
+                <div>
+                    <label class="block text-xs text-zinc-400 mb-1">🎈 기념일 / 축하 문구 (달력 셀 하단 빨간 글씨 표시, 선택사항)</label>
+                    <input type="text" id="form-anniversary" placeholder="예: 🎉 도현 생일!, 🎂 데뷔 1000일!" class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500">
+                </div>
+
                 <!-- 👥 참여 멤버 세로 길게 여러 줄 입력란 -->
                 <div>
                     <label class="block text-xs text-zinc-400 mb-1">👥 참여 멤버 (엔터로 세로 줄바꿈 작성)</label>
@@ -247,7 +254,7 @@
 
                 <!-- 키워드 빠른 검색창 -->
                 <div class="mb-3">
-                    <input type="text" id="admin-search-input" onkeyup="renderAdminList()" placeholder="🔍 내용, 게임, 멤버 이름으로 검색..." class="w-full bg-zinc-800/80 border border-zinc-700 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:border-red-500">
+                    <input type="text" id="admin-search-input" onkeyup="renderAdminList()" placeholder="🔍 내용, 게임, 멤버, 기념일로 검색..." class="w-full bg-zinc-800/80 border border-zinc-700 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:border-red-500">
                 </div>
 
                 <!-- 일정 리스트 화면 -->
@@ -276,7 +283,6 @@
             rest: '#a1a1aa'    // zinc-400
         };
 
-        // 개별 항목 파스텔 스타일 맵핑 (orange 추가)
         const ITEM_COLOR_MAP = {
             default: "bg-zinc-100 text-zinc-800 border-zinc-200/80",
             yellow: "bg-amber-100 text-amber-900 border-amber-300/80",
@@ -381,12 +387,11 @@
                 }
 
                 const cell = document.createElement('div');
-                let cellBaseClass = "h-44 md:h-52 rounded-xl p-1.5 md:p-2 flex flex-col justify-start transition hover:shadow-md cursor-pointer relative overflow-hidden ";
+                let cellBaseClass = "h-44 md:h-52 rounded-xl p-1.5 md:p-2 flex flex-col justify-between transition hover:shadow-md cursor-pointer relative overflow-hidden ";
                 
                 let bgStyle = "bg-white border border-zinc-200";
                 let hasRest = matchedSchedules.some(s => s.type === 'rest');
                 
-                // 중복 없는 방송 유형 수집
                 const uniqueTypes = [...new Set(matchedSchedules.map(s => s.type))];
 
                 cell.removeAttribute('style');
@@ -416,7 +421,11 @@
 
                 const isToday = (day === today.getDate() && currentMonth === today.getMonth() && currentYear === today.getFullYear());
                 
-                // 상단 영역 (날짜 숫자 + 그날 선택된 모든 카테고리/게임 태그 모음)
+                // [상단 내용 그룹화]
+                const topGroup = document.createElement('div');
+                topGroup.className = "w-full flex flex-col justify-start overflow-hidden";
+
+                // 상단 영역 (날짜 숫자 + 카테고리 태그 모음)
                 const topHeader = document.createElement('div');
                 topHeader.className = "flex items-center gap-1 mb-1.5 flex-wrap";
 
@@ -435,7 +444,7 @@
                     });
                 }
 
-                cell.appendChild(topHeader);
+                topGroup.appendChild(topHeader);
 
                 // 내부 일정 목록 (최대 5줄까지 표시)
                 const listContainer = document.createElement('div');
@@ -465,7 +474,18 @@
                     listContainer.appendChild(moreBadge);
                 }
 
-                cell.appendChild(listContainer);
+                topGroup.appendChild(listContainer);
+                cell.appendChild(topGroup);
+
+                // 🎈 [하단 빨간 글씨 기념일 문구 영역]
+                const anniversaryItem = matchedSchedules.find(s => s.anniversary && s.anniversary.trim() !== '');
+                if (anniversaryItem) {
+                    const anniFooter = document.createElement('div');
+                    anniFooter.className = "text-[10px] md:text-xs font-black text-red-600 truncate text-center pt-1 mt-1 border-t border-red-200/80 tracking-tight shrink-0";
+                    anniFooter.innerText = anniversaryItem.anniversary;
+                    cell.appendChild(anniFooter);
+                }
+
                 grid.appendChild(cell);
             }
         }
@@ -511,6 +531,11 @@
                     let gameText = sch.game ? `<span class="bg-white text-black border border-black px-2 py-0.5 rounded text-xs ml-2 font-bold">${sch.game}</span>` : '';
                     let periodText = sch.endDate && sch.endDate !== sch.startDate ? `<p class="text-xs text-zinc-400 mt-1">기간: ${sch.startDate} ~ ${sch.endDate}</p>` : '';
                     
+                    let anniBadge = sch.anniversary ? `
+                        <div class="mt-2 bg-red-950/60 border border-red-800/80 p-2.5 rounded-xl text-center">
+                            <span class="text-xs font-black text-red-400">🎈 ${sch.anniversary}</span>
+                        </div>` : '';
+
                     let membersText = sch.members ? `
                         <div class="mt-2.5 bg-zinc-800/90 p-3 rounded-xl border border-zinc-700/60">
                             <span class="block text-xs font-bold text-red-400 mb-1.5">👥 참여 멤버</span>
@@ -529,6 +554,7 @@
                                 <span class="font-bold text-white">${typeText} ${gameText}</span>
                             </div>
                             <p class="font-bold text-sm md:text-base mt-1.5 text-white">${sch.summary}</p>
+                            ${anniBadge}
                             ${periodText}
                             ${membersText}
                             ${descText}
@@ -599,6 +625,7 @@
             document.getElementById('form-type').value = 'solo';
             document.getElementById('form-game').value = '';
             document.getElementById('form-summary').value = '';
+            document.getElementById('form-anniversary').value = '';
             document.getElementById('form-members').value = '';
             document.getElementById('form-desc').value = '';
             selectItemColor('default');
@@ -614,6 +641,7 @@
             const game = document.getElementById('form-game').value;
             const color = document.getElementById('form-item-color').value || 'default';
             const summary = document.getElementById('form-summary').value;
+            const anniversary = document.getElementById('form-anniversary').value;
             const members = document.getElementById('form-members').value;
             const desc = document.getElementById('form-desc').value;
 
@@ -629,7 +657,7 @@
 
             const scheduleId = editId ? editId : 'sch_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7);
 
-            schedules[scheduleId] = { startDate, endDate, type, game, color, summary, members, desc };
+            schedules[scheduleId] = { startDate, endDate, type, game, color, summary, anniversary, members, desc };
             localStorage.setItem('stream_schedules_v3', JSON.stringify(schedules));
             
             alert(editId ? '일정이 성공적으로 수정되었습니다!' : '일정이 성공적으로 추가되었습니다!');
@@ -648,6 +676,7 @@
             document.getElementById('form-type').value = item.type;
             document.getElementById('form-game').value = item.game || '';
             document.getElementById('form-summary').value = item.summary;
+            document.getElementById('form-anniversary').value = item.anniversary || '';
             document.getElementById('form-members').value = item.members || '';
             document.getElementById('form-desc').value = item.desc || '';
             selectItemColor(item.color || 'default');
@@ -695,9 +724,10 @@
                     const item = schedules[id];
                     const summaryMatch = item.summary && item.summary.toLowerCase().includes(searchText);
                     const gameMatch = item.game && item.game.toLowerCase().includes(searchText);
+                    const anniMatch = item.anniversary && item.anniversary.toLowerCase().includes(searchText);
                     const membersMatch = item.members && item.members.toLowerCase().includes(searchText);
                     const descMatch = item.desc && item.desc.toLowerCase().includes(searchText);
-                    return summaryMatch || gameMatch || membersMatch || descMatch;
+                    return summaryMatch || gameMatch || anniMatch || membersMatch || descMatch;
                 });
             }
 
@@ -718,13 +748,14 @@
                 const item = schedules[id];
                 const dateDisplay = item.endDate && item.endDate !== item.startDate ? `${item.startDate} ~ ${item.endDate}` : item.startDate;
                 const gameTag = item.game ? `[${item.game}] ` : '';
+                const anniTag = item.anniversary ? ` <span class="text-red-400 font-bold">(🎈 ${item.anniversary})</span>` : '';
 
                 const row = document.createElement('div');
                 row.className = "flex items-center justify-between bg-zinc-800/80 hover:bg-zinc-800 p-2.5 rounded-xl border border-zinc-700/80 transition";
                 row.innerHTML = `
                     <div class="overflow-hidden pr-2 flex items-center gap-2">
                         <span class="font-bold text-red-400 shrink-0 text-xs">[${dateDisplay}]</span>
-                        <span class="text-zinc-200 truncate font-medium text-xs">${gameTag}${item.summary}</span>
+                        <span class="text-zinc-200 truncate font-medium text-xs">${gameTag}${item.summary}${anniTag}</span>
                     </div>
                     <div class="flex gap-1.5 shrink-0">
                         <button onclick="editSchedule('${id}')" class="bg-sky-900/50 hover:bg-sky-700 text-sky-300 px-2.5 py-1 rounded-lg text-[11px] font-bold transition cursor-pointer">수정</button>
