@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>방송 일정표</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+        body { font-family: 'Pretendard', sans-serif; }
+    </style>
+</head>
+<body class="bg-[#121212] text-white min-h-screen flex flex-col justify-between">
+
+    <div>
+        <!-- 상단 배너 영역 -->
+        <header class="w-full bg-[#0a0a0a] border-b border-red-900/45 relative overflow-hidden">
+            <div class="max-w-6xl mx-auto px-4 py-8 md:py-12 flex flex-col md:flex-row items-center justify-between gap-6">
+                <div class="text-center md:text-left z-10">
+                    <span class="text-red-500 font-bold tracking-widest text-xs md:text-sm uppercase block mb-1">Official Schedule</span>
+                    <h1 class="text-3xl md:text-5xl font-black italic tracking-wider text-white drop-shadow-[0_2px_10px_rgba(255,0,0,0.5)]">
+                        DOHYEON <span class="text-red-600">CALENDAR</span>
+                    </h1>
+                </div>
+                <nav class="flex flex-wrap justify-center gap-3 z-10">
+                    <a href="https://www.sooplive.com" target="_blank" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-bold text-sm transition shadow-lg shadow-red-900/30">SOOP 방송국 ↗</a>
+                    <a href="https://www.youtube.com" target="_blank" class="bg-zinc-800 hover:bg-zinc-700 text-zinc-200 px-4 py-2 rounded-lg font-bold text-sm border border-zinc-700 transition">유튜브 ↗</a>
+                    <a href="https://cafe.naver.com" target="_blank" class="bg-zinc-800 hover:bg-zinc-700 text-zinc-200 px-4 py-2 rounded-lg font-bold text-sm border border-zinc-700 transition">팬카페 ↗</a>
+                </nav>
+            </div>
+            <div class="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-red-600 via-red-900 to-transparent"></div>
+        </header>
+
+        <!-- 메인 콘텐츠 -->
+        <main class="max-w-5xl mx-auto px-4 py-8">
+            
+            <!-- 범례 및 컨트롤러 바 -->
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4 mb-6 bg-zinc-900/80 p-4 rounded-xl border border-zinc-800">
+                <!-- 범례 -->
+                <div class="flex flex-wrap items-center justify-center gap-3 text-xs md:text-sm font-semibold">
+                    <div class="flex items-center gap-1.5"><span class="w-3.5 h-3.5 rounded-full bg-emerald-400 inline-block"></span><span>합방 (연두)</span></div>
+                    <div class="flex items-center gap-1.5"><span class="w-3.5 h-3.5 rounded-full bg-sky-400 inline-block"></span><span>갠방 (하늘)</span></div>
+                    <div class="flex items-center gap-1.5"><span class="w-3.5 h-3.5 rounded-full bg-amber-400 inline-block"></span><span>이벤트 (노랑)</span></div>
+                    <div class="flex items-center gap-1.5"><span class="w-3.5 h-3.5 rounded-full bg-zinc-400 inline-block"></span><span>휴방 (회색)</span></div>
+                </div>
+
+                <!-- 연도/월 직접 선택 셀렉트박스 -->
+                <div class="flex items-center gap-2">
+                    <select id="year-select" onchange="onSelectYearMonth()" class="bg-zinc-800 text-white font-bold px-3 py-1.5 rounded-lg border border-zinc-700 text-sm focus:outline-none focus:border-red-500"></select>
+                    <select id="month-select" onchange="onSelectYearMonth()" class="bg-zinc-800 text-white font-bold px-3 py-1.5 rounded-lg border border-zinc-700 text-sm focus:outline-none focus:border-red-500"></select>
+                </div>
+            </div>
+
+            <!-- 캘린더 본체 (흰 배경) -->
+            <div class="bg-white text-zinc-900 rounded-2xl shadow-2xl p-4 md:p-6">
+                
+                <!-- 상단 네비게이션 (이전달 / 오늘 / 다음달) -->
+                <div class="flex justify-between items-center mb-6">
+                    <button onclick="changeMonth(-1)" class="px-3.5 py-2 bg-zinc-100 hover:bg-zinc-200 text-zinc-700 rounded-xl font-bold transition text-sm">&lt; 이전달</button>
+                    <div class="flex items-center gap-3">
+                        <h2 id="calendar-title" class="text-xl md:text-2xl font-black text-zinc-800">2024년 8월</h2>
+                        <button onclick="goToday()" class="px-2.5 py-1 bg-red-50 text-red-600 border border-red-200 hover:bg-red-100 rounded-lg text-xs font-bold transition">오늘</button>
+                    </div>
+                    <button onclick="changeMonth(1)" class="px-3.5 py-2 bg-zinc-100 hover:bg-zinc-200 text-zinc-700 rounded-xl font-bold transition text-sm">다음달 &gt;</button>
+                </div>
+
+                <!-- 요일 헤더 -->
+                <div class="grid grid-cols-7 gap-1 md:gap-2 text-center font-bold text-zinc-500 text-xs md:text-sm mb-2">
+                    <div class="text-red-500">일</div>
+                    <div>월</div>
+                    <div>화</div>
+                    <div>수</div>
+                    <div>목</div>
+                    <div>금</div>
+                    <div class="text-blue-500">토</div>
+                </div>
+
+                <!-- 날짜 그리드 -->
+                <div id="calendar-grid" class="grid grid-cols-7 gap-1.5 md:gap-2"></div>
+            </div>
+        </main>
+    </div>
+
+    <!-- 관리자 모드 진입 버튼 (하단) -->
+    <footer class="text-center py-6 text-zinc-500 text-xs border-t border-zinc-800 mt-12 flex flex-col items-center gap-2">
+        <p>본 사이트는 스트리머를 응원하기 위해 팬이 제작한 비공식 일정표입니다.</p>
+        <button onclick="openAdminLogin()" class="text-zinc-400 hover:text-white bg-zinc-900 border border-zinc-800 px-3 py-1 rounded-md text-xs transition mt-1">⚙️ 관리자 모드 (일정 추가/편집)</button>
+    </footer>
+
+    <!-- [모달 1] 날짜 클릭 시 상세 및 다시보기 팝업 -->
+    <div id="detail-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
+        <div class="bg-zinc-900 border border-zinc-800 rounded-2xl max-w-md w-full p-6 text-white shadow-2xl relative">
+            <h3 id="modal-date-title" class="text-lg font-black text-red-500 mb-2">2024-08-01 일정</h3>
+            <div id="modal-content-body" class="space-y-4 my-4 text-sm text-zinc-300">
+                <!-- 동적 내용 -->
+            </div>
+            <div class="flex justify-end gap-2 mt-6">
+                <button onclick="closeDetailModal()" class="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 rounded-xl text-xs font-bold transition">닫기</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- [모달 2] 관리자 로그인 팝업 -->
+    <div id="admin-login-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
+        <div class="bg-zinc-900 border border-zinc-800 rounded-2xl max-w-sm w-full p-6 text-white shadow-2xl">
+            <h3 class="text-lg font-bold mb-4">관리자 인증</h3>
+            <p class="text-xs text-zinc-400 mb-4">관리자 비밀번호를 입력하세요. (기본 비밀번호: <code class="text-red-400 font-bold">1234</code>)</p>
+            <input type="password" id="admin-pw-input" placeholder="비밀번호" class="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-2 text-sm mb-4 focus:outline-none focus:border-red-500">
+            <div class="flex justify-end gap-2">
+                <button onclick="closeAdminLogin()" class="px-3 py-2 bg-zinc-800 hover:bg-zinc-700 rounded-xl text-xs font-bold transition">취소</button>
+                <button onclick="verifyAdmin()" class="px-4 py-2 bg-red-600 hover:bg-red-700 rounded-xl text-xs font-bold transition">확인</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- [모달 3] 관리자 편집(추가/수정/삭제) 대시보드 팝업 -->
+    <div id="admin-panel-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden items-center justify-center z-50 p-4 overflow-y-auto">
+        <div class="bg-zinc-900 border border-zinc-800 rounded-2xl max-w-xl w-full p-6 text-white shadow-2xl my-8">
+            <div class="flex justify-between items-center mb-4 border-b border-zinc-800 pb-3">
+                <h3 class="text-xl font-black text-red-500">🛠️ 일정 관리 패널 (관리자 모드)</h3>
+                <button onclick="closeAdminPanel()" class="text-zinc-400 hover:text-white font-bold text-lg">✕</button>
+            </div>
+
+            <!-- 일정 입력 폼 -->
+            <div class="bg-zinc-800/50 p-4 rounded-xl border border-zinc-700/60 mb-6 space-y-3">
+                <h4 class="font-bold text-sm text-zinc-200">일정 추가 / 수정</h4>
+                <div>
+                    <label class="block text-xs text-zinc-400 mb-1">날짜 선택</label>
+                    <input type="date" id="form-date" class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500">
+                </div>
+                <div>
+                    <label class="block text-xs text-zinc-400 mb-1">방송 종류</label>
+                    <select id="form-type" class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500">
+                        <option value="collab">합방 (연두색)</option>
+                        <option value="solo">갠방 (하늘색)</option>
+                        <option value="event">이벤트 (노란색)</option>
+                        <option value="rest">휴방 (회색)</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs text-zinc-400 mb-1">방송 제목 / 요약 내용</label>
+                    <input type="text" id="form-title" placeholder="예: 마인크래프트 합동 방송" class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500">
+                </div>
+                <div>
+                    <label class="block text-xs text-zinc-400 mb-1">다시보기 링크 (선택사항, 유튜브 URL 등)</label>
+                    <input type="text" id="form-link" placeholder="https://youtube.com/..." class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500">
+                </div>
+                <div>
+                    <label class="block text-xs text-zinc-400 mb-1">상세 설명 (선택사항)</label>
+                    <textarea id="form-desc" rows="2" placeholder="방송 상세 내용 입력..." class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500"></textarea>
+                </div>
+                <div class="flex justify-end gap-2 pt-2">
+                    <button onclick="resetForm()" class="px-3 py-1.5 bg-zinc-700 hover:bg-zinc-600 rounded-lg text-xs font-bold transition">초기화</button>
+                    <button onclick="saveSchedule()" class="px-4 py-1.5 bg-red-600 hover:bg-red-700 rounded-lg text-xs font-bold transition">저장하기</button>
+                </div>
+            </div>
+
+            <!-- 등록된 일정 목록 보기 및 삭제 -->
+            <div>
+                <h4 class="font-bold text-sm text-zinc-200 mb-2">등록된 전체 일정 목록</h4>
+                <div id="admin-schedule-list" class="max-h-48 overflow-y-auto space-y-2 pr-1 text-xs">
+                    <!-- 자바스크립트로 로드 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 핵심 로직 스크립트 -->
+    <script>
+        // 하드코딩된 예시 데이터를 삭제하고, 브라우저 저장소(localStorage)에서 관리하도록 완전히 변경했습니다.
+        let schedules = JSON.parse(localStorage.getItem('stream_schedules')) || {};
+
+        const today = new Date();
+        let currentYear = today.getFullYear();
+        let currentMonth = today.getMonth(); // 0~11
+
+        // 2024년 8월부터 현재 연도 + 2년 뒤까지 연도 셀렉트박스 생성
+        function initSelectBoxes() {
+            const yearSelect = document.getElementById('year-select');
+            const monthSelect = document.getElementById('month-select');
+
+            yearSelect.innerHTML = '';
+            for (let y = 2024; y <= today.getFullYear() + 2; y++) {
+                const opt = document.createElement('option');
+                opt.value = y;
+                opt.innerText = `${y}년`;
+                yearSelect.appendChild(opt);
+            }
+
+            monthSelect.innerHTML = '';
+            for (let m = 1; m <= 12; m++) {
+                const opt = document.createElement('option');
+                opt.value = m - 1;
+                opt.innerText = `${m}월`;
+                monthSelect.appendChild(opt);
+            }
+        }
+
+        function updateSelectBoxesUI() {
+            document.getElementById('year-select').value = currentYear;
+            document.getElementById('month-select').value = currentMonth;
+        }
+
+        function onSelectYearMonth() {
+            currentYear = parseInt(document.getElementById('year-select').value);
+            currentMonth = parseInt(document.getElementById('month-select').value);
+            renderCalendar();
+        }
+
+        function renderCalendar() {
+            updateSelectBoxesUI();
+            const grid = document.getElementById('calendar-grid');
+            const title = document.getElementById('calendar-title');
+            grid.innerHTML = '';
+
+            title.innerText = `${currentYear}년 ${currentMonth + 1}월`;
+
+            const firstDayIndex = new Date(currentYear, currentMonth, 1).getDay();
+            const totalDays = new Date(currentYear, currentMonth + 1, 0).getDate();
+
+            // 이전 달 빈 칸
+            for (let i = 0; i < firstDayIndex; i++) {
+                const emptyCell = document.createElement('div');
+                emptyCell.className = "h-24 md:h-32 bg-zinc-50/40 rounded-xl";
+                grid.appendChild(emptyCell);
+            }
+
+            // 이번 달 날짜 채우기
+            for (let day = 1; day <= totalDays; day++) {
+                const dateStr = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                const schedule = schedules[dateStr];
+
+                const cell = document.createElement('div');
+                cell.className = "h-24 md:h-32 border border-zinc-100 rounded-xl p-1.5 md:p-2 flex flex-col justify-between bg-white transition hover:shadow-lg cursor-pointer relative overflow-hidden";
+                cell.onclick = () => openDetailModal(dateStr);
+
+                // 색상 테마 지정 (합방:연두, 갠방:하늘, 이벤트:노랑, 휴방:회색)
+                let badgeColor = "";
+                if (schedule) {
+                    if (schedule.type === 'collab') badgeColor = "bg-emerald-100 border-emerald-300 text-emerald-900";
+                    else if (schedule.type === 'solo') badgeColor = "bg-sky-100 border-sky-300 text-sky-900";
+                    else if (schedule.type === 'event') badgeColor = "bg-amber-100 border-amber-300 text-amber-900";
+                    else if (schedule.type === 'rest') badgeColor = "bg-zinc-200 border-zinc-300 text-zinc-600";
+                }
+
+                // 오늘 날짜 강조 하이라이트
+                const isToday = (day === today.getDate() && currentMonth === today.getMonth() && currentYear === today.getFullYear());
+                
+                const dayNumber = document.createElement('div');
+                dayNumber.className = `text-xs md:text-sm font-bold w-6 h-6 flex items-center justify-center rounded-full ${isToday ? 'bg-red-600 text-white' : 'text-zinc-700'}`;
+                dayNumber.innerText = day;
+                cell.appendChild(dayNumber);
+
+                // 일정 카드 배지 표시
+                if (schedule) {
+                    const contentBadge = document.createElement('div');
+                    contentBadge.className = `text-[10px] md:text-xs font-bold p-1 md:p-1.5 rounded-lg border ${badgeColor} mt-auto overflow-hidden text-ellipsis line-clamp-2`;
+                    contentBadge.innerText = schedule.title;
+                    cell.appendChild(contentBadge);
+                }
+
+                grid.appendChild(cell);
+            }
+        }
+
+        function changeMonth(direction) {
+            currentMonth += direction;
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            } else if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            }
+            if (currentYear < 2024 || (currentYear === 2024 && currentMonth < 7)) {
+                currentYear = 2024;
+                currentMonth = 7; // 8월
+            }
+            renderCalendar();
+        }
+
+        function goToday() {
+            currentYear = today.getFullYear();
+            currentMonth = today.getMonth();
+            renderCalendar();
+        }
+
+        // --- 상세 팝업 모달 로직 ---
+        function openDetailModal(dateStr) {
+            const modal = document.getElementById('detail-modal');
+            const titleEl = document.getElementById('modal-date-title');
+            const bodyEl = document.getElementById('modal-content-body');
+
+            titleEl.innerText = `${dateStr} 방송 일정`;
+            const schedule = schedules[dateStr];
+
+            if (schedule) {
+                let typeText = "";
+                if (schedule.type === 'collab') typeText = "🟢 합방";
+                else if (schedule.type === 'solo') typeText = "🔵 갠방";
+                else if (schedule.type === 'event') typeText = "🟡 이벤트";
+                else if (schedule.type === 'rest') typeText = "⚪ 휴방";
+
+                bodyEl.innerHTML = `
+                    <p><strong>분류:</strong> ${typeText}</p>
+                    <p><strong>제목:</strong> ${schedule.title}</p>
+                    <p><strong>상세 설명:</strong> ${schedule.desc || '등록된 상세 설명이 없습니다.'}</p>
+                    ${schedule.link ? `<p class="pt-2"><a href="${schedule.link}" target="_blank" class="inline-block bg-red-600 hover:bg-red-700 text-white font-bold px-4 py-2 rounded-xl text-xs transition">📺 다시보기 / 관련 링크 ↗</a></p>` : '<p class="text-zinc-500 text-xs">다시보기 링크가 없습니다.</p>'}
+                `;
+            } else {
+                bodyEl.innerHTML = `<p class="text-zinc-400 py-4 text-center">이 날은 등록된 방송 일정이 없습니다.</p>`;
+            }
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeDetailModal() {
+            const modal = document.getElementById('detail-modal');
+            modal.classList.remove('flex');
+            modal.classList.add('hidden');
+        }
+
+        // --- 관리자 인증 및 패널 로직 ---
+        function openAdminLogin() {
+            document.getElementById('admin-pw-input').value = '';
+            const modal = document.getElementById('admin-login-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeAdminLogin() {
+            const modal = document.getElementById('admin-login-modal');
+            modal.classList.remove('flex');
+            modal.classList.add('hidden');
+        }
+
+        function verifyAdmin() {
+            const pw = document.getElementById('admin-pw-input').value;
+            if (pw === '1234') { 
+                closeAdminLogin();
+                openAdminPanel();
+            } else {
+                alert('비밀번호가 틀렸습니다!');
+            }
+        }
+
+        function openAdminPanel() {
+            renderAdminList();
+            const modal = document.getElementById('admin-panel-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeAdminPanel() {
+            const modal = document.getElementById('admin-panel-modal');
+            modal.classList.remove('flex');
+            modal.classList.add('hidden');
+            renderCalendar(); 
+        }
+
+        function resetForm() {
+            document.getElementById('form-date').value = '';
+            document.getElementById('form-title').value = '';
+            document.getElementById('form-link').value = '';
+            document.getElementById('form-desc').value = '';
+        }
+
+        function saveSchedule() {
+            const date = document.getElementById('form-date').value;
+            const type = document.getElementById('form-type').value;
+            const title = document.getElementById('form-title').value;
+            const link = document.getElementById('form-link').value;
+            const desc = document.getElementById('form-desc').value;
+
+            if (!date || !title) {
+                alert('날짜와 방송 제목은 필수 입력 항목입니다!');
+                return;
+            }
+
+            schedules[date] = { type, title, link, desc };
+            localStorage.setItem('stream_schedules', JSON.stringify(schedules));
+            
+            alert('일정이 성공적으로 저장되었습니다!');
+            resetForm();
+            renderAdminList();
+        }
+
+        function deleteSchedule(date) {
+            if (confirm(`${date} 일정을 삭제하시겠습니까?`)) {
+                delete schedules[date];
+                localStorage.setItem('stream_schedules', JSON.stringify(schedules));
+                renderAdminList();
+            }
+        }
+
+        function renderAdminList() {
+            const listContainer = document.getElementById('admin-schedule-list');
+            listContainer.innerHTML = '';
+
+            const sortedKeys = Object.keys(schedules).sort().reverse();
+
+            if (sortedKeys.length === 0) {
+                listContainer.innerHTML = `<p class="text-zinc-500 text-center py-4">등록된 일정이 없습니다.</p>`;
+                return;
+            }
+
+            sortedKeys.forEach(date => {
+                const item = schedules[date];
+                const row = document.createElement('div');
+                row.className = "flex items-center justify-between bg-zinc-800 p-2.5 rounded-xl border border-zinc-700";
+                row.innerHTML = `
+                    <div>
+                        <span class="font-bold text-red-400 mr-2">[${date}]</span>
+                        <span class="text-zinc-200">${item.title}</span>
+                    </div>
+                    <button onclick="deleteSchedule('${date}')" class="bg-red-900/40 hover:bg-red-700 text-red-300 px-2 py-1 rounded-lg text-[11px] transition">삭제</button>
+                `;
+                listContainer.appendChild(row);
+            });
+        }
+
+        // 초기 실행
+        initSelectBoxes();
+        renderCalendar();
+    </script>
+</body>
+</html>
