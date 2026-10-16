@@ -239,13 +239,14 @@
                             <option value="1">2월</option>
                             <option value="2">3월</option>
                             <option value="3">4월</option>
-                            <option value="5">5월</option>
-                            <option value="6">6월</option>
-                            <option value="7">7월</option>
-                            <option value="8">8월</option>
-                            <option value="9">9월</option>
-                            <option value="10">10월</option>
-                            <option value="11">11월</option>
+                            <option value="4">5월</option>
+                            <option value="5">6월</option>
+                            <option value="6">7월</option>
+                            <option value="7">8월</option>
+                            <option value="8">9월</option>
+                            <option value="9">10월</option>
+                            <option value="10">11월</option>
+                            <option value="11">12월</option>
                         </select>
                         <select id="admin-filter-sort" onchange="renderAdminList()" class="bg-zinc-800 text-xs border border-zinc-700 rounded-md px-2 py-1 focus:outline-none text-zinc-300">
                             <option value="desc">최신순</option>
@@ -477,7 +478,7 @@
                     const uniqueGames = [...new Set(matchedSchedules.map(s => s.game).filter(Boolean))];
                     uniqueGames.forEach(gName => {
                         const gameBadge = document.createElement('span');
-                        gameBadge.className = "text-[9px] md:text-[10px] bg-white text-black font-extrabold px-1 py-0.5 rounded-full border border-black truncate max-w-[65px]";
+                        gameBadge.className = "text-[9.5px] md:text-[10.5px] bg-white text-black font-extrabold px-1 py-0.5 rounded-full border border-black truncate max-w-[68px]";
                         gameBadge.innerText = gName;
                         topHeader.appendChild(gameBadge);
                     });
@@ -494,11 +495,12 @@
                         if (validItemCount < 5) {
                             const badge = document.createElement('div');
                             
+                            // 🔍 [글씨 크기 0.5pt 상향: text-[10.5px] md:text-[13px]]
                             if (sch.type === 'rest') {
-                                badge.className = "text-[10px] md:text-xs px-2 py-1 rounded bg-transparent text-zinc-800 font-semibold truncate";
+                                badge.className = "text-[10.5px] md:text-[13px] px-2 py-1 rounded bg-transparent text-zinc-800 font-semibold truncate";
                             } else {
                                 const customColorStyle = ITEM_COLOR_MAP[sch.color || 'default'] || ITEM_COLOR_MAP['default'];
-                                badge.className = `text-[10px] md:text-xs px-2 py-1 rounded font-semibold truncate border ${customColorStyle}`;
+                                badge.className = `text-[10.5px] md:text-[13px] px-2 py-1 rounded font-semibold truncate border ${customColorStyle}`;
                             }
                             
                             const gamePrefix = sch.game ? `[${sch.game}] ` : '';
@@ -511,7 +513,7 @@
 
                 if (validItemCount > 5) {
                     const moreBadge = document.createElement('div');
-                    moreBadge.className = "text-[9px] text-zinc-500 font-bold text-right mt-0.5";
+                    moreBadge.className = "text-[9.5px] text-zinc-500 font-bold text-right mt-0.5";
                     moreBadge.innerText = `+${validItemCount - 5}개 더보기`;
                     listContainer.appendChild(moreBadge);
                 }
@@ -522,7 +524,8 @@
                 const anniversaryItem = matchedSchedules.find(s => s.anniversary && s.anniversary.trim() !== '');
                 if (anniversaryItem) {
                     const anniFooter = document.createElement('div');
-                    anniFooter.className = "text-[10px] md:text-xs font-black text-red-600 truncate text-center pt-1 mt-1 border-t border-red-200/80 tracking-tight shrink-0";
+                    // 🔍 [글씨 크기 0.5pt 상향: text-[10.5px] md:text-[13px]]
+                    anniFooter.className = "text-[10.5px] md:text-[13px] font-black text-red-600 truncate text-center pt-1 mt-1 border-t border-red-200/80 tracking-tight shrink-0 whitespace-pre-line";
                     anniFooter.innerText = anniversaryItem.anniversary;
                     cell.appendChild(anniFooter);
                 }
@@ -569,7 +572,7 @@
                     uniqueAnniversaries.forEach(anniText => {
                         html += `
                             <div class="bg-red-950/60 border border-red-800/80 p-3 rounded-xl text-center mb-4">
-                                <span class="text-sm font-black text-red-400">${anniText}</span>
+                                <span class="text-sm md:text-base font-black text-red-400 whitespace-pre-line">${anniText}</span>
                             </div>
                         `;
                     });
@@ -586,19 +589,21 @@
                         let gameText = sch.game ? `<span class="bg-white text-black border border-black px-2 py-0.5 rounded text-xs ml-2 font-bold">${sch.game}</span>` : '';
                         let periodText = sch.endDate && sch.endDate !== sch.startDate ? `<p class="text-xs text-zinc-400 mt-1">기간: ${sch.startDate} ~ ${sch.endDate}</p>` : '';
 
+                        // 👥 참여 멤버 HTML
                         let membersText = sch.members ? `
                             <div class="mt-2.5 bg-zinc-800/90 p-3 rounded-xl border border-zinc-700/60">
                                 <span class="block text-xs font-bold text-red-400 mb-1.5">👥 참여 멤버</span>
-                                <div class="text-zinc-200 text-xs leading-relaxed whitespace-pre-wrap break-words">${sch.members}</div>
+                                <div class="text-zinc-200 text-xs md:text-sm leading-relaxed whitespace-pre-wrap break-words">${sch.members}</div>
                             </div>` : '';
 
+                        // 📝 상세 설명 HTML
                         let descText = sch.desc ? `
-                            <div class="mt-2 bg-zinc-800/50 p-3 rounded-xl border border-zinc-700/40">
+                            <div class="mt-2.5 bg-zinc-800/50 p-3 rounded-xl border border-zinc-700/40">
                                 <span class="block text-xs font-bold text-sky-400 mb-1.5">📝 상세 설명</span>
-                                <div class="text-zinc-300 text-xs leading-relaxed whitespace-pre-wrap break-words">${sch.desc}</div>
+                                <div class="text-zinc-300 text-xs md:text-sm leading-relaxed whitespace-pre-wrap break-words">${sch.desc}</div>
                             </div>` : '';
 
-                        let summaryText = sch.summary ? `<p class="font-bold text-sm md:text-base mt-1.5 text-white">${sch.summary}</p>` : '';
+                        let summaryText = sch.summary ? `<p class="font-bold text-base md:text-lg mt-1.5 text-white">${sch.summary}</p>` : '';
 
                         let typeHeaderHtml = typeText ? `
                             <div class="flex items-center justify-between">
@@ -606,13 +611,14 @@
                             </div>
                         ` : (gameText ? `<div class="flex items-center justify-between"><span class="font-bold text-white">${gameText}</span></div>` : '');
 
+                        // 🔄 [순서 변경]: 제목(summaryText) -> 상세 설명(descText) -> 참여 멤버(membersText)
                         html += `
                             <div class="border-b border-zinc-800 pb-4 mb-4 last:border-b-0 last:pb-0 last:mb-0">
                                 ${typeHeaderHtml}
                                 ${summaryText}
                                 ${periodText}
-                                ${membersText}
                                 ${descText}
+                                ${membersText}
                             </div>
                         `;
                     }
@@ -667,7 +673,7 @@
             document.getElementById('admin-filter-month').value = currentMonth;
             document.getElementById('admin-search-input').value = '';
 
-            // 📅 [추가] 시작일 날짜 입력창에도 현재 보고 있는 달의 1일을 기본값으로 자동 설정!
+            // 📅 시작일 날짜 입력창에도 현재 보고 있는 달의 1일을 기본값으로 자동 설정
             const defaultDateStr = formatDateStr(currentYear, currentMonth, 1);
             document.getElementById('form-start-date').value = defaultDateStr;
             
