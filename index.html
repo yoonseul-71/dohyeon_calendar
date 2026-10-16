@@ -239,14 +239,13 @@
                             <option value="1">2월</option>
                             <option value="2">3월</option>
                             <option value="3">4월</option>
-                            <option value="4">5월</option>
-                            <option value="5">6월</option>
-                            <option value="6">7월</option>
-                            <option value="7">8월</option>
-                            <option value="8">9월</option>
-                            <option value="9">10월</option>
-                            <option value="10">11월</option>
-                            <option value="11">12월</option>
+                            <option value="5">5월</option>
+                            <option value="6">6월</option>
+                            <option value="7">7월</option>
+                            <option value="8">8월</option>
+                            <option value="9">9월</option>
+                            <option value="10">10월</option>
+                            <option value="11">11월</option>
                         </select>
                         <select id="admin-filter-sort" onchange="renderAdminList()" class="bg-zinc-800 text-xs border border-zinc-700 rounded-md px-2 py-1 focus:outline-none text-zinc-300">
                             <option value="desc">최신순</option>
@@ -663,10 +662,14 @@
 
         window.openAdminPanel = function() {
             window.resetForm();
-            // 🔄 [핵심 수정] 현재 보고 있던 캘린더 연/월을 관리자 패널 필터에 자동 동기화
+            // 🔄 현재 보고 있던 캘린더 연/월을 관리자 패널 필터에 자동 동기화
             document.getElementById('admin-filter-year').value = currentYear;
             document.getElementById('admin-filter-month').value = currentMonth;
             document.getElementById('admin-search-input').value = '';
+
+            // 📅 [추가] 시작일 날짜 입력창에도 현재 보고 있는 달의 1일을 기본값으로 자동 설정!
+            const defaultDateStr = formatDateStr(currentYear, currentMonth, 1);
+            document.getElementById('form-start-date').value = defaultDateStr;
             
             window.renderAdminList();
             const modal = document.getElementById('admin-panel-modal');
@@ -683,7 +686,8 @@
 
         window.resetForm = function() {
             document.getElementById('edit-target-id').value = '';
-            document.getElementById('form-start-date').value = '';
+            // 📅 폼 초기화 시에도 현재 캘린더 연월의 1일로 설정
+            document.getElementById('form-start-date').value = formatDateStr(currentYear, currentMonth, 1);
             document.getElementById('form-end-date').value = '';
             document.getElementById('form-type').value = 'none';
             document.getElementById('form-game').value = '';
