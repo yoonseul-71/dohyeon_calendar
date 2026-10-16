@@ -672,10 +672,8 @@
             }
 
             const scheduleId = editId ? editId : 'sch_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7);
-
             const scheduleData = { startDate, endDate, type, game, color, summary, anniversary, members, desc };
             
-            // Firebase에 데이터 저장/수정
             set(ref(db, 'schedules/' + scheduleId), scheduleData)
                 .then(() => {
                     alert(editId ? '일정이 성공적으로 수정되었습니다!' : '일정이 성공적으로 추가되었습니다!');
@@ -790,19 +788,38 @@
             });
         }
 
-        // 🔄 Firebase 실시간 데이터 동기화 리스너
+        // 🔄 [데이터 복구 마이그레이션 및 실시간 동기화]
         const schedulesRef = ref(db, 'schedules');
+        
         onValue(schedulesRef, (snapshot) => {
             const data = snapshot.val();
+            
+            // 만약 파이어베이스에 데이터가 아예 비어있고, 브라우저 로컬스토리지에 예전 데이터가 있다면 자동 업로드!
+            if (!data) {
+                const localDataStr = localStorage.getItem('stream_schedules_v3');
+                if (localDataStr) {
+                    try {
+                        const parsedLocalData = JSON.parse(localDataStr);
+                        if (parsedLocalData && Object.keys(parsedLocalData).length > 0) {
+                            console.log("기존 로컬 데이터 발견! Firebase로 자동 이전합니다.");
+                            set(schedulesRef, parsedLocalData).then(() => {
+                                alert('기존에 입력하셨던 2달치 일정이 안전하게 클라우드(Firebase)로 복구되었습니다!');
+                            });
+                            return;
+                        }
+                    } catch (e) {
+                        console.error("로컬 데이터 파싱 오류", e);
+                    }
+                }
+            }
+
             schedules = data || {};
             renderCalendar();
-            // 만약 관리자 패널이 열려있다면 리스트도 실시간 갱신
             if (!document.getElementById('admin-panel-modal').classList.contains('hidden')) {
                 window.renderAdminList();
             }
         });
 
-        // 초기 화면 실행
         initSelectBoxes();
     </script>
 </body>
