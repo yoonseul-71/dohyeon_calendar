@@ -83,7 +83,7 @@
         </main>
     </div>
 
-    <!-- 푸터 (모바일 우측 하단 히든 트리거 포함) -->
+    <!-- 푸터 -->
     <footer class="max-w-[1400px] mx-auto w-full px-4 py-6 text-zinc-500 text-xs border-t border-zinc-800 mt-12 flex flex-row items-center justify-between gap-4 select-none">
         <p class="text-left">본 사이트는 비공식 일정표로 스트리머의 사정에 따라 일정이 변경될 수 있습니다.</p>
         <div class="flex items-center gap-3 shrink-0 relative">
@@ -663,6 +663,7 @@
 
         window.openAdminPanel = function() {
             window.resetForm();
+            // 🔄 [핵심 수정] 현재 보고 있던 캘린더 연/월을 관리자 패널 필터에 자동 동기화
             document.getElementById('admin-filter-year').value = currentYear;
             document.getElementById('admin-filter-month').value = currentMonth;
             document.getElementById('admin-search-input').value = '';
