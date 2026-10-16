@@ -83,7 +83,7 @@
         </main>
     </div>
 
-    <!-- 푸터 (안내 문구 수정 적용) -->
+    <!-- 푸터 -->
     <footer class="max-w-[1550px] mx-auto w-full px-4 py-6 text-zinc-500 text-xs border-t border-zinc-800 mt-12 flex flex-row items-center justify-between gap-4 select-none">
         <p class="text-left">본 사이트는 비공식 일정표로 스트리머의 사정에 따라 일정이 변경될 수 있습니다.</p>
         <div class="flex items-center gap-3 shrink-0 relative">
@@ -286,7 +286,7 @@
         const db = getDatabase(app);
 
         // 🔑 [관리자 비밀번호 설정]
-        const ADMIN_PASSWORD = "1520711";
+        const ADMIN_PASSWORD = "1234";
 
         let schedules = {};
 
@@ -520,12 +520,27 @@
                 topGroup.appendChild(listContainer);
                 cell.appendChild(topGroup);
 
-                const anniversaryItem = matchedSchedules.find(s => s.anniversary && s.anniversary.trim() !== '');
-                if (anniversaryItem) {
-                    const anniFooter = document.createElement('div');
-                    anniFooter.className = "text-[10.5px] md:text-[13px] font-black text-red-600 truncate text-center pt-1 mt-1 border-t border-red-200/80 tracking-tight shrink-0 whitespace-pre-line";
-                    anniFooter.innerText = anniversaryItem.anniversary;
-                    cell.appendChild(anniFooter);
+                // 📌 해당 날짜에 포함된 모든 하단 강조 문구(anniversary)를 추출하여 각각 모두 렌더링
+                const allAnniversaries = [];
+                matchedSchedules.forEach(s => {
+                    if (s.anniversary && s.anniversary.trim() !== '') {
+                        // 중복 입력 방지용이 아니라면 전부 추가 (원하시면 배열 내 유니크 처리 가능)
+                        allAnniversaries.push(s.anniversary);
+                    }
+                });
+
+                if (allAnniversaries.length > 0) {
+                    const anniFooterContainer = document.createElement('div');
+                    anniFooterContainer.className = "pt-1 mt-1 border-t border-red-200/80 flex flex-col gap-0.5 shrink-0";
+                    
+                    allAnniversaries.forEach(anniText => {
+                        const anniEl = document.createElement('div');
+                        anniEl.className = "text-[10px] md:text-[12px] font-black text-red-600 truncate text-center tracking-tight whitespace-pre-line";
+                        anniEl.innerText = anniText;
+                        anniFooterContainer.appendChild(anniEl);
+                    });
+                    
+                    cell.appendChild(anniFooterContainer);
                 }
 
                 grid.appendChild(cell);
@@ -564,7 +579,13 @@
             if (schedulesList && schedulesList.length > 0) {
                 let html = "";
 
-                const uniqueAnniversaries = [...new Set(schedulesList.map(s => s.anniversary).filter(a => a && a.trim() !== ''))];
+                // 모든 하단 강조 문구 수집
+                const uniqueAnniversaries = [];
+                schedulesList.forEach(s => {
+                    if (s.anniversary && s.anniversary.trim() !== '' && !uniqueAnniversaries.includes(s.anniversary)) {
+                        uniqueAnniversaries.push(s.anniversary);
+                    }
+                });
                 
                 if (uniqueAnniversaries.length > 0) {
                     uniqueAnniversaries.forEach(anniText => {
