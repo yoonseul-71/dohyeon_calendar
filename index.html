@@ -147,7 +147,6 @@
                     <div>
                         <label class="block text-xs text-zinc-400 mb-1">방송 종류</label>
                         <select id="form-type" class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500">
-                            <!-- 📌 기본 선택값을 '도현방송(solo)'으로 변경 -->
                             <option value="solo" selected>도현방송</option>
                             <option value="collab">타스방송</option>
                             <option value="event">이벤트</option>
@@ -195,6 +194,10 @@
                         </button>
                         <button type="button" onclick="selectItemColor('purple')" data-color-key="purple" class="color-btn border border-zinc-700 bg-purple-100 text-purple-900 px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1 transition">
                             <span class="w-3 h-3 rounded-full bg-purple-200 border border-purple-400 inline-block"></span> 연보라
+                        </button>
+                        <!-- 📌 추가된 연청록(총겜동용) 버튼 -->
+                        <button type="button" onclick="selectItemColor('teal')" data-color-key="teal" class="color-btn border border-zinc-700 bg-teal-100 text-teal-900 px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1 transition">
+                            <span class="w-3 h-3 rounded-full bg-teal-200 border border-teal-400 inline-block"></span> 연청록
                         </button>
                     </div>
                 </div>
@@ -335,7 +338,8 @@
             pink: "bg-pink-100 text-pink-900 border-pink-300/80",
             blue: "bg-sky-100 text-sky-900 border-sky-300/80",
             green: "bg-emerald-100 text-emerald-900 border-emerald-300/80",
-            purple: "bg-purple-100 text-purple-900 border-purple-300/80"
+            purple: "bg-purple-100 text-purple-900 border-purple-300/80",
+            teal: "bg-teal-100 text-teal-900 border-teal-300/80"
         };
 
         window.selectItemColor = function(colorKey) {
@@ -708,7 +712,6 @@
             document.getElementById('edit-target-id').value = '';
             document.getElementById('form-start-date').value = formatDateStr(currentYear, currentMonth, 1);
             document.getElementById('form-end-date').value = '';
-            // 📌 폼 초기화 시 기본 선택값을 '도현방송(solo)'으로 지정
             document.getElementById('form-type').value = 'solo';
             document.getElementById('form-game').value = '';
             document.getElementById('form-summary').value = '';
