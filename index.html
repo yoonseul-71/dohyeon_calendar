@@ -16,11 +16,10 @@
 
     <div>
         <!-- 상단 배너 영역 -->
-        <header class="w-full bg-[#0a0a0a] border-b border-red-900/45 relative overflow-hidden select-none">
+        <header class="w-full bg-[#0a0a0a] border-b border-red-900/45 relative overflow-hidden">
             <div class="max-w-[1400px] mx-auto px-4 py-8 md:py-12 flex flex-col md:flex-row items-center justify-between gap-6">
                 <div class="text-center md:text-left z-10">
-                    <!-- 📱 모바일 터치 트리거: DOHYEON CALENDAR 타이틀 3회 연속 클릭시 로그인 창 호출 -->
-                    <h1 onclick="handleTitleClick()" class="text-3xl md:text-5xl font-black italic tracking-wider text-white drop-shadow-[0_2px_10px_rgba(255,0,0,0.5)] cursor-pointer">
+                    <h1 class="text-3xl md:text-5xl font-black italic tracking-wider text-white drop-shadow-[0_2px_10px_rgba(255,0,0,0.5)]">
                         DOHYEON <span class="text-red-600">CALENDAR</span>
                     </h1>
                 </div>
@@ -84,11 +83,13 @@
         </main>
     </div>
 
-    <!-- 푸터 -->
+    <!-- 푸터 (모바일 우측 하단 히든 트리거 포함) -->
     <footer class="max-w-[1400px] mx-auto w-full px-4 py-6 text-zinc-500 text-xs border-t border-zinc-800 mt-12 flex flex-row items-center justify-between gap-4 select-none">
         <p class="text-left">본 사이트는 비공식 일정표로 스트리머의 사정에 따라 일정이 변경될 수 있습니다.</p>
-        <div class="flex items-center gap-3 shrink-0">
+        <div class="flex items-center gap-3 shrink-0 relative">
             <span class="text-zinc-600 font-semibold tracking-wide">made by 윤슬ツ</span>
+            <!-- 📱 모바일 우측 하단 투명 히든 트리거 영역 (3회 연속 탭 시 관리자창 오픈) -->
+            <div onclick="handleMobileTrigger()" class="absolute -right-2 -top-2 w-12 h-12 z-50 cursor-pointer"></div>
         </div>
     </footer>
 
@@ -301,20 +302,20 @@
             }
         });
 
-        // 📱 [모바일 전용: 상단 타이틀 3회 연속 클릭 트리거]
-        let titleClickCount = 0;
-        let titleClickTimer = null;
+        // 📱 [모바일 전용: 푸터 우측 하단 히든 영역 3회 연속 탭 트리거]
+        let mobileTriggerCount = 0;
+        let mobileTriggerTimer = null;
 
-        window.handleTitleClick = function() {
-            titleClickCount++;
-            if (titleClickCount === 1) {
-                titleClickTimer = setTimeout(() => {
-                    titleClickCount = 0;
-                }, 1200); // 1.2초 내 연속 클릭 안 할시 초기화
-            } else if (titleClickCount >= 3) {
-                clearTimeout(titleClickTimer);
-                titleClickCount = 0;
-                window.openAdminLogin(); // 3회 터치 시 관리자 모달 출력
+        window.handleMobileTrigger = function() {
+            mobileTriggerCount++;
+            if (mobileTriggerCount === 1) {
+                mobileTriggerTimer = setTimeout(() => {
+                    mobileTriggerCount = 0;
+                }, 1200); // 1.2초 내 연속 탭 안 할 시 초기화
+            } else if (mobileTriggerCount >= 3) {
+                clearTimeout(mobileTriggerTimer);
+                mobileTriggerCount = 0;
+                window.openAdminLogin(); // 3회 탭 시 관리자 모달 출력
             }
         };
 
