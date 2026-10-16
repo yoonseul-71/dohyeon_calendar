@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <!-- 📱 모바일에서 PC 화면처럼 넓게 보이고 확대/축소가 가능하도록 뷰포트 설정 -->
-    <meta name="viewport" content="width=1200, initial-scale=1.0">
+    <meta name="viewport" content="width=1350, initial-scale=1.0">
     <title>방송 일정표</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
@@ -15,10 +15,9 @@
 <body class="bg-[#121212] text-white min-h-screen flex flex-col justify-between">
 
     <div>
-        <!-- 상단 배너 영역 -->
+        <!-- 상단 배너 영역 (가로 폭 1550px로 시원하게 확장) -->
         <header class="w-full bg-[#0a0a0a] border-b border-red-900/45 relative overflow-hidden">
-            <!-- ↔️ [가로 폭 확장] max-w-[1400px] -> max-w-[1450px] 로 살짝 넓힘 -->
-            <div class="max-w-[1450px] mx-auto px-4 py-8 md:py-12 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="max-w-[1550px] mx-auto px-4 py-8 md:py-12 flex flex-col md:flex-row items-center justify-between gap-6">
                 <div class="text-center md:text-left z-10">
                     <h1 class="text-3xl md:text-5xl font-black italic tracking-wider text-white drop-shadow-[0_2px_10px_rgba(255,0,0,0.5)]">
                         DOHYEON <span class="text-red-600">CALENDAR</span>
@@ -34,8 +33,8 @@
             <div class="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-red-600 via-red-900 to-transparent"></div>
         </header>
 
-        <!-- 메인 콘텐츠 -->
-        <main class="max-w-[1450px] mx-auto px-4 py-8">
+        <!-- 메인 콘텐츠 (가로 폭 1550px 확장) -->
+        <main class="max-w-[1550px] mx-auto px-2 sm:px-4 py-8">
             
             <!-- 범례 및 컨트롤러 바 -->
             <div class="flex flex-col md:flex-row items-center justify-between gap-4 mb-6 bg-zinc-900/80 p-4 rounded-xl border border-zinc-800">
@@ -54,11 +53,11 @@
                 </div>
             </div>
 
-            <!-- 캘린더 본체 (흰 배경) -->
-            <div class="bg-white text-zinc-900 rounded-2xl shadow-2xl p-4 md:p-6">
+            <!-- 캘린더 본체 (흰 배경, 양옆 여백 줄이고 내부 가로 공간 극대화) -->
+            <div class="bg-white text-zinc-900 rounded-2xl shadow-2xl p-3 md:p-5">
                 
                 <!-- 상단 네비게이션 (이전달 / 오늘 / 다음달) -->
-                <div class="flex justify-between items-center mb-6">
+                <div class="flex justify-between items-center mb-6 px-2">
                     <button onclick="changeMonth(-1)" class="px-3.5 py-2 bg-zinc-100 hover:bg-zinc-200 text-zinc-700 rounded-xl font-bold transition text-sm cursor-pointer">&lt; 이전달</button>
                     <div class="flex items-center gap-3">
                         <h2 id="calendar-title" class="text-xl md:text-2xl font-black text-zinc-800">2026년 10월</h2>
@@ -68,7 +67,7 @@
                 </div>
 
                 <!-- 요일 헤더 -->
-                <div class="grid grid-cols-7 gap-1 md:gap-2.5 text-center font-bold text-zinc-500 text-xs md:text-sm mb-2">
+                <div class="grid grid-cols-7 gap-1.5 md:gap-2 text-center font-bold text-zinc-500 text-xs md:text-sm mb-2">
                     <div class="text-red-500">일</div>
                     <div>월</div>
                     <div>화</div>
@@ -79,13 +78,13 @@
                 </div>
 
                 <!-- 날짜 그리드 -->
-                <div id="calendar-grid" class="grid grid-cols-7 gap-1.5 md:gap-2.5"></div>
+                <div id="calendar-grid" class="grid grid-cols-7 gap-1.5 md:gap-2"></div>
             </div>
         </main>
     </div>
 
-    <!-- 푸터 -->
-    <footer class="max-w-[1450px] mx-auto w-full px-4 py-6 text-zinc-500 text-xs border-t border-zinc-800 mt-12 flex flex-row items-center justify-between gap-4 select-none">
+    <!-- 푸터 (안내 문구 수정 적용) -->
+    <footer class="max-w-[1550px] mx-auto w-full px-4 py-6 text-zinc-500 text-xs border-t border-zinc-800 mt-12 flex flex-row items-center justify-between gap-4 select-none">
         <p class="text-left">본 사이트는 비공식 일정표로 스트리머의 사정에 따라 일정이 변경될 수 있습니다.</p>
         <div class="flex items-center gap-3 shrink-0 relative">
             <span class="text-zinc-600 font-semibold tracking-wide">made by 윤슬ツ</span>
@@ -479,7 +478,7 @@
                     const uniqueGames = [...new Set(matchedSchedules.map(s => s.game).filter(Boolean))];
                     uniqueGames.forEach(gName => {
                         const gameBadge = document.createElement('span');
-                        gameBadge.className = "text-[9.5px] md:text-[10.5px] bg-white text-black font-extrabold px-1 py-0.5 rounded-full border border-black truncate max-w-[72px]";
+                        gameBadge.className = "text-[9.5px] md:text-[10.5px] bg-white text-black font-extrabold px-1 py-0.5 rounded-full border border-black truncate max-w-[80px]";
                         gameBadge.innerText = gName;
                         topHeader.appendChild(gameBadge);
                     });
