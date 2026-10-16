@@ -83,7 +83,7 @@
         </main>
     </div>
 
-    <!-- 푸터 (모바일에서도 항상 한 줄로 정렬되도록 flex-row 고정) -->
+    <!-- 푸터 -->
     <footer class="max-w-[1400px] mx-auto w-full px-4 py-6 text-zinc-500 text-xs border-t border-zinc-800 mt-12 flex flex-row items-center justify-between gap-4">
         <p class="text-left">본 사이트는 비공식 일정표로 스트리머의 사정에 따라 일정이 변경될 수 있습니다.</p>
         <div class="flex items-center gap-3 shrink-0">
@@ -146,7 +146,8 @@
                     <div>
                         <label class="block text-xs text-zinc-400 mb-1">방송 종류</label>
                         <select id="form-type" class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500">
-                            <option value="solo" selected>갠방</option>
+                            <option value="none" selected>선택 안함 (일반)</option>
+                            <option value="solo">갠방</option>
                             <option value="collab">합방</option>
                             <option value="event">이벤트</option>
                             <option value="rest">휴방</option>
@@ -406,7 +407,8 @@
                 let bgStyle = "bg-white border border-zinc-200";
                 let hasRest = matchedSchedules.some(s => s.type === 'rest');
                 
-                const uniqueTypes = [...new Set(matchedSchedules.map(s => s.type))];
+                // 'none'이 아닌 유효한 타입들만 추출
+                const uniqueTypes = [...new Set(matchedSchedules.map(s => s.type).filter(t => t && t !== 'none'))];
 
                 cell.removeAttribute('style');
 
@@ -573,11 +575,15 @@
 
                         let summaryText = sch.summary ? `<p class="font-bold text-sm md:text-base mt-1.5 text-white">${sch.summary}</p>` : '';
 
+                        let typeHeaderHtml = typeText ? `
+                            <div class="flex items-center justify-between">
+                                <span class="font-bold text-white">${typeText} ${gameText}</span>
+                            </div>
+                        ` : (gameText ? `<div class="flex items-center justify-between"><span class="font-bold text-white">${gameText}</span></div>` : '');
+
                         html += `
                             <div class="border-b border-zinc-800 pb-4 mb-4 last:border-b-0 last:pb-0 last:mb-0">
-                                <div class="flex items-center justify-between">
-                                    <span class="font-bold text-white">${typeText} ${gameText}</span>
-                                </div>
+                                ${typeHeaderHtml}
                                 ${summaryText}
                                 ${periodText}
                                 ${membersText}
@@ -652,7 +658,7 @@
             document.getElementById('edit-target-id').value = '';
             document.getElementById('form-start-date').value = '';
             document.getElementById('form-end-date').value = '';
-            document.getElementById('form-type').value = 'solo';
+            document.getElementById('form-type').value = 'none';
             document.getElementById('form-game').value = '';
             document.getElementById('form-summary').value = '';
             document.getElementById('form-anniversary').value = '';
@@ -711,7 +717,7 @@
             document.getElementById('edit-target-id').value = id;
             document.getElementById('form-start-date').value = item.startDate;
             document.getElementById('form-end-date').value = item.endDate || item.startDate;
-            document.getElementById('form-type').value = item.type;
+            document.getElementById('form-type').value = item.type || 'none';
             document.getElementById('form-game').value = item.game || '';
             document.getElementById('form-summary').value = item.summary || '';
             document.getElementById('form-anniversary').value = item.anniversary || '';
