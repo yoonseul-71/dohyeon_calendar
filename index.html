@@ -292,9 +292,9 @@
         let currentYear = today.getFullYear();
         let currentMonth = today.getMonth(); // 0~11
 
-        // ⌨️ [Ctrl + Shift + Q 단축키 리스너]
+        // ⌨️ [Alt + A 단축키 리스너]
         document.addEventListener('keydown', function(event) {
-            if (event.ctrlKey && event.shiftKey && (event.key === 'Q' || event.key === 'q')) {
+            if (event.altKey && (event.key === 'a' || event.key === 'A' || event.key === 'ㅁ')) {
                 event.preventDefault(); // 기본 브라우저 동작 방지
                 window.openAdminLogin();
             }
