@@ -84,7 +84,7 @@
 
     <!-- 푸터 -->
     <footer class="max-w-[1400px] mx-auto w-full px-4 py-6 text-zinc-500 text-xs border-t border-zinc-800 mt-12 flex flex-col md:flex-row items-center justify-between gap-4">
-        <p class="text-center md:text-left">본 사이트는 비공식 일정표로 스트리머의 상황에 따라 변동될 수 있습니다.</p>
+        <p class="text-center md:text-left">본 사이트는 비공식 일정표로 스트리머의 사정에 따라 일정이 변경될 수 있습니다.</p>
         <div class="flex items-center gap-3">
             <button onclick="openAdminLogin()" class="text-zinc-400 hover:text-white bg-zinc-900 border border-zinc-800 px-3 py-1 rounded-md text-xs transition cursor-pointer">⚙️ 관리자 모드</button>
             <span class="text-zinc-600 font-semibold tracking-wide">made by 윤슬ツ</span>
@@ -265,12 +265,27 @@
         </div>
     </div>
 
-    <!-- 핵심 로직 스크립트 -->
-    <script>
+    <!-- Firebase SDK 로드 (Modular CDN) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getDatabase, ref, onValue, set, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyD8gylQ9ETBMTLGN-q0qVcTQgqyM7GpL8Y",
+            authDomain: "dohyeon-calander.firebaseapp.com",
+            projectId: "dohyeon-calander",
+            storageBucket: "dohyeon-calander.firebasestorage.app",
+            messagingSenderId: "78037161640",
+            appId: "1:78037161640:web:8219d7ee47804f777ad49d"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
         // 🔑 [관리자 비밀번호 설정]
         const ADMIN_PASSWORD = "1520711";
 
-        let schedules = JSON.parse(localStorage.getItem('stream_schedules_v3')) || {};
+        let schedules = {};
 
         const today = new Date();
         let currentYear = today.getFullYear();
@@ -293,7 +308,7 @@
             purple: "bg-purple-100 text-purple-900 border-purple-300/80"
         };
 
-        function selectItemColor(colorKey) {
+        window.selectItemColor = function(colorKey) {
             document.getElementById('form-item-color').value = colorKey;
             const buttons = document.querySelectorAll('.color-btn');
             buttons.forEach(btn => {
@@ -341,7 +356,7 @@
             document.getElementById('month-select').value = currentMonth;
         }
 
-        function onSelectYearMonth() {
+        window.onSelectYearMonth = function() {
             currentYear = parseInt(document.getElementById('year-select').value);
             currentMonth = parseInt(document.getElementById('month-select').value);
             renderCalendar();
@@ -364,14 +379,12 @@
             const firstDayIndex = new Date(currentYear, currentMonth, 1).getDay();
             const totalDays = new Date(currentYear, currentMonth + 1, 0).getDate();
 
-            // 이전 달 빈 칸 생성
             for (let i = 0; i < firstDayIndex; i++) {
                 const emptyCell = document.createElement('div');
                 emptyCell.className = "h-44 md:h-52 bg-zinc-50/50 rounded-xl border border-transparent";
                 grid.appendChild(emptyCell);
             }
 
-            // 이번 달 날짜 생성
             for (let day = 1; day <= totalDays; day++) {
                 const dateStr = formatDateStr(currentYear, currentMonth, day);
 
@@ -417,15 +430,13 @@
                 }
 
                 cell.className = cellBaseClass + bgStyle;
-                cell.onclick = () => openDetailModal(dateStr, matchedSchedules);
+                cell.onclick = () => window.openDetailModal(dateStr, matchedSchedules);
 
                 const isToday = (day === today.getDate() && currentMonth === today.getMonth() && currentYear === today.getFullYear());
                 
-                // [상단 내용 그룹화]
                 const topGroup = document.createElement('div');
                 topGroup.className = "w-full flex flex-col justify-start overflow-hidden";
 
-                // 상단 영역 (날짜 숫자 + 카테고리 태그 모음)
                 const topHeader = document.createElement('div');
                 topHeader.className = "flex items-center gap-1 mb-1.5 flex-wrap";
 
@@ -446,7 +457,6 @@
 
                 topGroup.appendChild(topHeader);
 
-                // 내부 일정 목록 (최대 5줄까지 표시)
                 const listContainer = document.createElement('div');
                 listContainer.className = "flex flex-col gap-1 overflow-hidden w-full";
 
@@ -477,7 +487,6 @@
                 topGroup.appendChild(listContainer);
                 cell.appendChild(topGroup);
 
-                // 📌 [달력 셀 하단 강조 문구 영역]
                 const anniversaryItem = matchedSchedules.find(s => s.anniversary && s.anniversary.trim() !== '');
                 if (anniversaryItem) {
                     const anniFooter = document.createElement('div');
@@ -490,7 +499,7 @@
             }
         }
 
-        function changeMonth(direction) {
+        window.changeMonth = function(direction) {
             currentMonth += direction;
             if (currentMonth > 11) {
                 currentMonth = 0;
@@ -506,14 +515,13 @@
             renderCalendar();
         }
 
-        function goToday() {
+        window.goToday = function() {
             currentYear = today.getFullYear();
             currentMonth = today.getMonth();
             renderCalendar();
         }
 
-        // ✨ [핵심 수정] 모달 클릭 시 특정 일정 카드가 아닌 팝업 최상단에 독립적인 배너로 강조 문구 표시
-        function openDetailModal(dateStr, schedulesList) {
+        window.openDetailModal = function(dateStr, schedulesList) {
             const modal = document.getElementById('detail-modal');
             const titleEl = document.getElementById('modal-date-title');
             const bodyEl = document.getElementById('modal-content-body');
@@ -523,7 +531,6 @@
             if (schedulesList && schedulesList.length > 0) {
                 let html = "";
 
-                // 1. 그날 존재하는 모든 강조 문구(공지/기념일)를 최상단 독립 상자로 수집 및 표출
                 const uniqueAnniversaries = [...new Set(schedulesList.map(s => s.anniversary).filter(a => a && a.trim() !== ''))];
                 
                 if (uniqueAnniversaries.length > 0) {
@@ -536,7 +543,6 @@
                     });
                 }
 
-                // 2. 개별 일정 카드 목록 표출 (내부에서는 강조 문구 배너 제거)
                 schedulesList.forEach((sch) => {
                     let typeText = "";
                     if (sch.type === 'solo') typeText = "🔵 갠방";
@@ -580,55 +586,55 @@
             modal.classList.add('flex');
         }
 
-        function closeDetailModal() {
+        window.closeDetailModal = function() {
             const modal = document.getElementById('detail-modal');
             modal.classList.remove('flex');
             modal.classList.add('hidden');
         }
 
-        function openAdminLogin() {
+        window.openAdminLogin = function() {
             document.getElementById('admin-pw-input').value = '';
             const modal = document.getElementById('admin-login-modal');
             modal.classList.remove('hidden');
             modal.classList.add('flex');
         }
 
-        function closeAdminLogin() {
+        window.closeAdminLogin = function() {
             const modal = document.getElementById('admin-login-modal');
             modal.classList.remove('flex');
             modal.classList.add('hidden');
         }
 
-        function verifyAdmin() {
+        window.verifyAdmin = function() {
             const pw = document.getElementById('admin-pw-input').value;
             if (pw === ADMIN_PASSWORD) { 
-                closeAdminLogin();
-                openAdminPanel();
+                window.closeAdminLogin();
+                window.openAdminPanel();
             } else {
                 alert('비밀번호가 틀렸습니다!');
             }
         }
 
-        function openAdminPanel() {
-            resetForm();
+        window.openAdminPanel = function() {
+            window.resetForm();
             document.getElementById('admin-filter-year').value = currentYear;
             document.getElementById('admin-filter-month').value = currentMonth;
             document.getElementById('admin-search-input').value = '';
             
-            renderAdminList();
+            window.renderAdminList();
             const modal = document.getElementById('admin-panel-modal');
             modal.classList.remove('hidden');
             modal.classList.add('flex');
         }
 
-        function closeAdminPanel() {
+        window.closeAdminPanel = function() {
             const modal = document.getElementById('admin-panel-modal');
             modal.classList.remove('flex');
             modal.classList.add('hidden');
             renderCalendar(); 
         }
 
-        function resetForm() {
+        window.resetForm = function() {
             document.getElementById('edit-target-id').value = '';
             document.getElementById('form-start-date').value = '';
             document.getElementById('form-end-date').value = '';
@@ -638,12 +644,12 @@
             document.getElementById('form-anniversary').value = '';
             document.getElementById('form-members').value = '';
             document.getElementById('form-desc').value = '';
-            selectItemColor('default');
+            window.selectItemColor('default');
             document.getElementById('form-mode-title').innerText = '일정 추가';
             document.getElementById('save-btn').innerText = '저장하기';
         }
 
-        function saveSchedule() {
+        window.saveSchedule = function() {
             const editId = document.getElementById('edit-target-id').value;
             const startDate = document.getElementById('form-start-date').value;
             const endDate = document.getElementById('form-end-date').value || startDate;
@@ -667,16 +673,21 @@
 
             const scheduleId = editId ? editId : 'sch_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7);
 
-            schedules[scheduleId] = { startDate, endDate, type, game, color, summary, anniversary, members, desc };
-            localStorage.setItem('stream_schedules_v3', JSON.stringify(schedules));
+            const scheduleData = { startDate, endDate, type, game, color, summary, anniversary, members, desc };
             
-            alert(editId ? '일정이 성공적으로 수정되었습니다!' : '일정이 성공적으로 추가되었습니다!');
-            resetForm();
-            renderAdminList();
-            renderCalendar();
+            // Firebase에 데이터 저장/수정
+            set(ref(db, 'schedules/' + scheduleId), scheduleData)
+                .then(() => {
+                    alert(editId ? '일정이 성공적으로 수정되었습니다!' : '일정이 성공적으로 추가되었습니다!');
+                    window.resetForm();
+                    window.renderAdminList();
+                })
+                .catch((error) => {
+                    alert('저장 중 오류가 발생했습니다: ' + error.message);
+                });
         }
 
-        function editSchedule(id) {
+        window.editSchedule = function(id) {
             const item = schedules[id];
             if (!item) return;
 
@@ -689,7 +700,7 @@
             document.getElementById('form-anniversary').value = item.anniversary || '';
             document.getElementById('form-members').value = item.members || '';
             document.getElementById('form-desc').value = item.desc || '';
-            selectItemColor(item.color || 'default');
+            window.selectItemColor(item.color || 'default');
             
             document.getElementById('form-mode-title').innerText = '일정 수정 중...';
             document.getElementById('save-btn').innerText = '수정 완료하기';
@@ -697,16 +708,19 @@
             document.getElementById('admin-panel-modal').scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function deleteSchedule(id) {
+        window.deleteSchedule = function(id) {
             if (confirm('해당 일정을 삭제하시겠습니까?')) {
-                delete schedules[id];
-                localStorage.setItem('stream_schedules_v3', JSON.stringify(schedules));
-                renderAdminList();
-                renderCalendar();
+                remove(ref(db, 'schedules/' + id))
+                    .then(() => {
+                        window.renderAdminList();
+                    })
+                    .catch((error) => {
+                        alert('삭제 중 오류가 발생했습니다: ' + error.message);
+                    });
             }
         }
 
-        function renderAdminList() {
+        window.renderAdminList = function() {
             const listContainer = document.getElementById('admin-schedule-list');
             listContainer.innerHTML = '';
 
@@ -776,9 +790,20 @@
             });
         }
 
+        // 🔄 Firebase 실시간 데이터 동기화 리스너
+        const schedulesRef = ref(db, 'schedules');
+        onValue(schedulesRef, (snapshot) => {
+            const data = snapshot.val();
+            schedules = data || {};
+            renderCalendar();
+            // 만약 관리자 패널이 열려있다면 리스트도 실시간 갱신
+            if (!document.getElementById('admin-panel-modal').classList.contains('hidden')) {
+                window.renderAdminList();
+            }
+        });
+
         // 초기 화면 실행
         initSelectBoxes();
-        renderCalendar();
     </script>
 </body>
 </html>
