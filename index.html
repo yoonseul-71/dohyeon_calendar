@@ -22,6 +22,10 @@
                     <h1 class="text-3xl md:text-5xl font-black italic tracking-wider text-white drop-shadow-[0_2px_10px_rgba(255,0,0,0.5)]">
                         DOHYEON <span class="text-red-600">CALENDAR</span>
                     </h1>
+                    <!-- 🌐 배너 하단 공식 주소 고정 표시 -->
+                    <p class="text-xs md:text-sm text-zinc-400 font-mono mt-2 flex items-center justify-center md:justify-start gap-1">
+                        <span class="text-red-500 font-bold">🔗</span> yoonseul-71.github.io/dohyeon_calendar
+                    </p>
                 </div>
                 <!-- 배너 공식 링크 모음 -->
                 <nav class="flex flex-wrap justify-center gap-3 z-10">
@@ -83,12 +87,11 @@
         </main>
     </div>
 
-    <!-- 푸터 -->
-    <footer class="max-w-[1400px] mx-auto w-full px-4 py-6 text-zinc-500 text-xs border-t border-zinc-800 mt-12 flex flex-row items-center justify-between gap-4">
+    <!-- 푸터 (관리자 버튼 제거, 저작권 문구 3회 연속 클릭 시 관리자 인증 모달 트리거) -->
+    <footer class="max-w-[1400px] mx-auto w-full px-4 py-6 text-zinc-500 text-xs border-t border-zinc-800 mt-12 flex flex-row items-center justify-between gap-4 select-none">
         <p class="text-left">본 사이트는 비공식 일정표로 스트리머의 사정에 따라 일정이 변경될 수 있습니다.</p>
         <div class="flex items-center gap-3 shrink-0">
-            <button onclick="openAdminLogin()" class="text-zinc-400 hover:text-white bg-zinc-900 border border-zinc-800 px-3 py-1 rounded-md text-xs transition cursor-pointer">⚙️ 관리자 모드</button>
-            <span class="text-zinc-600 font-semibold tracking-wide">made by 윤슬ツ</span>
+            <span onclick="handleAdminTrigger()" class="text-zinc-600 font-semibold tracking-wide cursor-pointer hover:text-zinc-400 transition">made by 윤슬ツ</span>
         </div>
     </footer>
 
@@ -292,6 +295,23 @@
         const today = new Date();
         let currentYear = today.getFullYear();
         let currentMonth = today.getMonth(); // 0~11
+
+        // 🤫 [숨겨진 관리자 로그인 3회 연타 카운터]
+        let clickCount = 0;
+        let clickTimer = null;
+
+        window.handleAdminTrigger = function() {
+            clickCount++;
+            if (clickCount === 1) {
+                clickTimer = setTimeout(() => {
+                    clickCount = 0;
+                }, 1200); // 1.2초 내에 연속 클릭하지 않으면 리셋
+            } else if (clickCount >= 3) {
+                clearTimeout(clickTimer);
+                clickCount = 0;
+                window.openAdminLogin(); // 3회 연속 클릭 시 비밀번호 모달 띄우기
+            }
+        };
 
         const TYPE_COLORS = {
             solo: '#38bdf8',   // sky-400
