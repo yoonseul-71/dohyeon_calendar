@@ -17,7 +17,8 @@
     <div>
         <!-- 상단 배너 영역 -->
         <header class="w-full bg-[#0a0a0a] border-b border-red-900/45 relative overflow-hidden">
-            <div class="max-w-[1400px] mx-auto px-4 py-8 md:py-12 flex flex-col md:flex-row items-center justify-between gap-6">
+            <!-- ↔️ [가로 폭 확장] max-w-[1400px] -> max-w-[1450px] 로 살짝 넓힘 -->
+            <div class="max-w-[1450px] mx-auto px-4 py-8 md:py-12 flex flex-col md:flex-row items-center justify-between gap-6">
                 <div class="text-center md:text-left z-10">
                     <h1 class="text-3xl md:text-5xl font-black italic tracking-wider text-white drop-shadow-[0_2px_10px_rgba(255,0,0,0.5)]">
                         DOHYEON <span class="text-red-600">CALENDAR</span>
@@ -33,8 +34,8 @@
             <div class="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-red-600 via-red-900 to-transparent"></div>
         </header>
 
-        <!-- 메인 콘텐츠 (가로 폭 1400px) -->
-        <main class="max-w-[1400px] mx-auto px-4 py-8">
+        <!-- 메인 콘텐츠 -->
+        <main class="max-w-[1450px] mx-auto px-4 py-8">
             
             <!-- 범례 및 컨트롤러 바 -->
             <div class="flex flex-col md:flex-row items-center justify-between gap-4 mb-6 bg-zinc-900/80 p-4 rounded-xl border border-zinc-800">
@@ -67,7 +68,7 @@
                 </div>
 
                 <!-- 요일 헤더 -->
-                <div class="grid grid-cols-7 gap-1 md:gap-2 text-center font-bold text-zinc-500 text-xs md:text-sm mb-2">
+                <div class="grid grid-cols-7 gap-1 md:gap-2.5 text-center font-bold text-zinc-500 text-xs md:text-sm mb-2">
                     <div class="text-red-500">일</div>
                     <div>월</div>
                     <div>화</div>
@@ -78,13 +79,13 @@
                 </div>
 
                 <!-- 날짜 그리드 -->
-                <div id="calendar-grid" class="grid grid-cols-7 gap-1.5 md:gap-2"></div>
+                <div id="calendar-grid" class="grid grid-cols-7 gap-1.5 md:gap-2.5"></div>
             </div>
         </main>
     </div>
 
     <!-- 푸터 -->
-    <footer class="max-w-[1400px] mx-auto w-full px-4 py-6 text-zinc-500 text-xs border-t border-zinc-800 mt-12 flex flex-row items-center justify-between gap-4 select-none">
+    <footer class="max-w-[1450px] mx-auto w-full px-4 py-6 text-zinc-500 text-xs border-t border-zinc-800 mt-12 flex flex-row items-center justify-between gap-4 select-none">
         <p class="text-left">본 사이트는 비공식 일정표로 스트리머의 사정에 따라 일정이 변경될 수 있습니다.</p>
         <div class="flex items-center gap-3 shrink-0 relative">
             <span class="text-zinc-600 font-semibold tracking-wide">made by 윤슬ツ</span>
@@ -478,7 +479,7 @@
                     const uniqueGames = [...new Set(matchedSchedules.map(s => s.game).filter(Boolean))];
                     uniqueGames.forEach(gName => {
                         const gameBadge = document.createElement('span');
-                        gameBadge.className = "text-[9.5px] md:text-[10.5px] bg-white text-black font-extrabold px-1 py-0.5 rounded-full border border-black truncate max-w-[68px]";
+                        gameBadge.className = "text-[9.5px] md:text-[10.5px] bg-white text-black font-extrabold px-1 py-0.5 rounded-full border border-black truncate max-w-[72px]";
                         gameBadge.innerText = gName;
                         topHeader.appendChild(gameBadge);
                     });
@@ -495,7 +496,6 @@
                         if (validItemCount < 5) {
                             const badge = document.createElement('div');
                             
-                            // 🔍 [글씨 크기 0.5pt 상향: text-[10.5px] md:text-[13px]]
                             if (sch.type === 'rest') {
                                 badge.className = "text-[10.5px] md:text-[13px] px-2 py-1 rounded bg-transparent text-zinc-800 font-semibold truncate";
                             } else {
@@ -524,7 +524,6 @@
                 const anniversaryItem = matchedSchedules.find(s => s.anniversary && s.anniversary.trim() !== '');
                 if (anniversaryItem) {
                     const anniFooter = document.createElement('div');
-                    // 🔍 [글씨 크기 0.5pt 상향: text-[10.5px] md:text-[13px]]
                     anniFooter.className = "text-[10.5px] md:text-[13px] font-black text-red-600 truncate text-center pt-1 mt-1 border-t border-red-200/80 tracking-tight shrink-0 whitespace-pre-line";
                     anniFooter.innerText = anniversaryItem.anniversary;
                     cell.appendChild(anniFooter);
@@ -589,14 +588,12 @@
                         let gameText = sch.game ? `<span class="bg-white text-black border border-black px-2 py-0.5 rounded text-xs ml-2 font-bold">${sch.game}</span>` : '';
                         let periodText = sch.endDate && sch.endDate !== sch.startDate ? `<p class="text-xs text-zinc-400 mt-1">기간: ${sch.startDate} ~ ${sch.endDate}</p>` : '';
 
-                        // 👥 참여 멤버 HTML
                         let membersText = sch.members ? `
                             <div class="mt-2.5 bg-zinc-800/90 p-3 rounded-xl border border-zinc-700/60">
                                 <span class="block text-xs font-bold text-red-400 mb-1.5">👥 참여 멤버</span>
                                 <div class="text-zinc-200 text-xs md:text-sm leading-relaxed whitespace-pre-wrap break-words">${sch.members}</div>
                             </div>` : '';
 
-                        // 📝 상세 설명 HTML
                         let descText = sch.desc ? `
                             <div class="mt-2.5 bg-zinc-800/50 p-3 rounded-xl border border-zinc-700/40">
                                 <span class="block text-xs font-bold text-sky-400 mb-1.5">📝 상세 설명</span>
@@ -611,7 +608,6 @@
                             </div>
                         ` : (gameText ? `<div class="flex items-center justify-between"><span class="font-bold text-white">${gameText}</span></div>` : '');
 
-                        // 🔄 [순서 변경]: 제목(summaryText) -> 상세 설명(descText) -> 참여 멤버(membersText)
                         html += `
                             <div class="border-b border-zinc-800 pb-4 mb-4 last:border-b-0 last:pb-0 last:mb-0">
                                 ${typeHeaderHtml}
@@ -668,12 +664,10 @@
 
         window.openAdminPanel = function() {
             window.resetForm();
-            // 🔄 현재 보고 있던 캘린더 연/월을 관리자 패널 필터에 자동 동기화
             document.getElementById('admin-filter-year').value = currentYear;
             document.getElementById('admin-filter-month').value = currentMonth;
             document.getElementById('admin-search-input').value = '';
 
-            // 📅 시작일 날짜 입력창에도 현재 보고 있는 달의 1일을 기본값으로 자동 설정
             const defaultDateStr = formatDateStr(currentYear, currentMonth, 1);
             document.getElementById('form-start-date').value = defaultDateStr;
             
@@ -692,7 +686,6 @@
 
         window.resetForm = function() {
             document.getElementById('edit-target-id').value = '';
-            // 📅 폼 초기화 시에도 현재 캘린더 연월의 1일로 설정
             document.getElementById('form-start-date').value = formatDateStr(currentYear, currentMonth, 1);
             document.getElementById('form-end-date').value = '';
             document.getElementById('form-type').value = 'none';
