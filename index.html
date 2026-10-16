@@ -133,7 +133,7 @@
 
                 <div class="grid grid-cols-2 gap-2">
                     <div>
-                        <label class="block text-xs text-zinc-400 mb-1">시작일</label>
+                        <label class="block text-xs text-zinc-400 mb-1">시작일 *</label>
                         <input type="date" id="form-start-date" class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500">
                     </div>
                     <div>
@@ -195,13 +195,13 @@
                 </div>
 
                 <div>
-                    <label class="block text-xs text-zinc-400 mb-1">방송 요약 내용 (달력에 표시)</label>
+                    <label class="block text-xs text-zinc-400 mb-1">방송 요약 내용 (선택사항)</label>
                     <input type="text" id="form-summary" placeholder="예: 도현x수피 랜드 합방" class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500">
                 </div>
 
                 <!-- 📌 하단 강조 문구 입력란 -->
                 <div>
-                    <label class="block text-xs text-zinc-400 mb-1">📌 하단 강조 문구 (기념일/공지사항 등, 선택사항)</label>
+                    <label class="block text-xs text-zinc-400 mb-1">📌 하단 강조 문구 (기념일/공지사항 등)</label>
                     <input type="text" id="form-anniversary" placeholder="예: 🎉 BIRTHDAY 🎉, 📢 마이크 고장 - 소리이슈" class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500">
                 </div>
 
@@ -460,27 +460,32 @@
                 const listContainer = document.createElement('div');
                 listContainer.className = "flex flex-col gap-1 overflow-hidden w-full";
 
-                matchedSchedules.forEach((sch, idx) => {
-                    if (idx < 5) {
-                        const badge = document.createElement('div');
-                        
-                        if (sch.type === 'rest') {
-                            badge.className = "text-[10px] md:text-xs px-2 py-1 rounded bg-transparent text-zinc-800 font-semibold truncate";
-                        } else {
-                            const customColorStyle = ITEM_COLOR_MAP[sch.color || 'default'] || ITEM_COLOR_MAP['default'];
-                            badge.className = `text-[10px] md:text-xs px-2 py-1 rounded font-semibold truncate border ${customColorStyle}`;
+                let validItemCount = 0;
+                matchedSchedules.forEach((sch) => {
+                    // 방송 요약(제목)이 입력된 항목만 뱃지로 표시
+                    if (sch.summary && sch.summary.trim() !== '') {
+                        if (validItemCount < 5) {
+                            const badge = document.createElement('div');
+                            
+                            if (sch.type === 'rest') {
+                                badge.className = "text-[10px] md:text-xs px-2 py-1 rounded bg-transparent text-zinc-800 font-semibold truncate";
+                            } else {
+                                const customColorStyle = ITEM_COLOR_MAP[sch.color || 'default'] || ITEM_COLOR_MAP['default'];
+                                badge.className = `text-[10px] md:text-xs px-2 py-1 rounded font-semibold truncate border ${customColorStyle}`;
+                            }
+                            
+                            const gamePrefix = sch.game ? `[${sch.game}] ` : '';
+                            badge.innerText = `${gamePrefix}${sch.summary}`;
+                            listContainer.appendChild(badge);
                         }
-                        
-                        const gamePrefix = sch.game ? `[${sch.game}] ` : '';
-                        badge.innerText = `${gamePrefix}${sch.summary}`;
-                        listContainer.appendChild(badge);
+                        validItemCount++;
                     }
                 });
 
-                if (matchedSchedules.length > 5) {
+                if (validItemCount > 5) {
                     const moreBadge = document.createElement('div');
                     moreBadge.className = "text-[9px] text-zinc-500 font-bold text-right mt-0.5";
-                    moreBadge.innerText = `+${matchedSchedules.length - 5}개 더보기`;
+                    moreBadge.innerText = `+${validItemCount - 5}개 더보기`;
                     listContainer.appendChild(moreBadge);
                 }
 
@@ -544,39 +549,49 @@
                 }
 
                 schedulesList.forEach((sch) => {
-                    let typeText = "";
-                    if (sch.type === 'solo') typeText = "🔵 갠방";
-                    else if (sch.type === 'collab') typeText = "🟢 합방";
-                    else if (sch.type === 'event') typeText = "🟡 이벤트";
-                    else if (sch.type === 'rest') typeText = "⚪ 휴방";
+                    // 방송 요약(제목), 멤버, 설명 중 어느 하나라도 작성된 경우 상세 블록 출력
+                    if ((sch.summary && sch.summary.trim() !== '') || sch.members || sch.desc) {
+                        let typeText = "";
+                        if (sch.type === 'solo') typeText = "🔵 갠방";
+                        else if (sch.type === 'collab') typeText = "🟢 합방";
+                        else if (sch.type === 'event') typeText = "🟡 이벤트";
+                        else if (sch.type === 'rest') typeText = "⚪ 휴방";
 
-                    let gameText = sch.game ? `<span class="bg-white text-black border border-black px-2 py-0.5 rounded text-xs ml-2 font-bold">${sch.game}</span>` : '';
-                    let periodText = sch.endDate && sch.endDate !== sch.startDate ? `<p class="text-xs text-zinc-400 mt-1">기간: ${sch.startDate} ~ ${sch.endDate}</p>` : '';
+                        let gameText = sch.game ? `<span class="bg-white text-black border border-black px-2 py-0.5 rounded text-xs ml-2 font-bold">${sch.game}</span>` : '';
+                        let periodText = sch.endDate && sch.endDate !== sch.startDate ? `<p class="text-xs text-zinc-400 mt-1">기간: ${sch.startDate} ~ ${sch.endDate}</p>` : '';
 
-                    let membersText = sch.members ? `
-                        <div class="mt-2.5 bg-zinc-800/90 p-3 rounded-xl border border-zinc-700/60">
-                            <span class="block text-xs font-bold text-red-400 mb-1.5">👥 참여 멤버</span>
-                            <div class="text-zinc-200 text-xs leading-relaxed whitespace-pre-wrap break-words">${sch.members}</div>
-                        </div>` : '';
+                        let membersText = sch.members ? `
+                            <div class="mt-2.5 bg-zinc-800/90 p-3 rounded-xl border border-zinc-700/60">
+                                <span class="block text-xs font-bold text-red-400 mb-1.5">👥 참여 멤버</span>
+                                <div class="text-zinc-200 text-xs leading-relaxed whitespace-pre-wrap break-words">${sch.members}</div>
+                            </div>` : '';
 
-                    let descText = sch.desc ? `
-                        <div class="mt-2 bg-zinc-800/50 p-3 rounded-xl border border-zinc-700/40">
-                            <span class="block text-xs font-bold text-sky-400 mb-1.5">📝 상세 설명</span>
-                            <div class="text-zinc-300 text-xs leading-relaxed whitespace-pre-wrap break-words">${sch.desc}</div>
-                        </div>` : '';
+                        let descText = sch.desc ? `
+                            <div class="mt-2 bg-zinc-800/50 p-3 rounded-xl border border-zinc-700/40">
+                                <span class="block text-xs font-bold text-sky-400 mb-1.5">📝 상세 설명</span>
+                                <div class="text-zinc-300 text-xs leading-relaxed whitespace-pre-wrap break-words">${sch.desc}</div>
+                            </div>` : '';
 
-                    html += `
-                        <div class="border-b border-zinc-800 pb-4 mb-4 last:border-b-0 last:pb-0 last:mb-0">
-                            <div class="flex items-center justify-between">
-                                <span class="font-bold text-white">${typeText} ${gameText}</span>
+                        let summaryText = sch.summary ? `<p class="font-bold text-sm md:text-base mt-1.5 text-white">${sch.summary}</p>` : '';
+
+                        html += `
+                            <div class="border-b border-zinc-800 pb-4 mb-4 last:border-b-0 last:pb-0 last:mb-0">
+                                <div class="flex items-center justify-between">
+                                    <span class="font-bold text-white">${typeText} ${gameText}</span>
+                                </div>
+                                ${summaryText}
+                                ${periodText}
+                                ${membersText}
+                                ${descText}
                             </div>
-                            <p class="font-bold text-sm md:text-base mt-1.5 text-white">${sch.summary}</p>
-                            ${periodText}
-                            ${membersText}
-                            ${descText}
-                        </div>
-                    `;
+                        `;
+                    }
                 });
+
+                if (!html && uniqueAnniversaries.length === 0) {
+                    html = `<p class="text-zinc-400 py-4 text-center">이 날은 등록된 방송 일정이 없습니다.</p>`;
+                }
+
                 bodyEl.innerHTML = html;
             } else {
                 bodyEl.innerHTML = `<p class="text-zinc-400 py-4 text-center">이 날은 등록된 방송 일정이 없습니다.</p>`;
@@ -649,6 +664,7 @@
             document.getElementById('save-btn').innerText = '저장하기';
         }
 
+        // 💡 [수정 포인트] 유효성 검사 조건 완화: 시작일 필수 + (제목 OR 기념일/공지 문구 둘 중 하나 필수)
         window.saveSchedule = function() {
             const editId = document.getElementById('edit-target-id').value;
             const startDate = document.getElementById('form-start-date').value;
@@ -656,13 +672,18 @@
             const type = document.getElementById('form-type').value;
             const game = document.getElementById('form-game').value;
             const color = document.getElementById('form-item-color').value || 'default';
-            const summary = document.getElementById('form-summary').value;
-            const anniversary = document.getElementById('form-anniversary').value;
+            const summary = document.getElementById('form-summary').value.trim();
+            const anniversary = document.getElementById('form-anniversary').value.trim();
             const members = document.getElementById('form-members').value;
             const desc = document.getElementById('form-desc').value;
 
-            if (!startDate || !summary) {
-                alert('시작일과 방송 요약은 필수 입력 항목입니다!');
+            if (!startDate) {
+                alert('시작일은 필수 선택 항목입니다!');
+                return;
+            }
+
+            if (!summary && !anniversary) {
+                alert('방송 요약(제목) 또는 하단 강조 문구(공지/기념일) 중 최소 하나는 작성해야 합니다!');
                 return;
             }
 
@@ -694,7 +715,7 @@
             document.getElementById('form-end-date').value = item.endDate || item.startDate;
             document.getElementById('form-type').value = item.type;
             document.getElementById('form-game').value = item.game || '';
-            document.getElementById('form-summary').value = item.summary;
+            document.getElementById('form-summary').value = item.summary || '';
             document.getElementById('form-anniversary').value = item.anniversary || '';
             document.getElementById('form-members').value = item.members || '';
             document.getElementById('form-desc').value = item.desc || '';
@@ -770,6 +791,7 @@
                 const item = schedules[id];
                 const dateDisplay = item.endDate && item.endDate !== item.startDate ? `${item.startDate} ~ ${item.endDate}` : item.startDate;
                 const gameTag = item.game ? `[${item.game}] ` : '';
+                const titleText = item.summary ? item.summary : '<span class="text-zinc-500 italic">(제목 없음)</span>';
                 const anniTag = item.anniversary ? ` <span class="text-red-400 font-bold">(${item.anniversary})</span>` : '';
 
                 const row = document.createElement('div');
@@ -777,7 +799,7 @@
                 row.innerHTML = `
                     <div class="overflow-hidden pr-2 flex items-center gap-2">
                         <span class="font-bold text-red-400 shrink-0 text-xs">[${dateDisplay}]</span>
-                        <span class="text-zinc-200 truncate font-medium text-xs">${gameTag}${item.summary}${anniTag}</span>
+                        <span class="text-zinc-200 truncate font-medium text-xs">${gameTag}${titleText}${anniTag}</span>
                     </div>
                     <div class="flex gap-1.5 shrink-0">
                         <button onclick="editSchedule('${id}')" class="bg-sky-900/50 hover:bg-sky-700 text-sky-300 px-2.5 py-1 rounded-lg text-[11px] font-bold transition cursor-pointer">수정</button>
@@ -788,27 +810,26 @@
             });
         }
 
-        // 🔄 [데이터 복구 마이그레이션 및 실시간 동기화]
+        // 🔄 [자동 마이그레이션 및 실시간 동기화 리스너]
         const schedulesRef = ref(db, 'schedules');
         
         onValue(schedulesRef, (snapshot) => {
             const data = snapshot.val();
             
-            // 만약 파이어베이스에 데이터가 아예 비어있고, 브라우저 로컬스토리지에 예전 데이터가 있다면 자동 업로드!
             if (!data) {
                 const localDataStr = localStorage.getItem('stream_schedules_v3');
                 if (localDataStr) {
                     try {
                         const parsedLocalData = JSON.parse(localDataStr);
                         if (parsedLocalData && Object.keys(parsedLocalData).length > 0) {
-                            console.log("기존 로컬 데이터 발견! Firebase로 자동 이전합니다.");
                             set(schedulesRef, parsedLocalData).then(() => {
-                                alert('기존에 입력하셨던 2달치 일정이 안전하게 클라우드(Firebase)로 복구되었습니다!');
+                                alert('기존 2달치 일정이 Firebase 클라우드로 안전하게 복구되었습니다!');
+                                window.location.reload();
                             });
                             return;
                         }
                     } catch (e) {
-                        console.error("로컬 데이터 파싱 오류", e);
+                        console.error("복구 오류", e);
                     }
                 }
             }
