@@ -16,10 +16,11 @@
 
     <div>
         <!-- 상단 배너 영역 -->
-        <header class="w-full bg-[#0a0a0a] border-b border-red-900/45 relative overflow-hidden">
+        <header class="w-full bg-[#0a0a0a] border-b border-red-900/45 relative overflow-hidden select-none">
             <div class="max-w-[1400px] mx-auto px-4 py-8 md:py-12 flex flex-col md:flex-row items-center justify-between gap-6">
                 <div class="text-center md:text-left z-10">
-                    <h1 class="text-3xl md:text-5xl font-black italic tracking-wider text-white drop-shadow-[0_2px_10px_rgba(255,0,0,0.5)]">
+                    <!-- 📱 모바일 터치 트리거: DOHYEON CALENDAR 타이틀 3회 연속 클릭시 로그인 창 호출 -->
+                    <h1 onclick="handleTitleClick()" class="text-3xl md:text-5xl font-black italic tracking-wider text-white drop-shadow-[0_2px_10px_rgba(255,0,0,0.5)] cursor-pointer">
                         DOHYEON <span class="text-red-600">CALENDAR</span>
                     </h1>
                 </div>
@@ -292,13 +293,30 @@
         let currentYear = today.getFullYear();
         let currentMonth = today.getMonth(); // 0~11
 
-        // ⌨️ [Alt + A 단축키 리스너]
+        // 💻 [PC 전용: Alt + A 단축키 리스너]
         document.addEventListener('keydown', function(event) {
             if (event.altKey && (event.key === 'a' || event.key === 'A' || event.key === 'ㅁ')) {
                 event.preventDefault(); // 기본 브라우저 동작 방지
                 window.openAdminLogin();
             }
         });
+
+        // 📱 [모바일 전용: 상단 타이틀 3회 연속 클릭 트리거]
+        let titleClickCount = 0;
+        let titleClickTimer = null;
+
+        window.handleTitleClick = function() {
+            titleClickCount++;
+            if (titleClickCount === 1) {
+                titleClickTimer = setTimeout(() => {
+                    titleClickCount = 0;
+                }, 1200); // 1.2초 내 연속 클릭 안 할시 초기화
+            } else if (titleClickCount >= 3) {
+                clearTimeout(titleClickTimer);
+                titleClickCount = 0;
+                window.openAdminLogin(); // 3회 터치 시 관리자 모달 출력
+            }
+        };
 
         const TYPE_COLORS = {
             solo: '#38bdf8',   // sky-400
