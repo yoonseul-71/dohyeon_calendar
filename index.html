@@ -147,11 +147,12 @@
                     <div>
                         <label class="block text-xs text-zinc-400 mb-1">방송 종류</label>
                         <select id="form-type" class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500">
-                            <option value="solo">갠방</option>
+                            <!-- 📌 기본 선택값을 '갠방(solo)'으로 변경 -->
+                            <option value="solo" selected>갠방</option>
                             <option value="collab">합방</option>
                             <option value="event">이벤트</option>
                             <option value="rest">휴방</option>
-                            <option value="none" selected>선택 안함 (일반)</option>
+                            <option value="none">선택 안함 (일반)</option>
                         </select>
                     </div>
                     <div>
@@ -521,11 +522,10 @@
                 topGroup.appendChild(listContainer);
                 cell.appendChild(topGroup);
 
-                // 📌 해당 날짜에 포함된 모든 하단 강조 문구(anniversary)를 추출하여 각각 모두 렌더링
+                // 📌 해당 날짜에 포함된 모든 하단 강조 문구(anniversary) 추출 및 렌더링
                 const allAnniversaries = [];
                 matchedSchedules.forEach(s => {
                     if (s.anniversary && s.anniversary.trim() !== '') {
-                        // 중복 입력 방지용이 아니라면 전부 추가 (원하시면 배열 내 유니크 처리 가능)
                         allAnniversaries.push(s.anniversary);
                     }
                 });
@@ -580,7 +580,6 @@
             if (schedulesList && schedulesList.length > 0) {
                 let html = "";
 
-                // 모든 하단 강조 문구 수집
                 const uniqueAnniversaries = [];
                 schedulesList.forEach(s => {
                     if (s.anniversary && s.anniversary.trim() !== '' && !uniqueAnniversaries.includes(s.anniversary)) {
@@ -709,7 +708,8 @@
             document.getElementById('edit-target-id').value = '';
             document.getElementById('form-start-date').value = formatDateStr(currentYear, currentMonth, 1);
             document.getElementById('form-end-date').value = '';
-            document.getElementById('form-type').value = 'none';
+            // 📌 폼 초기화 시 기본 선택값을 '갠방(solo)'으로 지정
+            document.getElementById('form-type').value = 'solo';
             document.getElementById('form-game').value = '';
             document.getElementById('form-summary').value = '';
             document.getElementById('form-anniversary').value = '';
@@ -768,7 +768,7 @@
             document.getElementById('edit-target-id').value = id;
             document.getElementById('form-start-date').value = item.startDate;
             document.getElementById('form-end-date').value = item.endDate || item.startDate;
-            document.getElementById('form-type').value = item.type || 'none';
+            document.getElementById('form-type').value = item.type || 'solo';
             document.getElementById('form-game').value = item.game || '';
             document.getElementById('form-summary').value = item.summary || '';
             document.getElementById('form-anniversary').value = item.anniversary || '';
@@ -878,7 +878,7 @@
                         const parsedLocalData = JSON.parse(localDataStr);
                         if (parsedLocalData && Object.keys(parsedLocalData).length > 0) {
                             set(schedulesRef, parsedLocalData).then(() => {
-                                alert('기존 2달치 일정이 Firebase 클라우드로 안전하게 복구되었습니다!');
+                                alert('기존 일정이 Firebase 클라우드로 안전하게 복구되었습니다!');
                                 window.location.reload();
                             });
                             return;
