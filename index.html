@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <!-- 📱 모바일에서 PC 화면처럼 넓게 보이고 확대/축소가 가능하도록 뷰포트 설정 수정 -->
+    <!-- 📱 모바일에서 PC 화면처럼 넓게 보이고 확대/축소가 가능하도록 뷰포트 설정 -->
     <meta name="viewport" content="width=1200, initial-scale=1.0">
     <title>방송 일정표</title>
     <!-- Tailwind CSS CDN -->
@@ -83,10 +83,10 @@
         </main>
     </div>
 
-    <!-- 푸터 -->
-    <footer class="max-w-[1400px] mx-auto w-full px-4 py-6 text-zinc-500 text-xs border-t border-zinc-800 mt-12 flex flex-col md:flex-row items-center justify-between gap-4">
-        <p class="text-center md:text-left">본 사이트는 비공식 일정표로 스트리머의 사정에 따라 일정이 변경될 수 있습니다.</p>
-        <div class="flex items-center gap-3">
+    <!-- 푸터 (모바일에서도 항상 한 줄로 정렬되도록 flex-row 고정) -->
+    <footer class="max-w-[1400px] mx-auto w-full px-4 py-6 text-zinc-500 text-xs border-t border-zinc-800 mt-12 flex flex-row items-center justify-between gap-4">
+        <p class="text-left">본 사이트는 비공식 일정표로 스트리머의 사정에 따라 일정이 변경될 수 있습니다.</p>
+        <div class="flex items-center gap-3 shrink-0">
             <button onclick="openAdminLogin()" class="text-zinc-400 hover:text-white bg-zinc-900 border border-zinc-800 px-3 py-1 rounded-md text-xs transition cursor-pointer">⚙️ 관리자 모드</button>
             <span class="text-zinc-600 font-semibold tracking-wide">made by 윤슬ツ</span>
         </div>
@@ -262,41 +262,6 @@
                 <div id="admin-schedule-list" class="max-h-60 overflow-y-auto space-y-2 pr-1 text-xs">
                     <!-- 자바스크립트로 로드 -->
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- 푸터 -->
-    <footer class="max-w-[1400px] mx-auto w-full px-4 py-6 text-zinc-500 text-xs border-t border-zinc-800 mt-12 flex flex-col md:flex-row items-center justify-between gap-4">
-        <p class="text-center md:text-left">본 사이트는 비공식 일정표로 스트리머의 상황에 따라 변동될 수 있습니다.</p>
-        <div class="flex items-center gap-3">
-            <button onclick="openAdminLogin()" class="text-zinc-400 hover:text-white bg-zinc-900 border border-zinc-800 px-3 py-1 rounded-md text-xs transition cursor-pointer">⚙️ 관리자 모드</button>
-            <span class="text-zinc-600 font-semibold tracking-wide">made by 윤슬ツ</span>
-        </div>
-    </footer>
-
-    <!-- [모달 1] 날짜 클릭 시 상세 팝업 -->
-    <div id="detail-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
-        <div class="bg-zinc-900 border border-zinc-800 rounded-2xl max-w-lg w-full p-6 text-white shadow-2xl relative">
-            <h3 id="modal-date-title" class="text-lg font-black text-red-500 mb-2">2026-10-15 일정</h3>
-            <div id="modal-content-body" class="space-y-4 my-4 text-sm text-zinc-300 max-h-96 overflow-y-auto pr-1">
-                <!-- 동적 내용 -->
-            </div>
-            <div class="flex justify-end gap-2 mt-6">
-                <button onclick="closeDetailModal()" class="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 rounded-xl text-xs font-bold transition cursor-pointer">닫기</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- [모달 2] 관리자 로그인 팝업 -->
-    <div id="admin-login-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
-        <div class="bg-zinc-900 border border-zinc-800 rounded-2xl max-w-sm w-full p-6 text-white shadow-2xl">
-            <h3 class="text-lg font-bold mb-4">관리자 인증</h3>
-            <p class="text-xs text-zinc-400 mb-4">관리자 비밀번호를 입력하세요.</p>
-            <input type="password" id="admin-pw-input" placeholder="비밀번호" class="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-2 text-sm mb-4 focus:outline-none focus:border-red-500">
-            <div class="flex justify-end gap-2">
-                <button onclick="closeAdminLogin()" class="px-3 py-2 bg-zinc-800 hover:bg-zinc-700 rounded-xl text-xs font-bold transition cursor-pointer">취소</button>
-                <button onclick="verifyAdmin()" class="px-4 py-2 bg-red-600 hover:bg-red-700 rounded-xl text-xs font-bold transition cursor-pointer">확인</button>
             </div>
         </div>
     </div>
