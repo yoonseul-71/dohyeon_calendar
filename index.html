@@ -96,7 +96,7 @@
     <div id="detail-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
         <div class="bg-zinc-900 border border-zinc-800 rounded-2xl max-w-lg w-full p-6 text-white shadow-2xl relative">
             <h3 id="modal-date-title" class="text-lg font-black text-red-500 mb-2">2026-10-15 일정</h3>
-            <div id="modal-content-body" class="space-y-4 my-4 text-sm text-zinc-300 max-h-96 overflow-y-auto pr-1">
+            <div id="modal-content-body" class="space-y-4 my-4 max-h-96 overflow-y-auto pr-1">
                 <!-- 동적 내용 -->
             </div>
             <div class="flex justify-end gap-2 mt-6">
@@ -301,7 +301,7 @@
         // 💻 [PC 전용: Alt + A 단축키 리스너]
         document.addEventListener('keydown', function(event) {
             if (event.altKey && (event.key === 'a' || event.key === 'A' || event.key === 'ㅁ')) {
-                event.preventDefault(); // 기본 브라우저 동작 방지
+                event.preventDefault();
                 window.openAdminLogin();
             }
         });
@@ -314,7 +314,7 @@
             const startPress = (e) => {
                 pressTimer = setTimeout(() => {
                     window.openAdminLogin();
-                }, 1200); // 1.2초 동안 꾹 누르면 관리자 로그인 모달 창 오픈
+                }, 1200);
             };
 
             const cancelPress = () => {
@@ -334,10 +334,10 @@
         }
 
         const TYPE_COLORS = {
-            solo: '#38bdf8',   // sky-400
-            collab: '#34d399', // emerald-400
-            event: '#fbbf24',  // amber-400
-            rest: '#a1a1aa'    // zinc-400
+            solo: '#38bdf8',   
+            collab: '#34d399', 
+            event: '#fbbf24',  
+            rest: '#a1a1aa'    
         };
 
         const ITEM_COLOR_MAP = {
@@ -534,7 +534,7 @@
                 topGroup.appendChild(listContainer);
                 cell.appendChild(topGroup);
 
-                // 📌 해당 날짜에 포함된 모든 하단 강조 문구(anniversary) 추출 및 렌더링
+                // 📌 해당 날짜에 포함된 모든 하단 강조 문구(anniversary) 추출 및 중앙 정렬 렌더링
                 const allAnniversaries = [];
                 matchedSchedules.forEach(s => {
                     if (s.anniversary && s.anniversary.trim() !== '') {
@@ -544,7 +544,7 @@
 
                 if (allAnniversaries.length > 0) {
                     const anniFooterContainer = document.createElement('div');
-                    anniFooterContainer.className = "w-full pt-1 mt-auto border-t border-zinc-200/60 truncate";
+                    anniFooterContainer.className = "w-full pt-1 mt-auto border-t border-zinc-200/60 truncate text-center"; // 중앙정렬 추가
                     allAnniversaries.forEach(anni => {
                         const anniBadge = document.createElement('div');
                         anniBadge.className = "text-[10px] md:text-[11px] font-bold text-red-600 truncate";
@@ -576,7 +576,7 @@
             renderCalendar();
         }
 
-        // 모달 관련 함수들
+        // 모달 관련 함수들 (요청사항 반영: 흰색 박스, 검정 글씨, 내용 및 카테고리 빨간색, 순서 변경, 폰트 키우기)
         window.openDetailModal = function(dateStr, matchedSchedules) {
             document.getElementById('modal-date-title').innerText = `${dateStr} 일정`;
             const body = document.getElementById('modal-content-body');
@@ -587,7 +587,8 @@
             } else {
                 matchedSchedules.forEach(s => {
                     const div = document.createElement('div');
-                    div.className = "bg-zinc-800/70 p-3 rounded-xl border border-zinc-700/60 space-y-1.5";
+                    // 전체 검정 배경에 일정 흰색 박스 검정 글씨 구조
+                    div.className = "bg-white text-zinc-900 p-4 rounded-xl border border-zinc-300 shadow-md space-y-2";
                     
                     let typeText = "일반";
                     if (s.type === 'solo') typeText = "도현방송";
@@ -596,14 +597,18 @@
                     else if (s.type === 'rest') typeText = "휴방";
 
                     div.innerHTML = `
-                        <div class="flex items-center justify-between">
-                            <span class="text-xs font-bold px-2 py-0.5 rounded bg-zinc-700 text-zinc-200">${typeText}</span>
-                            ${s.game ? `<span class="text-xs font-bold text-red-400">[${s.game}]</span>` : ''}
+                        <!-- 상단 카테고리 / 게임 (내용+카테고리는 빨간색) -->
+                        <div class="flex items-center justify-between text-red-600 font-bold text-xs">
+                            <span class="px-2 py-0.5 rounded bg-red-50 border border-red-200">${typeText}</span>
+                            ${s.game ? `<span class="text-xs">[${s.game}]</span>` : ''}
                         </div>
-                        ${s.summary ? `<h4 class="font-bold text-sm text-white">${s.summary}</h4>` : ''}
-                        ${s.anniversary ? `<p class="text-xs text-amber-400 font-semibold">${s.anniversary}</p>` : ''}
-                        ${s.members ? `<div class="text-xs text-zinc-300 whitespace-pre-line bg-zinc-900/50 p-2 rounded">${s.members}</div>` : ''}
-                        ${s.desc ? `<p class="text-xs text-zinc-400">${s.desc}</p>` : ''}
+                        <!-- 순서 변경: 제목 > 상세내용 > 멤버 -->
+                        ${s.summary ? `<h4 class="font-extrabold text-base text-zinc-900">${s.summary}</h4>` : ''}
+                        ${s.anniversary ? `<p class="text-xs text-red-600 font-semibold">${s.anniversary}</p>` : ''}
+                        
+                        <!-- 폰트 크기 기존보다 0.5 키움 (text-xs -> text-sm) 및 빨간색 강조 텍스트 -->
+                        ${s.desc ? `<p class="text-sm text-red-600 font-medium leading-relaxed">${s.desc}</p>` : ''}
+                        ${s.members ? `<div class="text-sm text-red-600 whitespace-pre-line bg-red-50/50 p-2.5 rounded-lg border border-red-100 leading-relaxed font-medium">${s.members}</div>` : ''}
                     `;
                     body.appendChild(div);
                 });
@@ -640,6 +645,9 @@
 
         window.openAdminPanel = function() {
             resetForm();
+            // 🎯 관리자모드 킨 년도와 달이 필터에 자동으로 지정되도록 연동
+            document.getElementById('admin-filter-year').value = currentYear;
+            document.getElementById('admin-filter-month').value = currentMonth;
             renderAdminList();
             document.getElementById('admin-panel-modal').classList.remove('hidden');
             document.getElementById('admin-panel-modal').classList.add('flex');
@@ -652,10 +660,8 @@
 
         window.resetForm = function() {
             document.getElementById('edit-target-id').value = '';
-            
-            // 🎯 현재 사용자가 보고 있는 캘린더 연도/월(currentYear, currentMonth)의 1일을 기본값으로 세팅
+            // 🎯 현재 보고 있는 캘린더 연도/월(currentYear, currentMonth)의 1일을 기본 시작일로 세팅
             document.getElementById('form-start-date').value = formatDateStr(currentYear, currentMonth, 1);
-            
             document.getElementById('form-end-date').value = '';
             document.getElementById('form-type').value = 'solo';
             document.getElementById('form-game').value = '';
