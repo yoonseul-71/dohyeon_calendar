@@ -95,7 +95,7 @@
     <!-- [모달 1] 날짜 클릭 시 상세 팝업 -->
     <div id="detail-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
         <div class="bg-zinc-900 border border-zinc-800 rounded-2xl max-w-lg w-full p-6 text-white shadow-2xl relative">
-            <h3 id="modal-date-title" class="text-lg font-black text-red-500 mb-2">2026-10-15 일정</h3>
+            <h3 id="modal-date-title" class="text-lg font-black text-red-500 mb-2">2026-10-15 방송 일정</h3>
             <div id="modal-content-body" class="space-y-4 my-4 max-h-96 overflow-y-auto pr-1">
                 <!-- 동적 내용 -->
             </div>
@@ -194,7 +194,7 @@
                         <button type="button" onclick="selectItemColor('purple')" data-color-key="purple" class="color-btn border border-zinc-700 bg-purple-100 text-purple-900 px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1 transition">
                             <span class="w-3 h-3 rounded-full bg-purple-200 border border-purple-400 inline-block"></span> 연보라
                         </button>
-                        <!-- 📌 추가된 연청록(총겜동용) 버튼 -->
+                        <!-- 📌 연청록(총겜동용) 버튼 -->
                         <button type="button" onclick="selectItemColor('teal')" data-color-key="teal" class="color-btn border border-zinc-700 bg-teal-100 text-teal-900 px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1 transition">
                             <span class="w-3 h-3 rounded-full bg-teal-200 border border-teal-400 inline-block"></span> 연청록
                         </button>
@@ -334,10 +334,17 @@
         }
 
         const TYPE_COLORS = {
-            solo: '#38bdf8',   
-            collab: '#34d399', 
-            event: '#fbbf24',  
-            rest: '#a1a1aa'    
+            solo: '#38bdf8',   // sky-400
+            collab: '#34d399', // emerald-400
+            event: '#fbbf24',  // amber-400
+            rest: '#a1a1aa'    // zinc-400
+        };
+
+        const TYPE_NAMES = {
+            solo: '도현방송',
+            collab: '타스방송',
+            event: '이벤트',
+            rest: '휴방'
         };
 
         const ITEM_COLOR_MAP = {
@@ -534,7 +541,7 @@
                 topGroup.appendChild(listContainer);
                 cell.appendChild(topGroup);
 
-                // 📌 해당 날짜에 포함된 모든 하단 강조 문구(anniversary) 추출 및 중앙 정렬 렌더링
+                // 📌 달력 셀 하단 기념일/공지사항 2번 사진 원상복구 (연한 빨간색 구분선 + 중앙 정렬)
                 const allAnniversaries = [];
                 matchedSchedules.forEach(s => {
                     if (s.anniversary && s.anniversary.trim() !== '') {
@@ -544,10 +551,10 @@
 
                 if (allAnniversaries.length > 0) {
                     const anniFooterContainer = document.createElement('div');
-                    anniFooterContainer.className = "w-full pt-1 mt-auto border-t border-zinc-200/60 truncate text-center"; // 중앙정렬 추가
+                    anniFooterContainer.className = "w-full pt-1.5 mt-auto border-t border-red-200/80 truncate text-center flex flex-col items-center gap-0.5";
                     allAnniversaries.forEach(anni => {
                         const anniBadge = document.createElement('div');
-                        anniBadge.className = "text-[10px] md:text-[11px] font-bold text-red-600 truncate";
+                        anniBadge.className = "text-[10px] md:text-[11px] font-bold text-red-600 truncate w-full text-center";
                         anniBadge.innerText = anni;
                         anniFooterContainer.appendChild(anniBadge);
                     });
@@ -576,41 +583,64 @@
             renderCalendar();
         }
 
-        // 모달 관련 함수들 (요청사항 반영: 흰색 박스, 검정 글씨, 내용 및 카테고리 빨간색, 순서 변경, 폰트 키우기)
+        // 모달 관련 함수 (1번 사진의 기념일/공지사항 원상복구 + 요청해주신 배경/글씨 색상 적용)
         window.openDetailModal = function(dateStr, matchedSchedules) {
-            document.getElementById('modal-date-title').innerText = `${dateStr} 일정`;
+            document.getElementById('modal-date-title').innerText = `${dateStr} 방송 일정`;
             const body = document.getElementById('modal-content-body');
             body.innerHTML = '';
 
             if (matchedSchedules.length === 0) {
                 body.innerHTML = '<p class="text-zinc-500 text-center py-4">등록된 일정이 없습니다.</p>';
             } else {
+                // 1) 기념일/공지사항만 모아서 1번 사진 스타일로 최상단 표시
+                const allAnniversaries = [];
                 matchedSchedules.forEach(s => {
-                    const div = document.createElement('div');
-                    // 전체 검정 배경에 일정 흰색 박스 검정 글씨 구조
-                    div.className = "bg-white text-zinc-900 p-4 rounded-xl border border-zinc-300 shadow-md space-y-2";
-                    
-                    let typeText = "일반";
-                    if (s.type === 'solo') typeText = "도현방송";
-                    else if (s.type === 'collab') typeText = "타스방송";
-                    else if (s.type === 'event') typeText = "이벤트";
-                    else if (s.type === 'rest') typeText = "휴방";
+                    if (s.anniversary && s.anniversary.trim() !== '') {
+                        allAnniversaries.push(s.anniversary);
+                    }
+                });
 
-                    div.innerHTML = `
-                        <!-- 상단 카테고리 / 게임 (내용+카테고리는 빨간색) -->
-                        <div class="flex items-center justify-between text-red-600 font-bold text-xs">
-                            <span class="px-2 py-0.5 rounded bg-red-50 border border-red-200">${typeText}</span>
-                            ${s.game ? `<span class="text-xs">[${s.game}]</span>` : ''}
-                        </div>
-                        <!-- 순서 변경: 제목 > 상세내용 > 멤버 -->
-                        ${s.summary ? `<h4 class="font-extrabold text-base text-zinc-900">${s.summary}</h4>` : ''}
-                        ${s.anniversary ? `<p class="text-xs text-red-600 font-semibold">${s.anniversary}</p>` : ''}
+                if (allAnniversaries.length > 0) {
+                    allAnniversaries.forEach(anni => {
+                        const anniBox = document.createElement('div');
+                        anniBox.className = "w-full bg-[#2a0e0e] border border-red-900/60 rounded-xl p-3 text-center text-red-500 font-black text-sm shadow-md";
+                        anniBox.innerText = anni;
+                        body.appendChild(anniBox);
+                    });
+                }
+
+                // 2) 일반 일정 출력
+                matchedSchedules.forEach(s => {
+                    // 방송 요약, 내용, 멤버가 있는 일정만 일정 박스로 표시
+                    if (s.summary || s.desc || s.members) {
+                        const div = document.createElement('div');
+                        // 일정 박스: 흰색 배경 + 테두리
+                        div.className = "bg-white text-zinc-900 p-4 rounded-xl border border-zinc-200 shadow-md space-y-2.5";
                         
-                        <!-- 폰트 크기 기존보다 0.5 키움 (text-xs -> text-sm) 및 빨간색 강조 텍스트 -->
-                        ${s.desc ? `<p class="text-sm text-red-600 font-medium leading-relaxed">${s.desc}</p>` : ''}
-                        ${s.members ? `<div class="text-sm text-red-600 whitespace-pre-line bg-red-50/50 p-2.5 rounded-lg border border-red-100 leading-relaxed font-medium">${s.members}</div>` : ''}
-                    `;
-                    body.appendChild(div);
+                        const hasValidType = s.type && s.type !== 'none' && TYPE_NAMES[s.type];
+                        const typeColor = TYPE_COLORS[s.type] || '#38bdf8';
+                        const typeName = TYPE_NAMES[s.type] || '';
+
+                        div.innerHTML = `
+                            <!-- 상단 방송 종류 및 게임 카테고리 -->
+                            ${(hasValidType || s.game) ? `
+                            <div class="flex items-center justify-between font-bold text-xs">
+                                ${hasValidType ? `
+                                    <span class="px-2 py-0.5 rounded text-white font-bold" style="background-color: ${typeColor};">
+                                        ${typeName}
+                                    </span>
+                                ` : '<span></span>'}
+                                ${s.game ? `<span class="text-xs font-bold text-red-600">[${s.game}]</span>` : ''}
+                            </div>
+                            ` : ''}
+
+                            <!-- 순서: 제목(검정) > 내용(진회색) > 멤버(검정) -->
+                            ${s.summary ? `<h4 class="font-extrabold text-base text-zinc-900">${s.summary}</h4>` : ''}
+                            ${s.desc ? `<p class="text-sm text-zinc-600 font-medium leading-relaxed">${s.desc}</p>` : ''}
+                            ${s.members ? `<div class="text-sm text-zinc-900 whitespace-pre-line bg-zinc-50 p-3 rounded-lg border border-zinc-200 leading-relaxed font-medium">${s.members}</div>` : ''}
+                        `;
+                        body.appendChild(div);
+                    }
                 });
             }
             document.getElementById('detail-modal').classList.remove('hidden');
@@ -645,7 +675,7 @@
 
         window.openAdminPanel = function() {
             resetForm();
-            // 🎯 관리자모드 킨 년도와 달이 필터에 자동으로 지정되도록 연동
+            // 관리자모드 킨 년도와 달이 필터에 자동으로 지정되도록 연동
             document.getElementById('admin-filter-year').value = currentYear;
             document.getElementById('admin-filter-month').value = currentMonth;
             renderAdminList();
@@ -660,7 +690,7 @@
 
         window.resetForm = function() {
             document.getElementById('edit-target-id').value = '';
-            // 🎯 현재 보고 있는 캘린더 연도/월(currentYear, currentMonth)의 1일을 기본 시작일로 세팅
+            // 현재 보고 있는 캘린더 연도/월(currentYear, currentMonth)의 1일을 기본 시작일로 세팅
             document.getElementById('form-start-date').value = formatDateStr(currentYear, currentMonth, 1);
             document.getElementById('form-end-date').value = '';
             document.getElementById('form-type').value = 'solo';
