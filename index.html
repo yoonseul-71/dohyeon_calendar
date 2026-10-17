@@ -198,6 +198,10 @@
                         <button type="button" onclick="selectItemColor('teal')" data-color-key="teal" class="color-btn border border-zinc-700 bg-teal-100 text-teal-900 px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1 transition">
                             <span class="w-3 h-3 rounded-full bg-teal-200 border border-teal-400 inline-block"></span> 연청록
                         </button>
+                        <!-- 📌 추가된 연살구(GTA/피치) 버튼 -->
+                        <button type="button" onclick="selectItemColor('apricot')" data-color-key="apricot" class="color-btn border border-zinc-700 bg-fuchsia-100 text-fuchsia-900 px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1 transition">
+                            <span class="w-3 h-3 rounded-full bg-fuchsia-200 border border-fuchsia-400 inline-block"></span> 연살구
+                        </button>
                     </div>
                 </div>
 
@@ -355,7 +359,8 @@
             blue: "bg-sky-100 text-sky-900 border-sky-300/80",
             green: "bg-emerald-100 text-emerald-900 border-emerald-300/80",
             purple: "bg-purple-100 text-purple-900 border-purple-300/80",
-            teal: "bg-teal-100 text-teal-900 border-teal-300/80"
+            teal: "bg-teal-100 text-teal-900 border-teal-300/80",
+            apricot: "bg-fuchsia-100 text-fuchsia-900 border-fuchsia-300/80" // 📌 추가된 연살구
         };
 
         window.selectItemColor = function(colorKey) {
