@@ -118,15 +118,9 @@
         </div>
     </div>
 
-    <!-- [모달 3] 관리자 편집 대시보드 팝업 (상단 고정 헤더 & 하단 닫기 버튼 추가) -->
+    <!-- [모달 3] 관리자 편집 대시보드 팝업 -->
     <div id="admin-panel-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden items-center justify-center z-50 p-4 overflow-y-auto">
         <div class="bg-zinc-900 border border-zinc-800 rounded-2xl max-w-2xl w-full p-6 text-white shadow-2xl my-8 relative">
-            
-            <!-- 📌 [개선] 스크롤해도 항상 위에 고정되는 헤더 영역 (Sticky) -->
-            <div class="sticky top-0 bg-zinc-900/95 backdrop-blur-md pt-2 pb-3 mb-4 border-b border-zinc-800 flex justify-between items-center z-20">
-                <h3 id="admin-panel-title" class="text-xl font-black text-red-500">🛠️ 일정 관리 패널 (관리자 모드)</h3>
-                <button onclick="closeAdminPanel()" class="bg-zinc-800 hover:bg-zinc-700 text-zinc-300 hover:text-white px-3 py-1.5 rounded-lg font-bold text-sm transition cursor-pointer border border-zinc-700">✕ 닫기</button>
-            </div>
 
             <!-- 일정 입력 폼 -->
             <div class="bg-zinc-800/50 p-4 rounded-xl border border-zinc-700/60 mb-6 space-y-3">
@@ -229,14 +223,16 @@
                     <textarea id="form-desc" rows="2" placeholder="예: 멸망전 연습 및 상금 관련 랜드 방송" class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500"></textarea>
                 </div>
 
+                <!-- 📌 [변경] 취소/초기화, 저장하기 버튼 옆으로 '관리자 패널 닫기' 버튼 이동 -->
                 <div class="flex justify-end gap-2 pt-2">
+                    <button onclick="closeAdminPanel()" class="px-3.5 py-1.5 bg-zinc-700 hover:bg-zinc-600 rounded-lg text-xs font-bold transition cursor-pointer">닫기</button>
                     <button onclick="resetForm()" class="px-3 py-1.5 bg-zinc-700 hover:bg-zinc-600 rounded-lg text-xs font-bold transition cursor-pointer">취소/초기화</button>
                     <button onclick="saveSchedule()" id="save-btn" class="px-4 py-1.5 bg-red-600 hover:bg-red-700 rounded-lg text-xs font-bold transition cursor-pointer">저장하기</button>
                 </div>
             </div>
 
             <!-- 📋 등록된 일정 필터 & 리스트 영역 -->
-            <div class="border-t border-zinc-800 pt-4 mb-4">
+            <div class="border-t border-zinc-800 pt-4">
                 <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 mb-3">
                     <h4 class="font-bold text-sm text-zinc-200">📋 등록된 일정 목록</h4>
                     <!-- 연월 검색 및 필터 컨트롤 바 -->
@@ -274,11 +270,6 @@
                 <div id="admin-schedule-list" class="max-h-60 overflow-y-auto space-y-2 pr-1 text-xs">
                     <!-- 자바스크립트로 로드 -->
                 </div>
-            </div>
-
-            <!-- 📌 [추가] 모달 맨 하단에 배치된 편의용 닫기 버튼 영역 -->
-            <div class="border-t border-zinc-800 pt-4 flex justify-end">
-                <button onclick="closeAdminPanel()" class="px-5 py-2.5 bg-zinc-800 hover:bg-zinc-700 text-white rounded-xl text-xs font-bold transition cursor-pointer border border-zinc-700">관리자 패널 닫기</button>
             </div>
         </div>
     </div>
