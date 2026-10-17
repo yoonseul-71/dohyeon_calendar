@@ -636,9 +636,9 @@
                             </div>
                             ` : ''}
 
-                            <!-- 순서: 제목(검정) > 내용(진회색) > 멤버(검정) -->
+                            <!-- 순서: 제목(검정) > 내용(진회색, 여러 줄 바꿈 반영) > 멤버(검정) -->
                             ${s.summary ? `<h4 class="font-extrabold text-base text-zinc-900">${s.summary}</h4>` : ''}
-                            ${s.desc ? `<p class="text-sm text-zinc-600 font-medium leading-relaxed">${s.desc}</p>` : ''}
+                            ${s.desc ? `<p class="text-sm text-zinc-600 font-medium leading-relaxed whitespace-pre-line">${s.desc}</p>` : ''}
                             ${s.members ? `<div class="text-sm text-zinc-900 whitespace-pre-line bg-zinc-50 p-3 rounded-lg border border-zinc-200 leading-relaxed font-medium">${s.members}</div>` : ''}
                         `;
                         body.appendChild(div);
@@ -780,12 +780,10 @@
                 const row = document.createElement('div');
                 row.className = "flex items-center justify-between bg-zinc-800 p-2.5 rounded-lg border border-zinc-700/60";
                 
-                // 🎯 [수정사항 반영] 요약 제목이 비어있을 경우 강조 문구(기념일/공지)나 상세 설명을 대신 표시
                 let displayTitle = item.summary && item.summary.trim() !== '' 
                     ? item.summary 
                     : (item.anniversary && item.anniversary.trim() !== '' ? item.anniversary : (item.desc || '(내용 없음)'));
                 
-                // 🎯 [수정사항 반영] 게임/카테고리가 선택되어 있다면 [카테고리명] 제목 형태로 표시
                 if (item.game && item.game.trim() !== '') {
                     displayTitle = `[${item.game}] ${displayTitle}`;
                 }
