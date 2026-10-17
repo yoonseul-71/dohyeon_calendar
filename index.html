@@ -118,12 +118,14 @@
         </div>
     </div>
 
-    <!-- [모달 3] 관리자 편집 대시보드 팝업 -->
+    <!-- [모달 3] 관리자 편집 대시보드 팝업 (상단 고정 헤더 & 하단 닫기 버튼 추가) -->
     <div id="admin-panel-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden items-center justify-center z-50 p-4 overflow-y-auto">
-        <div class="bg-zinc-900 border border-zinc-800 rounded-2xl max-w-2xl w-full p-6 text-white shadow-2xl my-8">
-            <div class="flex justify-between items-center mb-4 border-b border-zinc-800 pb-3">
+        <div class="bg-zinc-900 border border-zinc-800 rounded-2xl max-w-2xl w-full p-6 text-white shadow-2xl my-8 relative">
+            
+            <!-- 📌 [개선] 스크롤해도 항상 위에 고정되는 헤더 영역 (Sticky) -->
+            <div class="sticky top-0 bg-zinc-900/95 backdrop-blur-md pt-2 pb-3 mb-4 border-b border-zinc-800 flex justify-between items-center z-20">
                 <h3 id="admin-panel-title" class="text-xl font-black text-red-500">🛠️ 일정 관리 패널 (관리자 모드)</h3>
-                <button onclick="closeAdminPanel()" class="text-zinc-400 hover:text-white font-bold text-lg cursor-pointer">✕</button>
+                <button onclick="closeAdminPanel()" class="bg-zinc-800 hover:bg-zinc-700 text-zinc-300 hover:text-white px-3 py-1.5 rounded-lg font-bold text-sm transition cursor-pointer border border-zinc-700">✕ 닫기</button>
             </div>
 
             <!-- 일정 입력 폼 -->
@@ -194,11 +196,11 @@
                         <button type="button" onclick="selectItemColor('purple')" data-color-key="purple" class="color-btn border border-zinc-700 bg-purple-100 text-purple-900 px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1 transition">
                             <span class="w-3 h-3 rounded-full bg-purple-200 border border-purple-400 inline-block"></span> 연보라
                         </button>
-                        <!-- 📌 연청록(총겜동용) 버튼 -->
+                        <!-- 연청록(총겜동용) 버튼 -->
                         <button type="button" onclick="selectItemColor('teal')" data-color-key="teal" class="color-btn border border-zinc-700 bg-teal-100 text-teal-900 px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1 transition">
                             <span class="w-3 h-3 rounded-full bg-teal-200 border border-teal-400 inline-block"></span> 연청록
                         </button>
-                        <!-- 📌 추가된 연살구(GTA/피치) 버튼 -->
+                        <!-- 연살구(GTA용) 버튼 -->
                         <button type="button" onclick="selectItemColor('apricot')" data-color-key="apricot" class="color-btn border border-zinc-700 bg-fuchsia-100 text-fuchsia-900 px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1 transition">
                             <span class="w-3 h-3 rounded-full bg-fuchsia-200 border border-fuchsia-400 inline-block"></span> 연살구
                         </button>
@@ -210,18 +212,18 @@
                     <input type="text" id="form-summary" placeholder="예: 도현x수피 랜드 합방" class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500">
                 </div>
 
-                <!-- 📌 하단 강조 문구 입력란 -->
+                <!-- 하단 강조 문구 입력란 -->
                 <div>
                     <label class="block text-xs text-zinc-400 mb-1">📌 하단 강조 문구 (기념일/공지사항 등)</label>
                     <input type="text" id="form-anniversary" placeholder="예: 🎉 BIRTHDAY 🎉, 📢 마이크 고장 - 소리이슈" class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500">
                 </div>
 
-                <!-- 👥 참여 멤버 세로 길게 여러 줄 입력란 -->
+                <!-- 참여 멤버 세로 길게 여러 줄 입력란 -->
                 <div>
                     <label class="block text-xs text-zinc-400 mb-1">👥 참여 멤버 (엔터로 세로 줄바꿈 작성)</label>
                     <textarea id="form-members" rows="4" placeholder="예:&#10;도현 vs 켄&#10;수피 vs 콩석" class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2.5 text-sm focus:outline-none focus:border-red-500 leading-relaxed"></textarea>
                 </div>
-                <!-- 📝 상세 설명 분리 입력란 -->
+                <!-- 상세 설명 분리 입력란 -->
                 <div>
                     <label class="block text-xs text-zinc-400 mb-1">📝 상세 설명 (선택사항)</label>
                     <textarea id="form-desc" rows="2" placeholder="예: 멸망전 연습 및 상금 관련 랜드 방송" class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500"></textarea>
@@ -234,7 +236,7 @@
             </div>
 
             <!-- 📋 등록된 일정 필터 & 리스트 영역 -->
-            <div class="border-t border-zinc-800 pt-4">
+            <div class="border-t border-zinc-800 pt-4 mb-4">
                 <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 mb-3">
                     <h4 class="font-bold text-sm text-zinc-200">📋 등록된 일정 목록</h4>
                     <!-- 연월 검색 및 필터 컨트롤 바 -->
@@ -272,6 +274,11 @@
                 <div id="admin-schedule-list" class="max-h-60 overflow-y-auto space-y-2 pr-1 text-xs">
                     <!-- 자바스크립트로 로드 -->
                 </div>
+            </div>
+
+            <!-- 📌 [추가] 모달 맨 하단에 배치된 편의용 닫기 버튼 영역 -->
+            <div class="border-t border-zinc-800 pt-4 flex justify-end">
+                <button onclick="closeAdminPanel()" class="px-5 py-2.5 bg-zinc-800 hover:bg-zinc-700 text-white rounded-xl text-xs font-bold transition cursor-pointer border border-zinc-700">관리자 패널 닫기</button>
             </div>
         </div>
     </div>
@@ -360,7 +367,7 @@
             green: "bg-emerald-100 text-emerald-900 border-emerald-300/80",
             purple: "bg-purple-100 text-purple-900 border-purple-300/80",
             teal: "bg-teal-100 text-teal-900 border-teal-300/80",
-            apricot: "bg-fuchsia-100 text-fuchsia-900 border-fuchsia-300/80" // 📌 추가된 연살구
+            apricot: "bg-fuchsia-100 text-fuchsia-900 border-fuchsia-300/80"
         };
 
         window.selectItemColor = function(colorKey) {
