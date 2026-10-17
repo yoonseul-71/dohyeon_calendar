@@ -652,7 +652,10 @@
 
         window.resetForm = function() {
             document.getElementById('edit-target-id').value = '';
-            document.getElementById('form-start-date').value = formatDateStr(today.getFullYear(), today.getMonth(), today.getDate());
+            
+            // 🎯 현재 사용자가 보고 있는 캘린더 연도/월(currentYear, currentMonth)의 1일을 기본값으로 세팅
+            document.getElementById('form-start-date').value = formatDateStr(currentYear, currentMonth, 1);
+            
             document.getElementById('form-end-date').value = '';
             document.getElementById('form-type').value = 'solo';
             document.getElementById('form-game').value = '';
