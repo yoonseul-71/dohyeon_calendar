@@ -295,7 +295,7 @@
         let currentYear = today.getFullYear();
         let currentMonth = today.getMonth();
 
-        // 💻 [PC 전용: Alt + A 단축키]
+        // 
         document.addEventListener('keydown', function(event) {
             if (event.altKey && (event.key === 'a' || event.key === 'A' || event.key === 'ㅁ')) {
                 event.preventDefault();
@@ -303,7 +303,7 @@
             }
         });
 
-        // 📱 [모바일/PC 공용: 꾹 누르기]
+        // 
         let pressTimer = null;
         const triggerEl = document.getElementById('admin-long-press-trigger');
 
