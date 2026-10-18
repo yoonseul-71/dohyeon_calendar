@@ -61,7 +61,7 @@
                 <div class="flex justify-between items-center mb-6 px-2">
                     <button onclick="changeMonth(-1)" class="px-3.5 py-2 bg-zinc-100 hover:bg-zinc-200 text-zinc-700 rounded-xl font-bold transition text-sm cursor-pointer">&lt; 이전달</button>
                     <div class="flex items-center gap-3">
-                        <h2 id="calendar-title" class="text-xl md:text-2xl font-black text-zinc-800"></h2>
+                        <h2 id="calendar-title" class="text-xl md:text-2xl font-black text-zinc-800">2026년 10월</h2>
                         <button onclick="goToday()" class="px-2.5 py-1 bg-red-50 text-red-600 border border-red-200 hover:bg-red-100 rounded-lg text-xs font-bold transition cursor-pointer">오늘</button>
                     </div>
                     <button onclick="changeMonth(1)" class="px-3.5 py-2 bg-zinc-100 hover:bg-zinc-200 text-zinc-700 rounded-xl font-bold transition text-sm cursor-pointer">다음달 &gt;</button>
@@ -278,13 +278,12 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        // 관리자 비밀번호 해시 
+        // 비밀번호 해시값 
         const ADMIN_HASH_PASSWORD = "4a48f4305bcbc8527a4d52fe1efae9fa8e7e0cc195443a6d95e0c5aa857fb7ed";
 
-        // 입력된 비밀번호를 SHA-256 해시로 변환하는 함수
-        async function hashPassword(password) {
-            const strPw = String(password).trim();
-            const msgBuffer = new TextEncoder().encode(strPw);
+        // 입력 문자열을 SHA-256 해시로 안전하게 변환하는 함수
+        async function sha256(message) {
+            const msgBuffer = new TextEncoder().encode(String(message).trim());
             const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
             const hashArray = Array.from(new Uint8Array(hashBuffer));
             return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
@@ -658,21 +657,24 @@
             document.getElementById('admin-login-modal').classList.add('hidden');
         };
 
-        // 관리자 인증 함수
+        // 관리자 인증 함수 (비동기 해시 검증 완벽 수정)
         window.verifyAdmin = async function() {
             const pwInput = document.getElementById('admin-pw-input').value;
-            if (!pwInput) {
+            if (!pwInput || pwInput.trim() === '') {
                 alert('비밀번호를 입력해주세요.');
                 return;
             }
 
-            const hashedInput = await hashPassword(pwInput);
-
-            if (hashedInput === ADMIN_HASH_PASSWORD) {
-                closeAdminLogin();
-                openAdminPanel();
-            } else {
-                alert('비밀번호가 틀렸습니다.');
+            try {
+                const hashedInput = await sha256(pwInput);
+                if (hashedInput === ADMIN_HASH_PASSWORD) {
+                    closeAdminLogin();
+                    openAdminPanel();
+                } else {
+                    alert('비밀번호가 틀렸습니다.');
+                }
+            } catch (err) {
+                alert('인증 중 오류가 발생했습니다.');
             }
         };
 
@@ -832,7 +834,6 @@
             }
         };
 
-        // Firebase 데이터 동기화
         onValue(ref(db, 'schedules'), (snapshot) => {
             const data = snapshot.val();
             schedules = data ? data : {};
@@ -842,7 +843,6 @@
             }
         });
 
-        // 초기 실행
         initSelectBoxes();
         resetForm();
     </script>
