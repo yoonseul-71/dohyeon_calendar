@@ -15,7 +15,7 @@
 <body class="bg-[#121212] text-white min-h-screen flex flex-col justify-between">
 
     <div>
-        <!-- 상단 배너 영역 (가로 폭 1550px로 시원하게 확장) -->
+        <!-- 상단 배너 영역 -->
         <header class="w-full bg-[#0a0a0a] border-b border-red-900/45 relative overflow-hidden">
             <div class="max-w-[1550px] mx-auto px-4 py-8 md:py-12 flex flex-col md:flex-row items-center justify-between gap-6">
                 <div class="text-center md:text-left z-10">
@@ -23,7 +23,7 @@
                         DOHYEON <span class="text-red-600">CALENDAR</span>
                     </h1>
                 </div>
-                <!-- 배너 공식 링크 모음 (아카이브 버튼 추가 완료) -->
+                <!-- 배너 공식 링크 모음 -->
                 <nav class="flex flex-wrap justify-center gap-3 z-10">
                     <a href="https://www.sooplive.com/station/dobby1031" target="_blank" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-bold text-sm transition shadow-lg shadow-red-900/30">SOOP 방송국 ↗</a>
                     <a href="https://www.youtube.com/@d_obby" target="_blank" class="bg-zinc-800 hover:bg-zinc-700 text-zinc-200 px-4 py-2 rounded-lg font-bold text-sm border border-zinc-700 transition">도튜브 ↗</a>
@@ -34,12 +34,12 @@
             <div class="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-red-600 via-red-900 to-transparent"></div>
         </header>
 
-        <!-- 메인 콘텐츠 (가로 폭 1550px 확장) -->
+        <!-- 메인 콘텐츠 -->
         <main class="max-w-[1550px] mx-auto px-2 sm:px-4 py-8">
             
             <!-- 범례 및 컨트롤러 바 -->
             <div class="flex flex-col md:flex-row items-center justify-between gap-4 mb-6 bg-zinc-900/80 p-4 rounded-xl border border-zinc-800">
-                <!-- 범례 (순서: 도현방송 -> 타스방송 -> 이벤트 -> 휴방) -->
+                <!-- 범례 -->
                 <div class="flex flex-wrap items-center justify-center gap-4 text-xs md:text-sm font-bold">
                     <div class="flex items-center gap-1.5"><span class="w-3.5 h-3.5 rounded-full bg-sky-400 inline-block"></span><span>도현방송</span></div>
                     <div class="flex items-center gap-1.5"><span class="w-3.5 h-3.5 rounded-full bg-emerald-400 inline-block"></span><span>타스방송</span></div>
@@ -54,14 +54,14 @@
                 </div>
             </div>
 
-            <!-- 캘린더 본체 (흰 배경, 양옆 여백 줄이고 내부 가로 공간 극대화) -->
+            <!-- 캘린더 본체 -->
             <div class="bg-white text-zinc-900 rounded-2xl shadow-2xl p-3 md:p-5">
                 
-                <!-- 상단 네비게이션 (이전달 / 오늘 / 다음달) -->
+                <!-- 상단 네비게이션 -->
                 <div class="flex justify-between items-center mb-6 px-2">
                     <button onclick="changeMonth(-1)" class="px-3.5 py-2 bg-zinc-100 hover:bg-zinc-200 text-zinc-700 rounded-xl font-bold transition text-sm cursor-pointer">&lt; 이전달</button>
                     <div class="flex items-center gap-3">
-                        <h2 id="calendar-title" class="text-xl md:text-2xl font-black text-zinc-800">2026년 10월</h2>
+                        <h2 id="calendar-title" class="text-xl md:text-2xl font-black text-zinc-800"></h2>
                         <button onclick="goToday()" class="px-2.5 py-1 bg-red-50 text-red-600 border border-red-200 hover:bg-red-100 rounded-lg text-xs font-bold transition cursor-pointer">오늘</button>
                     </div>
                     <button onclick="changeMonth(1)" class="px-3.5 py-2 bg-zinc-100 hover:bg-zinc-200 text-zinc-700 rounded-xl font-bold transition text-sm cursor-pointer">다음달 &gt;</button>
@@ -88,7 +88,6 @@
     <footer class="max-w-[1550px] mx-auto w-full px-4 py-6 text-zinc-500 text-xs border-t border-zinc-800 mt-12 flex flex-row items-center justify-between gap-4 select-none">
         <p class="text-left">본 사이트는 비공식 일정표로 스트리머의 사정에 따라 일정이 변경될 수 있습니다.</p>
         <div class="flex items-center gap-3 shrink-0">
-            <!-- 📱 모바일/PC 공용 꾹 누르기(Long Press) 트리거 대상 텍스트 -->
             <span id="admin-long-press-trigger" class="text-zinc-600 font-semibold tracking-wide cursor-pointer select-none">made by 윤슬ツ</span>
         </div>
     </footer>
@@ -96,10 +95,8 @@
     <!-- [모달 1] 날짜 클릭 시 상세 팝업 -->
     <div id="detail-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
         <div class="bg-zinc-900 border border-zinc-800 rounded-2xl max-w-lg w-full p-6 text-white shadow-2xl relative">
-            <h3 id="modal-date-title" class="text-lg font-black text-red-500 mb-2">2026-10-15 방송 일정</h3>
-            <div id="modal-content-body" class="space-y-4 my-4 max-h-96 overflow-y-auto pr-1">
-                <!-- 동적 내용 -->
-            </div>
+            <h3 id="modal-date-title" class="text-lg font-black text-red-500 mb-2"></h3>
+            <div id="modal-content-body" class="space-y-4 my-4 max-h-96 overflow-y-auto pr-1"></div>
             <div class="flex justify-end gap-2 mt-6">
                 <button onclick="closeDetailModal()" class="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 rounded-xl text-xs font-bold transition cursor-pointer">닫기</button>
             </div>
@@ -166,7 +163,7 @@
                     </div>
                 </div>
 
-                <!-- 🎨 개별 일정 항목 배경색 프리셋 픽커 -->
+                <!-- 🎨 개별 일정 항목 배경색 픽커 -->
                 <div>
                     <label class="block text-xs text-zinc-400 mb-1.5">📌 개별 항목 배경색 선택 (강조용 파스텔 픽커)</label>
                     <div class="flex flex-wrap gap-2 items-center" id="color-picker-group">
@@ -191,11 +188,9 @@
                         <button type="button" onclick="selectItemColor('purple')" data-color-key="purple" class="color-btn border border-zinc-700 bg-purple-100 text-purple-900 px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1 transition">
                             <span class="w-3 h-3 rounded-full bg-purple-200 border border-purple-400 inline-block"></span> 연보라
                         </button>
-                        <!-- 연청록(총겜동용) 버튼 -->
                         <button type="button" onclick="selectItemColor('teal')" data-color-key="teal" class="color-btn border border-zinc-700 bg-teal-100 text-teal-900 px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1 transition">
                             <span class="w-3 h-3 rounded-full bg-teal-200 border border-teal-400 inline-block"></span> 연청록
                         </button>
-                        <!-- 연살구(GTA용) 버튼 -->
                         <button type="button" onclick="selectItemColor('apricot')" data-color-key="apricot" class="color-btn border border-zinc-700 bg-fuchsia-100 text-fuchsia-900 px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1 transition">
                             <span class="w-3 h-3 rounded-full bg-fuchsia-200 border border-fuchsia-400 inline-block"></span> 연살구
                         </button>
@@ -207,24 +202,20 @@
                     <input type="text" id="form-summary" placeholder="예: 도현x수피 랜드 합방" class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500">
                 </div>
 
-                <!-- 하단 강조 문구 입력란 -->
                 <div>
                     <label class="block text-xs text-zinc-400 mb-1">📌 하단 강조 문구 (기념일/공지사항 등)</label>
                     <input type="text" id="form-anniversary" placeholder="예: 🎉 BIRTHDAY 🎉, 📢 마이크 고장 - 소리이슈" class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500">
                 </div>
 
-                <!-- 참여 멤버 세로 길게 여러 줄 입력란 -->
                 <div>
                     <label class="block text-xs text-zinc-400 mb-1">👥 참여 멤버 (엔터로 세로 줄바꿈 작성)</label>
                     <textarea id="form-members" rows="4" placeholder="예:&#10;도현 vs 켄&#10;수피 vs 콩석" class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2.5 text-sm focus:outline-none focus:border-red-500 leading-relaxed"></textarea>
                 </div>
-                <!-- 상세 설명 분리 입력란 -->
                 <div>
                     <label class="block text-xs text-zinc-400 mb-1">📝 상세 설명 (선택사항)</label>
                     <textarea id="form-desc" rows="2" placeholder="예: 멸망전 연습 및 상금 관련 랜드 방송" class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500"></textarea>
                 </div>
 
-                <!-- 하단 닫기, 취소/초기화, 저장하기 버튼 배치 -->
                 <div class="flex justify-end gap-2 pt-2">
                     <button onclick="closeAdminPanel()" class="px-3.5 py-1.5 bg-zinc-700 hover:bg-zinc-600 rounded-lg text-xs font-bold transition cursor-pointer">닫기</button>
                     <button onclick="resetForm()" class="px-3 py-1.5 bg-zinc-700 hover:bg-zinc-600 rounded-lg text-xs font-bold transition cursor-pointer">취소/초기화</button>
@@ -232,11 +223,10 @@
                 </div>
             </div>
 
-            <!-- 📋 등록된 일정 필터 & 리스트 영역 -->
+            <!-- 등록된 일정 리스트 -->
             <div class="border-t border-zinc-800 pt-4">
                 <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 mb-3">
                     <h4 class="font-bold text-sm text-zinc-200">📋 등록된 일정 목록</h4>
-                    <!-- 연월 검색 및 필터 컨트롤 바 -->
                     <div class="flex flex-wrap items-center gap-1.5 w-full sm:w-auto">
                         <select id="admin-filter-year" onchange="renderAdminList()" class="bg-zinc-800 text-xs border border-zinc-700 rounded-md px-2 py-1 focus:outline-none text-zinc-300">
                         </select>
@@ -262,20 +252,16 @@
                     </div>
                 </div>
 
-                <!-- 키워드 빠른 검색창 -->
                 <div class="mb-3">
                     <input type="text" id="admin-search-input" onkeyup="renderAdminList()" placeholder="🔍 내용, 게임, 멤버, 기념일/공지로 검색..." class="w-full bg-zinc-800/80 border border-zinc-700 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:border-red-500">
                 </div>
 
-                <!-- 일정 리스트 화면 -->
-                <div id="admin-schedule-list" class="max-h-60 overflow-y-auto space-y-2 pr-1 text-xs">
-                    <!-- 자바스크립트로 로드 -->
-                </div>
+                <div id="admin-schedule-list" class="max-h-60 overflow-y-auto space-y-2 pr-1 text-xs"></div>
             </div>
         </div>
     </div>
 
-    <!-- Firebase SDK 로드 (Modular CDN) -->
+    <!-- Firebase SDK 로드 및 메인 로직 -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getDatabase, ref, onValue, set, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
@@ -292,12 +278,13 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        // 관리자 비밀번호 해시 설정
+        // 관리자 비밀번호 
         const ADMIN_HASH_PASSWORD = "30225d30bc11ebfe53eb620bb5730303da574d7df15a896dff8f1ee7c5952d7e";
 
         // 입력된 비밀번호를 SHA-256 해시로 변환하는 함수
         async function hashPassword(password) {
-            const msgBuffer = new TextEncoder().encode(password);
+            const strPw = String(password).trim();
+            const msgBuffer = new TextEncoder().encode(strPw);
             const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
             const hashArray = Array.from(new Uint8Array(hashBuffer));
             return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
@@ -307,9 +294,9 @@
 
         const today = new Date();
         let currentYear = today.getFullYear();
-        let currentMonth = today.getMonth(); // 0~11
+        let currentMonth = today.getMonth();
 
-        // 💻 [PC 전용: 단축키 리스너]
+        // 
         document.addEventListener('keydown', function(event) {
             if (event.altKey && (event.key === 'a' || event.key === 'A' || event.key === 'ㅁ')) {
                 event.preventDefault();
@@ -317,12 +304,12 @@
             }
         });
 
-        // 📱 [모바일/PC 공용: 누르기 트리거 로직]
+        // 
         let pressTimer = null;
         const triggerEl = document.getElementById('admin-long-press-trigger');
 
         if (triggerEl) {
-            const startPress = (e) => {
+            const startPress = () => {
                 pressTimer = setTimeout(() => {
                     window.openAdminLogin();
                 }, 1200);
@@ -345,10 +332,10 @@
         }
 
         const TYPE_COLORS = {
-            solo: '#38bdf8',   // sky-400
-            collab: '#34d399', // emerald-400
-            event: '#fbbf24',  // amber-400
-            rest: '#a1a1aa'    // zinc-400
+            solo: '#38bdf8',
+            collab: '#34d399',
+            event: '#fbbf24',
+            rest: '#a1a1aa'
         };
 
         const TYPE_NAMES = {
@@ -382,7 +369,7 @@
                     btn.classList.add('border', 'border-zinc-700');
                 }
             });
-        }
+        };
 
         function initSelectBoxes() {
             const yearSelect = document.getElementById('year-select');
@@ -422,7 +409,7 @@
             currentYear = parseInt(document.getElementById('year-select').value);
             currentMonth = parseInt(document.getElementById('month-select').value);
             renderCalendar();
-        }
+        };
 
         function formatDateStr(year, month, day) {
             const m = String(month + 1).padStart(2, '0');
@@ -553,7 +540,6 @@
                 topGroup.appendChild(listContainer);
                 cell.appendChild(topGroup);
 
-                // 달력 셀 하단 기념일/공지사항
                 const allAnniversaries = [];
                 matchedSchedules.forEach(s => {
                     if (s.anniversary && s.anniversary.trim() !== '') {
@@ -587,15 +573,14 @@
                 currentYear--;
             }
             renderCalendar();
-        }
+        };
 
         window.goToday = function() {
             currentYear = today.getFullYear();
             currentMonth = today.getMonth();
             renderCalendar();
-        }
+        };
 
-        // 모달 관련 함수
         window.openDetailModal = function(dateStr, matchedSchedules) {
             document.getElementById('modal-date-title').innerText = `${dateStr} 방송 일정`;
             const body = document.getElementById('modal-content-body');
@@ -604,7 +589,6 @@
             if (matchedSchedules.length === 0) {
                 body.innerHTML = '<p class="text-zinc-500 text-center py-4">등록된 일정이 없습니다.</p>';
             } else {
-                // 기념일/공지사항 상단 배너
                 const allAnniversaries = [];
                 matchedSchedules.forEach(s => {
                     if (s.anniversary && s.anniversary.trim() !== '') {
@@ -621,7 +605,6 @@
                     });
                 }
 
-                // 일반 일정 목록
                 matchedSchedules.forEach(s => {
                     if (s.summary || s.desc || s.members) {
                         const div = document.createElement('div');
@@ -632,7 +615,6 @@
                         const typeName = TYPE_NAMES[s.type] || '';
 
                         div.innerHTML = `
-                            <!-- 방송 종류 및 카테고리 배너 -->
                             ${(hasValidType || s.game) ? `
                             <div class="flex items-center gap-2 font-bold text-xs flex-wrap">
                                 ${hasValidType ? `
@@ -648,7 +630,6 @@
                             </div>
                             ` : ''}
 
-                            <!-- 순서: 제목(검정) > 내용(진회색, 여러 줄 바꿈 반영) > 멤버(검정) -->
                             ${s.summary ? `<h4 class="font-extrabold text-base text-zinc-900">${s.summary}</h4>` : ''}
                             ${s.desc ? `<p class="text-sm text-zinc-600 font-medium leading-relaxed whitespace-pre-line">${s.desc}</p>` : ''}
                             ${s.members ? `<div class="text-sm text-zinc-900 whitespace-pre-line bg-zinc-50 p-3 rounded-lg border border-zinc-200 leading-relaxed font-medium">${s.members}</div>` : ''}
@@ -659,28 +640,28 @@
             }
             document.getElementById('detail-modal').classList.remove('hidden');
             document.getElementById('detail-modal').classList.add('flex');
-        }
+        };
 
         window.closeDetailModal = function() {
             document.getElementById('detail-modal').classList.remove('flex');
             document.getElementById('detail-modal').classList.add('hidden');
-        }
+        };
 
         window.openAdminLogin = function() {
             document.getElementById('admin-pw-input').value = '';
             document.getElementById('admin-login-modal').classList.remove('hidden');
             document.getElementById('admin-login-modal').classList.add('flex');
-        }
+        };
 
         window.closeAdminLogin = function() {
             document.getElementById('admin-login-modal').classList.remove('flex');
             document.getElementById('admin-login-modal').classList.add('hidden');
-        }
+        };
 
-        // 해시 검증이 적용된 로그인 함수 
+        // 관리자 인증 함수 
         window.verifyAdmin = async function() {
-            const pw = document.getElementById('admin-pw-input').value;
-            const hashedInput = await hashPassword(pw);
+            const pwInput = document.getElementById('admin-pw-input').value;
+            const hashedInput = await hashPassword(pwInput);
 
             if (hashedInput === ADMIN_HASH_PASSWORD) {
                 closeAdminLogin();
@@ -688,7 +669,7 @@
             } else {
                 alert('비밀번호가 틀렸습니다.');
             }
-        }
+        };
 
         window.openAdminPanel = function() {
             resetForm();
@@ -697,12 +678,12 @@
             renderAdminList();
             document.getElementById('admin-panel-modal').classList.remove('hidden');
             document.getElementById('admin-panel-modal').classList.add('flex');
-        }
+        };
 
         window.closeAdminPanel = function() {
             document.getElementById('admin-panel-modal').classList.remove('flex');
             document.getElementById('admin-panel-modal').classList.add('hidden');
-        }
+        };
 
         window.resetForm = function() {
             document.getElementById('edit-target-id').value = '';
@@ -717,7 +698,7 @@
             selectItemColor('default');
             document.getElementById('form-mode-title').innerText = '일정 추가';
             document.getElementById('save-btn').innerText = '저장하기';
-        }
+        };
 
         window.saveSchedule = function() {
             const id = document.getElementById('edit-target-id').value || 'sch_' + Date.now();
@@ -746,7 +727,7 @@
             }).catch((error) => {
                 alert('저장 실패: ' + error.message);
             });
-        }
+        };
 
         window.renderAdminList = function() {
             const listEl = document.getElementById('admin-schedule-list');
@@ -762,7 +743,6 @@
                 items.push({ id, ...schedules[id] });
             }
 
-            // 필터링
             items = items.filter(item => {
                 const sDate = item.startDate;
                 const [y, m, d] = sDate.split('-');
@@ -777,7 +757,6 @@
                 return true;
             });
 
-            // 정렬
             items.sort((a, b) => {
                 if (sortOrder === 'desc') {
                     return b.startDate.localeCompare(a.startDate);
@@ -815,7 +794,7 @@
                 `;
                 listEl.appendChild(row);
             });
-        }
+        };
 
         window.editSchedule = function(id) {
             const item = schedules[id];
@@ -834,7 +813,7 @@
 
             document.getElementById('form-mode-title').innerText = '일정 수정';
             document.getElementById('save-btn').innerText = '수정하기';
-        }
+        };
 
         window.deleteSchedule = function(id) {
             if (confirm('정말 이 일정을 삭제하시겠습니까?')) {
@@ -846,9 +825,9 @@
                     alert('삭제 실패: ' + error.message);
                 });
             }
-        }
+        };
 
-        // Firebase 데이터 실시간 동기화
+        // Firebase 데이터 동기화
         onValue(ref(db, 'schedules'), (snapshot) => {
             const data = snapshot.val();
             schedules = data ? data : {};
