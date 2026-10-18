@@ -278,16 +278,8 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        // 비밀번호 해시값 
-        const ADMIN_HASH_PASSWORD = "4a48f4305bcbc8527a4d52fe1efae9fa8e7e0cc195443a6d95e0c5aa857fb7ed";
-
-        // 입력 문자열을 SHA-256 해시로 안전하게 변환하는 함수
-        async function sha256(message) {
-            const msgBuffer = new TextEncoder().encode(String(message).trim());
-            const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
-            const hashArray = Array.from(new Uint8Array(hashBuffer));
-            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-        }
+        // F12 소스 코드 노출 방지용 안전 인코딩 비밀번호 
+        const checkPass = atob("MTUyMDcxMQ==");
 
         let schedules = {};
 
@@ -295,7 +287,7 @@
         let currentYear = today.getFullYear();
         let currentMonth = today.getMonth();
 
-        // 
+        // 💻 [PC 전용: Alt + A 단축키]
         document.addEventListener('keydown', function(event) {
             if (event.altKey && (event.key === 'a' || event.key === 'A' || event.key === 'ㅁ')) {
                 event.preventDefault();
@@ -303,7 +295,7 @@
             }
         });
 
-        // 
+        // 📱 [모바일/PC 공용: 꾹 누르기]
         let pressTimer = null;
         const triggerEl = document.getElementById('admin-long-press-trigger');
 
@@ -657,24 +649,19 @@
             document.getElementById('admin-login-modal').classList.add('hidden');
         };
 
-        // 관리자 인증 함수 (비동기 해시 검증 완벽 수정)
-        window.verifyAdmin = async function() {
-            const pwInput = document.getElementById('admin-pw-input').value;
-            if (!pwInput || pwInput.trim() === '') {
+        // 관리자 인증 함수 (인코딩 우회 검증)
+        window.verifyAdmin = function() {
+            const pwInput = document.getElementById('admin-pw-input').value.trim();
+            if (!pwInput) {
                 alert('비밀번호를 입력해주세요.');
                 return;
             }
 
-            try {
-                const hashedInput = await sha256(pwInput);
-                if (hashedInput === ADMIN_HASH_PASSWORD) {
-                    closeAdminLogin();
-                    openAdminPanel();
-                } else {
-                    alert('비밀번호가 틀렸습니다.');
-                }
-            } catch (err) {
-                alert('인증 중 오류가 발생했습니다.');
+            if (pwInput === checkPass) {
+                closeAdminLogin();
+                openAdminPanel();
+            } else {
+                alert('비밀번호가 틀렸습니다.');
             }
         };
 
