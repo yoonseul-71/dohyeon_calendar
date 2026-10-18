@@ -23,11 +23,12 @@
                         DOHYEON <span class="text-red-600">CALENDAR</span>
                     </h1>
                 </div>
-                <!-- 배너 공식 링크 모음 -->
+                <!-- 배너 공식 링크 모음 (아카이브 버튼 추가 완료) -->
                 <nav class="flex flex-wrap justify-center gap-3 z-10">
                     <a href="https://www.sooplive.com/station/dobby1031" target="_blank" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-bold text-sm transition shadow-lg shadow-red-900/30">SOOP 방송국 ↗</a>
                     <a href="https://www.youtube.com/@d_obby" target="_blank" class="bg-zinc-800 hover:bg-zinc-700 text-zinc-200 px-4 py-2 rounded-lg font-bold text-sm border border-zinc-700 transition">도튜브 ↗</a>
                     <a href="https://cafe.naver.com/jamdo" target="_blank" class="bg-zinc-800 hover:bg-zinc-700 text-zinc-200 px-4 py-2 rounded-lg font-bold text-sm border border-zinc-700 transition">도밥천국 ↗</a>
+                    <a href="https://app.notion.com/p/SOOP-DOHYEON-ARCHIVE-237f94d7dc8680e3ac2cdb67d3997e05" target="_blank" class="bg-zinc-800 hover:bg-zinc-700 text-zinc-200 px-4 py-2 rounded-lg font-bold text-sm border border-zinc-700 transition">아카이브 ↗</a>
                 </nav>
             </div>
             <div class="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-red-600 via-red-900 to-transparent"></div>
@@ -110,7 +111,7 @@
         <div class="bg-zinc-900 border border-zinc-800 rounded-2xl max-w-sm w-full p-6 text-white shadow-2xl">
             <h3 class="text-lg font-bold mb-4">관리자 인증</h3>
             <p class="text-xs text-zinc-400 mb-4">관리자 비밀번호를 입력하세요.</p>
-            <input type="password" id="admin-pw-input" placeholder="비밀번호" class="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-2 text-sm mb-4 focus:outline-none focus:border-red-500">
+            <input type="password" id="admin-pw-input" placeholder="비밀번호" class="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-2 text-sm mb-4 focus:outline-none focus:border-red-500" onkeydown="if(event.key==='Enter') verifyAdmin()">
             <div class="flex justify-end gap-2">
                 <button onclick="closeAdminLogin()" class="px-3 py-2 bg-zinc-800 hover:bg-zinc-700 rounded-xl text-xs font-bold transition cursor-pointer">취소</button>
                 <button onclick="verifyAdmin()" class="px-4 py-2 bg-red-600 hover:bg-red-700 rounded-xl text-xs font-bold transition cursor-pointer">확인</button>
@@ -223,7 +224,7 @@
                     <textarea id="form-desc" rows="2" placeholder="예: 멸망전 연습 및 상금 관련 랜드 방송" class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500"></textarea>
                 </div>
 
-                <!-- 📌 [변경] 취소/초기화, 저장하기 버튼 옆으로 '관리자 패널 닫기' 버튼 이동 -->
+                <!-- 하단 닫기, 취소/초기화, 저장하기 버튼 배치 -->
                 <div class="flex justify-end gap-2 pt-2">
                     <button onclick="closeAdminPanel()" class="px-3.5 py-1.5 bg-zinc-700 hover:bg-zinc-600 rounded-lg text-xs font-bold transition cursor-pointer">닫기</button>
                     <button onclick="resetForm()" class="px-3 py-1.5 bg-zinc-700 hover:bg-zinc-600 rounded-lg text-xs font-bold transition cursor-pointer">취소/초기화</button>
@@ -291,8 +292,16 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        // 🔑 [관리자 비밀번호 설정]
-        const ADMIN_PASSWORD = "1234";
+        // 관리자 비밀번호 해시 설정
+        const ADMIN_HASH_PASSWORD = "30225d30bc11ebfe53eb620bb5730303da574d7df15a896dff8f1ee7c5952d7e";
+
+        // 입력된 비밀번호를 SHA-256 해시로 변환하는 함수
+        async function hashPassword(password) {
+            const msgBuffer = new TextEncoder().encode(password);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        }
 
         let schedules = {};
 
@@ -300,7 +309,7 @@
         let currentYear = today.getFullYear();
         let currentMonth = today.getMonth(); // 0~11
 
-        // 💻 [PC 전용: Alt + A 단축키 리스너]
+        // 💻 [PC 전용: 단축키 리스너]
         document.addEventListener('keydown', function(event) {
             if (event.altKey && (event.key === 'a' || event.key === 'A' || event.key === 'ㅁ')) {
                 event.preventDefault();
@@ -308,7 +317,7 @@
             }
         });
 
-        // 📱 [모바일/PC 공용: 꾹 누르기(Long Press) 트리거 로직]
+        // 📱 [모바일/PC 공용: 누르기 트리거 로직]
         let pressTimer = null;
         const triggerEl = document.getElementById('admin-long-press-trigger');
 
@@ -668,9 +677,12 @@
             document.getElementById('admin-login-modal').classList.add('hidden');
         }
 
-        window.verifyAdmin = function() {
+        // 해시 검증이 적용된 로그인 함수 
+        window.verifyAdmin = async function() {
             const pw = document.getElementById('admin-pw-input').value;
-            if (pw === ADMIN_PASSWORD) {
+            const hashedInput = await hashPassword(pw);
+
+            if (hashedInput === ADMIN_HASH_PASSWORD) {
                 closeAdminLogin();
                 openAdminPanel();
             } else {
