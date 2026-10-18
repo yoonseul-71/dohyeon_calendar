@@ -278,37 +278,33 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        // 관리자 비밀번호 해시
+        // 관리자 비밀번호 해시 
         const ADMIN_HASH_PASSWORD = "4a48f4305bcbc8527a4d52fe1efae9fa8e7e0cc195443a6d95e0c5aa857fb7ed";
 
         // 입력된 비밀번호를 SHA-256 해시로 변환하는 함수
         async function hashPassword(password) {
-            const strPw = String(password).trim(); // 앞뒤 공백 제거 및 문자열 보장
+            const strPw = String(password).trim();
             const msgBuffer = new TextEncoder().encode(strPw);
             const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
             const hashArray = Array.from(new Uint8Array(hashBuffer));
             return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
         }
 
-        // 관리자 인증 함수
-        window.verifyAdmin = async function() {
-            const pwInput = document.getElementById('admin-pw-input').value;
-            if (!pwInput) {
-                alert('비밀번호를 입력해주세요.');
-                return;
-            }
-            
-            const hashedInput = await hashPassword(pwInput);
+        let schedules = {};
 
-            if (hashedInput === ADMIN_HASH_PASSWORD) {
-                closeAdminLogin();
-                openAdminPanel();
-            } else {
-                alert('비밀번호가 틀렸습니다.');
-            }
-        };
+        const today = new Date();
+        let currentYear = today.getFullYear();
+        let currentMonth = today.getMonth();
 
-        // 
+        // 💻 [PC 전용: Alt + A 단축키]
+        document.addEventListener('keydown', function(event) {
+            if (event.altKey && (event.key === 'a' || event.key === 'A' || event.key === 'ㅁ')) {
+                event.preventDefault();
+                window.openAdminLogin();
+            }
+        });
+
+        // 📱 [모바일/PC 공용: 꾹 누르기]
         let pressTimer = null;
         const triggerEl = document.getElementById('admin-long-press-trigger');
 
@@ -662,9 +658,14 @@
             document.getElementById('admin-login-modal').classList.add('hidden');
         };
 
-        // 관리자 인증 함수 
+        // 관리자 인증 함수
         window.verifyAdmin = async function() {
             const pwInput = document.getElementById('admin-pw-input').value;
+            if (!pwInput) {
+                alert('비밀번호를 입력해주세요.');
+                return;
+            }
+
             const hashedInput = await hashPassword(pwInput);
 
             if (hashedInput === ADMIN_HASH_PASSWORD) {
