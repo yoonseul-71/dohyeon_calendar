@@ -15,17 +15,17 @@
 <body class="bg-[#121212] text-white min-h-screen flex flex-col justify-between">
 
     <div>
-        <!-- 상단 배너 영역 (세로 높이 및 내부 여백 확장) -->
+        <!-- 상단 배너 영역 -->
         <header class="w-full bg-[#0a0a0a] border-b border-red-900/45 relative overflow-hidden">
-            <div class="max-w-[1550px] mx-auto px-4 pt-8 pb-12 md:pt-10 md:pb-14 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="max-w-[1550px] mx-auto px-4 pt-8 pb-4 md:pt-10 md:pb-5 flex flex-col md:flex-row items-center justify-between gap-6">
                 <div class="text-center md:text-left z-10">
                     <h1 class="text-3xl md:text-5xl font-black italic tracking-wider text-white drop-shadow-[0_2px_10px_rgba(255,0,0,0.5)]">
                         DOHYEON <span class="text-red-600">CALENDAR</span>
                     </h1>
                 </div>
                 
-                <!-- 배너 공식 링크 모음 (빨간 줄 위로 위치 이동 및 배치) -->
-                <nav class="flex flex-wrap items-center justify-center gap-2.5 z-10 md:absolute md:right-10 md:bottom-5">
+                <!-- 배너 공식 링크 모음 (위치 수정: 연도/월 상자 위쪽, 빨간줄 바로 위에 정렬) -->
+                <nav class="flex flex-wrap items-center justify-center gap-2.5 z-10 md:self-end">
                     
                     <!-- 1. SOOP 방송국 -->
                     <div class="relative group flex items-center justify-center">
@@ -868,7 +868,6 @@
                 return;
             }
 
-            items.items = items || [];
             items.forEach(item => {
                 const row = document.createElement('div');
                 row.className = "flex items-center justify-between bg-zinc-800 p-2.5 rounded-lg border border-zinc-700/60";
