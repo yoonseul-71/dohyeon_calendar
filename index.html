@@ -26,11 +26,11 @@
                 <!-- 배너 공식 링크 모음 (원형 아이콘 네비게이션) -->
                 <nav class="flex flex-wrap items-center justify-center gap-2.5 z-10">
                     
-                    <!-- 1. SOOP 방송국 (차별화 포인트: 빨간 원형 배경 + 흰색 집 아이콘) -->
+                    <!-- 1. SOOP 방송국 (수정: 톤다운 레드 배경 + 속이 채워진 선명한 흰색 집 아이콘 + 후광 제거) -->
                     <div class="relative group flex items-center justify-center">
-                        <a href="https://www.sooplive.com/station/dobby1031" target="_blank" class="w-9 h-9 bg-red-600 hover:bg-red-500 border border-red-400 rounded-full flex items-center justify-center transition shadow-lg shadow-red-900/50 hover:scale-105 active:scale-95 p-2">
-                            <svg viewBox="0 0 24 24" class="w-full h-full fill-current text-white drop-shadow">
-                                <path d="M12 3L2 12h3v8h14v-8h3L12 3zm0 3.5c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm0 11.5c-2.2 0-4-1.8-4-4 0-2.2 4-5 4-5s4 2.8 4 5c0 2.2-1.8 4-4 4z"/>
+                        <a href="https://www.sooplive.com/station/dobby1031" target="_blank" class="w-9 h-9 bg-red-700 hover:bg-red-600 border border-red-500/80 rounded-full flex items-center justify-center transition hover:scale-105 active:scale-95 p-1.5">
+                            <svg viewBox="0 0 24 24" class="w-6 h-6 fill-current text-white">
+                                <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
                             </svg>
                         </a>
                         <!-- 호버 툴팁 -->
@@ -255,10 +255,10 @@
                             <option value="">없음</option>
                             <option value="발로">발로</option>
                             <option value="마크">마크</option>
-                            <option value="롤">롤</option>
-                            <option value="서든">서든</option>
                             <option value="소통">소통</option>
                             <option value="종겜">종겜</option>
+                            <option value="롤">롤</option>
+                            <option value="서든">서든</option>
                             <option value="옵치">옵치</option>
                             <option value="배그">배그</option>
                             <option value="포나">포나</option>
@@ -390,7 +390,7 @@
         let currentYear = today.getFullYear();
         let currentMonth = today.getMonth();
 
-        // 
+        //
         document.addEventListener('keydown', function(event) {
             if (event.altKey && (event.key === 'a' || event.key === 'A' || event.key === 'ㅁ')) {
                 event.preventDefault();
@@ -398,7 +398,7 @@
             }
         });
 
-        // 
+        //
         let pressTimer = null;
         const triggerEl = document.getElementById('admin-long-press-trigger');
 
