@@ -15,18 +15,19 @@
 <body class="bg-[#121212] text-white min-h-screen flex flex-col justify-between">
 
     <div>
-        <!-- 상단 배너 영역 -->
+        <!-- 상단 배너 영역 (세로 높이 및 내부 여백 확장) -->
         <header class="w-full bg-[#0a0a0a] border-b border-red-900/45 relative overflow-hidden">
-            <div class="max-w-[1550px] mx-auto px-4 py-8 md:py-12 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="max-w-[1550px] mx-auto px-4 pt-8 pb-12 md:pt-10 md:pb-14 flex flex-col md:flex-row items-center justify-between gap-6">
                 <div class="text-center md:text-left z-10">
                     <h1 class="text-3xl md:text-5xl font-black italic tracking-wider text-white drop-shadow-[0_2px_10px_rgba(255,0,0,0.5)]">
                         DOHYEON <span class="text-red-600">CALENDAR</span>
                     </h1>
                 </div>
-                <!-- 배너 공식 링크 모음 (원형 아이콘 네비게이션) -->
-                <nav class="flex flex-wrap items-center justify-center gap-2.5 z-10">
+                
+                <!-- 배너 공식 링크 모음 (빨간 줄 위로 위치 이동 및 배치) -->
+                <nav class="flex flex-wrap items-center justify-center gap-2.5 z-10 md:absolute md:right-10 md:bottom-5">
                     
-                    <!-- 1. SOOP 방송국 (수정: 집 아이콘 정중앙 위치 보정 및 여백 완벽 조절) -->
+                    <!-- 1. SOOP 방송국 -->
                     <div class="relative group flex items-center justify-center">
                         <a href="https://www.sooplive.com/station/dobby1031" target="_blank" class="w-9 h-9 bg-red-700 hover:bg-red-600 border border-red-500/80 rounded-full flex items-center justify-center transition hover:scale-105 active:scale-95">
                             <svg viewBox="0 0 24 24" class="w-5 h-5 fill-current text-white block">
@@ -40,7 +41,7 @@
                         </div>
                     </div>
 
-                    <!-- 2. 도튜브 (어두운 배경 + 흰색 유튜브 네모 아이콘) -->
+                    <!-- 2. 도튜브 -->
                     <div class="relative group flex items-center justify-center">
                         <a href="https://www.youtube.com/@d_obby" target="_blank" class="w-9 h-9 bg-zinc-800/80 hover:bg-zinc-700 border border-zinc-700 rounded-full flex items-center justify-center transition shadow-md hover:scale-105 active:scale-95 p-2">
                             <svg viewBox="0 0 24 24" class="w-full h-full fill-current text-white">
@@ -54,7 +55,7 @@
                         </div>
                     </div>
 
-                    <!-- 3. 도밥천국 (어두운 배경 + 흰색 컵 아이콘) -->
+                    <!-- 3. 도밥천국 -->
                     <div class="relative group flex items-center justify-center">
                         <a href="https://cafe.naver.com/jamdo" target="_blank" class="w-9 h-9 bg-zinc-800/80 hover:bg-zinc-700 border border-zinc-700 rounded-full flex items-center justify-center transition shadow-md hover:scale-105 active:scale-95 p-2">
                             <svg viewBox="0 0 24 24" class="w-full h-full fill-current text-white">
@@ -68,7 +69,7 @@
                         </div>
                     </div>
 
-                    <!-- 4. 아카이브 (어두운 배경 + 흰색 책장 아이콘) -->
+                    <!-- 4. 아카이브 -->
                     <div class="relative group flex items-center justify-center">
                         <a href="https://app.notion.com/p/SOOP-DOHYEON-ARCHIVE-237f94d7dc8680e3ac2cdb67d3997e05" target="_blank" class="w-9 h-9 bg-zinc-800/80 hover:bg-zinc-700 border border-zinc-700 rounded-full flex items-center justify-center transition shadow-md hover:scale-105 active:scale-95 p-2">
                             <svg viewBox="0 0 24 24" class="w-full h-full fill-current text-white">
@@ -82,7 +83,7 @@
                         </div>
                     </div>
 
-                    <!-- 5. 🦊 연보라 여우 아이콘 1: 도현 이모티콘 -->
+                    <!-- 5. 🦊 도현 이모티콘 -->
                     <div class="relative group flex items-center justify-center">
                         <a href="https://ogqmarket.sooplive.com/emoticon/63fee49b8e6ff" target="_blank" class="w-9 h-9 bg-zinc-800/80 hover:bg-zinc-700 border border-zinc-700 rounded-full flex items-center justify-center transition shadow-md hover:scale-105 active:scale-95 p-1.5">
                             <svg viewBox="0 0 100 100" class="w-full h-full drop-shadow">
@@ -108,7 +109,7 @@
                         </div>
                     </div>
 
-                    <!-- 6. 🦊 연보라 여우 아이콘 2: 도현 움직이는 이모티콘 -->
+                    <!-- 6. 🦊 도현 움직이는 이모티콘 -->
                     <div class="relative group flex items-center justify-center">
                         <a href="https://ogqmarket.sooplive.com/emoticon/65c3ea120a90d" target="_blank" class="w-9 h-9 bg-zinc-800/80 hover:bg-zinc-700 border border-zinc-700 rounded-full flex items-center justify-center transition shadow-md hover:scale-105 active:scale-95 p-1.5">
                             <svg viewBox="0 0 100 100" class="w-full h-full drop-shadow">
@@ -867,6 +868,7 @@
                 return;
             }
 
+            items.items = items || [];
             items.forEach(item => {
                 const row = document.createElement('div');
                 row.className = "flex items-center justify-between bg-zinc-800 p-2.5 rounded-lg border border-zinc-700/60";
