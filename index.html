@@ -23,17 +23,68 @@
                         DOHYEON <span class="text-red-600">CALENDAR</span>
                     </h1>
                 </div>
-                <!-- 배너 공식 링크 모음 -->
-                <nav class="flex flex-wrap items-center justify-center gap-3 z-10">
-                    <a href="https://www.sooplive.com/station/dobby1031" target="_blank" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-bold text-sm transition shadow-lg shadow-red-900/30">SOOP 방송국 ↗</a>
-                    <a href="https://www.youtube.com/@d_obby" target="_blank" class="bg-zinc-800 hover:bg-zinc-700 text-zinc-200 px-4 py-2 rounded-lg font-bold text-sm border border-zinc-700 transition">도튜브 ↗</a>
-                    <a href="https://cafe.naver.com/jamdo" target="_blank" class="bg-zinc-800 hover:bg-zinc-700 text-zinc-200 px-4 py-2 rounded-lg font-bold text-sm border border-zinc-700 transition">도밥천국 ↗</a>
-                    <a href="https://app.notion.com/p/SOOP-DOHYEON-ARCHIVE-237f94d7dc8680e3ac2cdb67d3997e05" target="_blank" class="bg-zinc-800 hover:bg-zinc-700 text-zinc-200 px-4 py-2 rounded-lg font-bold text-sm border border-zinc-700 transition">아카이브 ↗</a>
-
-                    <!-- 🦊 연보라 여우 아이콘 1: 도현 이모티콘 -->
+                <!-- 배너 공식 링크 모음 (원형 아이콘 네비게이션) -->
+                <nav class="flex flex-wrap items-center justify-center gap-2.5 z-10">
+                    
+                    <!-- 1. SOOP 방송국 (차별화 포인트: 빨간 원형 배경 + 흰색 집 아이콘) -->
                     <div class="relative group flex items-center justify-center">
-                        <a href="https://ogqmarket.sooplive.com/emoticon/63fee49b8e6ff" target="_blank" class="w-9 h-9 bg-purple-500/20 hover:bg-purple-500/40 border border-purple-400/50 rounded-full flex items-center justify-center transition shadow-md hover:scale-105 active:scale-95 p-1.5">
-                            <!-- 보라 여우 SVG 얼굴 -->
+                        <a href="https://www.sooplive.com/station/dobby1031" target="_blank" class="w-9 h-9 bg-red-600 hover:bg-red-500 border border-red-400 rounded-full flex items-center justify-center transition shadow-lg shadow-red-900/50 hover:scale-105 active:scale-95 p-2">
+                            <svg viewBox="0 0 24 24" class="w-full h-full fill-current text-white drop-shadow">
+                                <path d="M12 3L2 12h3v8h14v-8h3L12 3zm0 3.5c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm0 11.5c-2.2 0-4-1.8-4-4 0-2.2 4-5 4-5s4 2.8 4 5c0 2.2-1.8 4-4 4z"/>
+                            </svg>
+                        </a>
+                        <!-- 호버 툴팁 -->
+                        <div class="absolute bottom-full mb-2 hidden group-hover:flex flex-col items-center pointer-events-none z-30">
+                            <span class="bg-zinc-900 text-red-300 text-xs font-bold px-2.5 py-1 rounded-md border border-zinc-700 whitespace-nowrap shadow-lg">SOOP 방송국</span>
+                            <div class="w-2 h-2 bg-zinc-900 rotate-45 -mt-1 border-r border-b border-zinc-700"></div>
+                        </div>
+                    </div>
+
+                    <!-- 2. 도튜브 (어두운 배경 + 흰색 유튜브 네모 아이콘) -->
+                    <div class="relative group flex items-center justify-center">
+                        <a href="https://www.youtube.com/@d_obby" target="_blank" class="w-9 h-9 bg-zinc-800/80 hover:bg-zinc-700 border border-zinc-700 rounded-full flex items-center justify-center transition shadow-md hover:scale-105 active:scale-95 p-2">
+                            <svg viewBox="0 0 24 24" class="w-full h-full fill-current text-white">
+                                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                            </svg>
+                        </a>
+                        <!-- 호버 툴팁 -->
+                        <div class="absolute bottom-full mb-2 hidden group-hover:flex flex-col items-center pointer-events-none z-30">
+                            <span class="bg-zinc-900 text-zinc-200 text-xs font-bold px-2.5 py-1 rounded-md border border-zinc-700 whitespace-nowrap shadow-lg">도튜브</span>
+                            <div class="w-2 h-2 bg-zinc-900 rotate-45 -mt-1 border-r border-b border-zinc-700"></div>
+                        </div>
+                    </div>
+
+                    <!-- 3. 도밥천국 (어두운 배경 + 흰색 컵 아이콘) -->
+                    <div class="relative group flex items-center justify-center">
+                        <a href="https://cafe.naver.com/jamdo" target="_blank" class="w-9 h-9 bg-zinc-800/80 hover:bg-zinc-700 border border-zinc-700 rounded-full flex items-center justify-center transition shadow-md hover:scale-105 active:scale-95 p-2">
+                            <svg viewBox="0 0 24 24" class="w-full h-full fill-current text-white">
+                                <path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.89 2-2V5c0-1.1-.9-2-2-2zm0 5h-2V5h2v3zM2 21h20v-2H2v2z"/>
+                            </svg>
+                        </a>
+                        <!-- 호버 툴팁 -->
+                        <div class="absolute bottom-full mb-2 hidden group-hover:flex flex-col items-center pointer-events-none z-30">
+                            <span class="bg-zinc-900 text-zinc-200 text-xs font-bold px-2.5 py-1 rounded-md border border-zinc-700 whitespace-nowrap shadow-lg">도밥천국</span>
+                            <div class="w-2 h-2 bg-zinc-900 rotate-45 -mt-1 border-r border-b border-zinc-700"></div>
+                        </div>
+                    </div>
+
+                    <!-- 4. 아카이브 (어두운 배경 + 흰색 책장 아이콘) -->
+                    <div class="relative group flex items-center justify-center">
+                        <a href="https://app.notion.com/p/SOOP-DOHYEON-ARCHIVE-237f94d7dc8680e3ac2cdb67d3997e05" target="_blank" class="w-9 h-9 bg-zinc-800/80 hover:bg-zinc-700 border border-zinc-700 rounded-full flex items-center justify-center transition shadow-md hover:scale-105 active:scale-95 p-2">
+                            <svg viewBox="0 0 24 24" class="w-full h-full fill-current text-white">
+                                <path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H8V4h12v12z"/>
+                            </svg>
+                        </a>
+                        <!-- 호버 툴팁 -->
+                        <div class="absolute bottom-full mb-2 hidden group-hover:flex flex-col items-center pointer-events-none z-30">
+                            <span class="bg-zinc-900 text-zinc-200 text-xs font-bold px-2.5 py-1 rounded-md border border-zinc-700 whitespace-nowrap shadow-lg">아카이브</span>
+                            <div class="w-2 h-2 bg-zinc-900 rotate-45 -mt-1 border-r border-b border-zinc-700"></div>
+                        </div>
+                    </div>
+
+                    <!-- 5. 🦊 연보라 여우 아이콘 1: 도현 이모티콘 -->
+                    <div class="relative group flex items-center justify-center">
+                        <a href="https://ogqmarket.sooplive.com/emoticon/63fee49b8e6ff" target="_blank" class="w-9 h-9 bg-zinc-800/80 hover:bg-zinc-700 border border-zinc-700 rounded-full flex items-center justify-center transition shadow-md hover:scale-105 active:scale-95 p-1.5">
                             <svg viewBox="0 0 100 100" class="w-full h-full drop-shadow">
                                 <polygon points="15,10 40,40 10,45" fill="#c4b5fd" />
                                 <polygon points="85,10 60,40 90,45" fill="#c4b5fd" />
@@ -57,10 +108,9 @@
                         </div>
                     </div>
 
-                    <!-- 🦊 연보라 여우 아이콘 2: 도현 움직이는 이모티콘 -->
+                    <!-- 6. 🦊 연보라 여우 아이콘 2: 도현 움직이는 이모티콘 -->
                     <div class="relative group flex items-center justify-center">
-                        <a href="https://ogqmarket.sooplive.com/emoticon/65c3ea120a90d" target="_blank" class="w-9 h-9 bg-fuchsia-500/20 hover:bg-fuchsia-500/40 border border-fuchsia-400/50 rounded-full flex items-center justify-center transition shadow-md hover:scale-105 active:scale-95 p-1.5">
-                            <!-- 보라 여우 SVG 얼굴 (움직이는 느낌 효과) -->
+                        <a href="https://ogqmarket.sooplive.com/emoticon/65c3ea120a90d" target="_blank" class="w-9 h-9 bg-zinc-800/80 hover:bg-zinc-700 border border-zinc-700 rounded-full flex items-center justify-center transition shadow-md hover:scale-105 active:scale-95 p-1.5">
                             <svg viewBox="0 0 100 100" class="w-full h-full drop-shadow">
                                 <polygon points="15,10 40,40 10,45" fill="#c4b5fd" />
                                 <polygon points="85,10 60,40 90,45" fill="#c4b5fd" />
