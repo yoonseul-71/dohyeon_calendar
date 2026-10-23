@@ -9,7 +9,15 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <style>
         @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+        /* 🖌️ STREAM STARTING SOON 느낌의 거친 붓터치 브러시 폰트 불러오기 */
+        @import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap');
+
         body { font-family: 'Pretendard', sans-serif; }
+        
+        /* 타이틀 전용 붓터치 폰트 스타일 */
+        .brush-title {
+            font-family: 'Permanent Marker', cursive;
+        }
     </style>
 </head>
 <body class="bg-[#121212] text-white min-h-screen flex flex-col justify-between">
@@ -18,13 +26,15 @@
         <!-- 상단 배너 영역 -->
         <header class="w-full bg-[#0a0a0a] border-b border-red-900/45 relative overflow-hidden">
             <div class="max-w-[1550px] mx-auto px-4 pt-8 pb-4 md:pt-10 md:pb-5 flex flex-col md:flex-row items-center justify-between gap-6">
+                
+                <!-- 🖌️ 글씨체가 변경된 타이틀 영역 -->
                 <div class="text-center md:text-left z-10">
-                    <h1 class="text-3xl md:text-5xl font-black italic tracking-wider text-white drop-shadow-[0_2px_10px_rgba(255,0,0,0.5)]">
+                    <h1 class="brush-title text-3xl md:text-5xl font-black tracking-wider text-white drop-shadow-[0_2px_10px_rgba(255,0,0,0.5)]">
                         DOHYEON <span class="text-red-600">CALENDAR</span>
                     </h1>
                 </div>
                 
-                <!-- 배너 공식 링크 모음 (위치 수정: 연도/월 상자 위쪽, 빨간줄 바로 위에 정렬) -->
+                <!-- 배너 공식 링크 모음 (연도/월 상자 위쪽, 빨간줄 바로 위 정렬) -->
                 <nav class="flex flex-wrap items-center justify-center gap-2.5 z-10 md:self-end">
                     
                     <!-- 1. SOOP 방송국 -->
