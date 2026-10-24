@@ -378,7 +378,7 @@
     <!-- Firebase SDK 로드 및 메인 로직 -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getDatabase, ref, onValue, set, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+        import { getDatabase, ref, onValue, set, remove, update } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyD8gylQ9ETBMTLGN-q0qVcTQgqyM7GpL8Y",
@@ -403,26 +403,16 @@
 
         // 대한민국 공휴일 자동 계산 함수
         function isKoreanHoliday(year, month, day, dayOfWeek) {
-            // 일요일 판별
             if (dayOfWeek === 0) return true;
 
             const m = month + 1;
             const mmdd = String(m).padStart(2, '0') + String(day).padStart(2, '0');
 
-            // 1. 고정 양력 공휴일
             const fixedHolidays = [
-                '0101', // 신정
-                '0301', // 삼일절
-                '0505', // 어린이날
-                '0606', // 현충일
-                '0815', // 광복절
-                '1003', // 개천절
-                '1009', // 한글날
-                '1225'  // 성탄절
+                '0101', '0301', '0505', '0606', '0815', '1003', '1009', '1225'
             ];
             if (fixedHolidays.includes(mmdd)) return true;
 
-            // 2. 음력 명절 및 대체공휴일 (주요 연도 데이터)
             const variableHolidays = {
                 2024: ['0209', '0210', '0211', '0212', '0506', '0515', '0916', '0917', '0918'],
                 2025: ['0128', '0129', '0130', '0303', '0505', '0506', '1005', '1006', '1007', '1008'],
@@ -587,9 +577,12 @@
                     const end = item.endDate || item.startDate;
 
                     if (dateStr >= start && dateStr <= end) {
-                        matchedSchedules.push(item);
+                        matchedSchedules.push({ id, ...item });
                     }
                 }
+
+                // order 기준으로 정렬
+                matchedSchedules.sort((a, b) => (a.order !== undefined ? a.order : 0) - (b.order !== undefined ? b.order : 0));
 
                 const cell = document.createElement('div');
                 let cellBaseClass = "h-44 md:h-52 rounded-xl p-1.5 md:p-2 flex flex-col justify-between transition hover:shadow-md cursor-pointer relative overflow-hidden ";
@@ -635,7 +628,6 @@
 
                 const dayNumber = document.createElement('div');
                 
-                // 날짜 스타일링 (오늘 표시 원 설정 우선 적용, 공휴일은 빨간 글씨)
                 if (isToday) {
                     dayNumber.className = "text-xs md:text-sm font-bold w-6 h-6 flex items-center justify-center rounded-full shrink-0 bg-red-600 text-white";
                 } else if (isHoliday) {
@@ -873,7 +865,23 @@
                 return;
             }
 
-            const scheduleData = { startDate, endDate, type, game, color, summary, anniversary, members, desc };
+            let order = 0;
+            const existingItem = schedules[id];
+            if (existingItem && existingItem.startDate === startDate && existingItem.order !== undefined) {
+                order = existingItem.order;
+            } else {
+                let maxOrder = -1;
+                for (let key in schedules) {
+                    if (schedules[key].startDate === startDate) {
+                        if (schedules[key].order !== undefined && schedules[key].order > maxOrder) {
+                            maxOrder = schedules[key].order;
+                        }
+                    }
+                }
+                order = maxOrder + 1;
+            }
+
+            const scheduleData = { startDate, endDate, type, game, color, summary, anniversary, members, desc, order };
 
             set(ref(db, 'schedules/' + id), scheduleData).then(() => {
                 alert('저장되었습니다.');
@@ -882,6 +890,46 @@
                 renderCalendar();
             }).catch((error) => {
                 alert('저장 실패: ' + error.message);
+            });
+        };
+
+        // 순서 변경 함수 (위로/아래로 1칸, 2칸)
+        window.moveSchedule = function(id, offset) {
+            const targetItem = schedules[id];
+            if (!targetItem) return;
+
+            let sameDateItems = [];
+            for (let key in schedules) {
+                if (schedules[key].startDate === targetItem.startDate) {
+                    sameDateItems.push({ id: key, ...schedules[key] });
+                }
+            }
+
+            sameDateItems.sort((a, b) => (a.order !== undefined ? a.order : 0) - (b.order !== undefined ? b.order : 0));
+
+            const currentIndex = sameDateItems.findIndex(item => item.id === id);
+            if (currentIndex === -1) return;
+
+            let newIndex = currentIndex + offset;
+            if (newIndex < 0) newIndex = 0;
+            if (newIndex >= sameDateItems.length) newIndex = sameDateItems.length - 1;
+
+            if (newIndex === currentIndex) return;
+
+            const [movedItem] = sameDateItems.splice(currentIndex, 1);
+            sameDateItems.splice(newIndex, 0, movedItem);
+
+            let updates = {};
+            sameDateItems.forEach((item, idx) => {
+                updates['schedules/' + item.id + '/order'] = idx;
+                schedules[item.id].order = idx;
+            });
+
+            update(ref(db), updates).then(() => {
+                renderAdminList();
+                renderCalendar();
+            }).catch((error) => {
+                alert('순서 변경 실패: ' + error.message);
             });
         };
 
@@ -943,8 +991,12 @@
                         <div class="text-[11px] text-zinc-400 font-bold">${item.startDate} ${item.endDate ? '~ ' + item.endDate : ''}</div>
                         <div class="font-bold text-white truncate">${displayTitle}</div>
                     </div>
-                    <div class="flex items-center gap-1.5 shrink-0">
-                        <button onclick="editSchedule('${item.id}')" class="px-2.5 py-1 bg-zinc-700 hover:bg-zinc-600 text-white rounded text-[11px] font-bold cursor-pointer">수정</button>
+                    <div class="flex items-center gap-1 shrink-0">
+                        <button onclick="moveSchedule('${item.id}', -2)" title="위로 2칸" class="px-1.5 py-1 bg-zinc-700 hover:bg-zinc-600 text-white rounded text-[10px] font-bold cursor-pointer">▲2</button>
+                        <button onclick="moveSchedule('${item.id}', -1)" title="위로 1칸" class="px-1.5 py-1 bg-zinc-700 hover:bg-zinc-600 text-white rounded text-[10px] font-bold cursor-pointer">▲</button>
+                        <button onclick="moveSchedule('${item.id}', 1)" title="아래로 1칸" class="px-1.5 py-1 bg-zinc-700 hover:bg-zinc-600 text-white rounded text-[10px] font-bold cursor-pointer">▼</button>
+                        <button onclick="moveSchedule('${item.id}', 2)" title="아래로 2칸" class="px-1.5 py-1 bg-zinc-700 hover:bg-zinc-600 text-white rounded text-[10px] font-bold cursor-pointer">▼2</button>
+                        <button onclick="editSchedule('${item.id}')" class="px-2.5 py-1 bg-zinc-700 hover:bg-zinc-600 text-white rounded text-[11px] font-bold cursor-pointer ml-1">수정</button>
                         <button onclick="deleteSchedule('${item.id}')" class="px-2.5 py-1 bg-red-600/80 hover:bg-red-600 text-white rounded text-[11px] font-bold cursor-pointer">삭제</button>
                     </div>
                 `;
