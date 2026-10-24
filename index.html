@@ -25,7 +25,7 @@
     <div>
         <!-- 상단 배너 영역 -->
         <header class="w-full bg-[#0a0a0a] border-b border-red-900/45 relative overflow-hidden">
-            <div class="max-w-[1650px] mx-auto px-4 pt-8 pb-4 md:pt-10 md:pb-5 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="max-w-[1550px] mx-auto px-4 pt-8 pb-4 md:pt-10 md:pb-5 flex flex-col md:flex-row items-center justify-between gap-6">
                 
                 <!-- 🖌️ 글씨체가 변경된 타이틀 영역 -->
                 <div class="text-center md:text-left z-10">
@@ -67,4 +67,885 @@
 
                     <!-- 3. 도밥천국 -->
                     <div class="relative group flex items-center justify-center">
-                        <a href="https://cafe.naver.com/jamdo" target="_blank" class="w-9 h-9 bg-zinc-800/80 hover:bg-zinc-7
+                        <a href="https://cafe.naver.com/jamdo" target="_blank" class="w-9 h-9 bg-zinc-800/80 hover:bg-zinc-700 border border-zinc-700 rounded-full flex items-center justify-center transition shadow-md hover:scale-105 active:scale-95 p-2">
+                            <svg viewBox="0 0 24 24" class="w-full h-full fill-current text-white">
+                                <path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.89 2-2V5c0-1.1-.9-2-2-2zm0 5h-2V5h2v3zM2 21h20v-2H2v2z"/>
+                            </svg>
+                        </a>
+                        <!-- 호버 툴팁 -->
+                        <div class="absolute bottom-full mb-2 hidden group-hover:flex flex-col items-center pointer-events-none z-30">
+                            <span class="bg-zinc-900 text-zinc-200 text-xs font-bold px-2.5 py-1 rounded-md border border-zinc-700 whitespace-nowrap shadow-lg">도밥천국</span>
+                            <div class="w-2 h-2 bg-zinc-900 rotate-45 -mt-1 border-r border-b border-zinc-700"></div>
+                        </div>
+                    </div>
+
+                    <!-- 4. 아카이브 -->
+                    <div class="relative group flex items-center justify-center">
+                        <a href="https://app.notion.com/p/SOOP-DOHYEON-ARCHIVE-237f94d7dc8680e3ac2cdb67d3997e05" target="_blank" class="w-9 h-9 bg-zinc-800/80 hover:bg-zinc-700 border border-zinc-700 rounded-full flex items-center justify-center transition shadow-md hover:scale-105 active:scale-95 p-2">
+                            <svg viewBox="0 0 24 24" class="w-full h-full fill-current text-white">
+                                <path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H8V4h12v12z"/>
+                            </svg>
+                        </a>
+                        <!-- 호버 툴팁 -->
+                        <div class="absolute bottom-full mb-2 hidden group-hover:flex flex-col items-center pointer-events-none z-30">
+                            <span class="bg-zinc-900 text-zinc-200 text-xs font-bold px-2.5 py-1 rounded-md border border-zinc-700 whitespace-nowrap shadow-lg">아카이브</span>
+                            <div class="w-2 h-2 bg-zinc-900 rotate-45 -mt-1 border-r border-b border-zinc-700"></div>
+                        </div>
+                    </div>
+
+                    <!-- 5. 🦊 도현 이모티콘 -->
+                    <div class="relative group flex items-center justify-center">
+                        <a href="https://ogqmarket.sooplive.com/emoticon/63fee49b8e6ff" target="_blank" class="w-9 h-9 bg-zinc-800/80 hover:bg-zinc-700 border border-zinc-700 rounded-full flex items-center justify-center transition shadow-md hover:scale-105 active:scale-95 p-1.5">
+                            <svg viewBox="0 0 100 100" class="w-full h-full drop-shadow">
+                                <polygon points="15,10 40,40 10,45" fill="#c4b5fd" />
+                                <polygon points="85,10 60,40 90,45" fill="#c4b5fd" />
+                                <polygon points="22,18 36,36 16,40" fill="#f472b6" />
+                                <polygon points="78,18 64,36 84,40" fill="#f472b6" />
+                                <ellipse cx="50" cy="55" rx="38" ry="32" fill="#d8b4fe" />
+                                <ellipse cx="50" cy="62" rx="24" ry="20" fill="#ffffff" />
+                                <circle cx="36" cy="50" r="5" fill="#1e1b4b" />
+                                <circle cx="64" cy="50" r="5" fill="#1e1b4b" />
+                                <circle cx="38" cy="48" r="1.8" fill="#ffffff" />
+                                <circle cx="66" cy="48" r="1.8" fill="#ffffff" />
+                                <polygon points="50,57 45,53 55,53" fill="#4c1d95" />
+                                <circle cx="28" cy="58" r="4" fill="#f472b6" opacity="0.6" />
+                                <circle cx="72" cy="58" r="4" fill="#f472b6" opacity="0.6" />
+                            </svg>
+                        </a>
+                        <!-- 호버 툴팁 -->
+                        <div class="absolute bottom-full mb-2 hidden group-hover:flex flex-col items-center pointer-events-none z-30">
+                            <span class="bg-zinc-900 text-purple-300 text-xs font-bold px-2.5 py-1 rounded-md border border-zinc-700 whitespace-nowrap shadow-lg">도현 이모티콘</span>
+                            <div class="w-2 h-2 bg-zinc-900 rotate-45 -mt-1 border-r border-b border-zinc-700"></div>
+                        </div>
+                    </div>
+
+                    <!-- 6. 🦊 도현 움직이는 이모티콘 -->
+                    <div class="relative group flex items-center justify-center">
+                        <a href="https://ogqmarket.sooplive.com/emoticon/65c3ea120a90d" target="_blank" class="w-9 h-9 bg-zinc-800/80 hover:bg-zinc-700 border border-zinc-700 rounded-full flex items-center justify-center transition shadow-md hover:scale-105 active:scale-95 p-1.5">
+                            <svg viewBox="0 0 100 100" class="w-full h-full drop-shadow">
+                                <polygon points="15,10 40,40 10,45" fill="#c4b5fd" />
+                                <polygon points="85,10 60,40 90,45" fill="#c4b5fd" />
+                                <polygon points="22,18 36,36 16,40" fill="#f472b6" />
+                                <polygon points="78,18 64,36 84,40" fill="#f472b6" />
+                                <ellipse cx="50" cy="55" rx="38" ry="32" fill="#d8b4fe" />
+                                <ellipse cx="50" cy="62" rx="24" ry="20" fill="#ffffff" />
+                                <path d="M 31 52 Q 36 45 41 52" stroke="#1e1b4b" stroke-width="3.5" fill="none" stroke-linecap="round" />
+                                <path d="M 59 52 Q 64 45 69 52" stroke="#1e1b4b" stroke-width="3.5" fill="none" stroke-linecap="round" />
+                                <polygon points="50,57 45,53 55,53" fill="#4c1d95" />
+                                <circle cx="28" cy="58" r="4.5" fill="#f472b6" opacity="0.7" />
+                                <circle cx="72" cy="58" r="4.5" fill="#f472b6" opacity="0.7" />
+                            </svg>
+                        </a>
+                        <!-- 호버 툴팁 -->
+                        <div class="absolute bottom-full mb-2 hidden group-hover:flex flex-col items-center pointer-events-none z-30">
+                            <span class="bg-zinc-900 text-fuchsia-300 text-xs font-bold px-2.5 py-1 rounded-md border border-zinc-700 whitespace-nowrap shadow-lg">도현 움직이는 이모티콘</span>
+                            <div class="w-2 h-2 bg-zinc-900 rotate-45 -mt-1 border-r border-b border-zinc-700"></div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+            <div class="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-red-600 via-red-900 to-transparent"></div>
+        </header>
+
+        <!-- 메인 콘텐츠 -->
+        <main class="max-w-[1550px] mx-auto px-2 sm:px-4 py-8">
+            
+            <!-- 범례 및 컨트롤러 바 -->
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4 mb-6 bg-zinc-900/80 p-4 rounded-xl border border-zinc-800">
+                <!-- 범례 -->
+                <div class="flex flex-wrap items-center justify-center gap-4 text-xs md:text-sm font-bold">
+                    <div class="flex items-center gap-1.5"><span class="w-3.5 h-3.5 rounded-full bg-sky-400 inline-block"></span><span>도현방송</span></div>
+                    <div class="flex items-center gap-1.5"><span class="w-3.5 h-3.5 rounded-full bg-emerald-400 inline-block"></span><span>타스방송</span></div>
+                    <div class="flex items-center gap-1.5"><span class="w-3.5 h-3.5 rounded-full bg-amber-400 inline-block"></span><span>이벤트</span></div>
+                    <div class="flex items-center gap-1.5"><span class="w-3.5 h-3.5 rounded-full bg-zinc-400 inline-block"></span><span>휴방</span></div>
+                </div>
+
+                <!-- 연도/월 선택 박스 -->
+                <div class="flex items-center gap-2">
+                    <select id="year-select" onchange="onSelectYearMonth()" class="bg-zinc-800 text-white font-bold px-3 py-1.5 rounded-lg border border-zinc-700 text-sm focus:outline-none focus:border-red-500 cursor-pointer"></select>
+                    <select id="month-select" onchange="onSelectYearMonth()" class="bg-zinc-800 text-white font-bold px-3 py-1.5 rounded-lg border border-zinc-700 text-sm focus:outline-none focus:border-red-500 cursor-pointer"></select>
+                </div>
+            </div>
+
+            <!-- 캘린더 본체 -->
+            <div class="bg-white text-zinc-900 rounded-2xl shadow-2xl p-3 md:p-5">
+                
+                <!-- 상단 네비게이션 -->
+                <div class="flex justify-between items-center mb-6 px-2">
+                    <button onclick="changeMonth(-1)" class="px-3.5 py-2 bg-zinc-100 hover:bg-zinc-200 text-zinc-700 rounded-xl font-bold transition text-sm cursor-pointer">&lt; 이전달</button>
+                    <div class="flex items-center gap-3">
+                        <h2 id="calendar-title" class="text-xl md:text-2xl font-black text-zinc-800"></h2>
+                        <button onclick="goToday()" class="px-2.5 py-1 bg-red-50 text-red-600 border border-red-200 hover:bg-red-100 rounded-lg text-xs font-bold transition cursor-pointer">오늘</button>
+                    </div>
+                    <button onclick="changeMonth(1)" class="px-3.5 py-2 bg-zinc-100 hover:bg-zinc-200 text-zinc-700 rounded-xl font-bold transition text-sm cursor-pointer">다음달 &gt;</button>
+                </div>
+
+                <!-- 요일 헤더 -->
+                <div class="grid grid-cols-7 gap-1.5 md:gap-2 text-center font-bold text-zinc-500 text-xs md:text-sm mb-2">
+                    <div class="text-red-500">일</div>
+                    <div>월</div>
+                    <div>화</div>
+                    <div>수</div>
+                    <div>목</div>
+                    <div>금</div>
+                    <div class="text-blue-500">토</div>
+                </div>
+
+                <!-- 날짜 그리드 -->
+                <div id="calendar-grid" class="grid grid-cols-7 gap-1.5 md:gap-2"></div>
+            </div>
+        </main>
+    </div>
+
+    <!-- 푸터 -->
+    <footer class="max-w-[1550px] mx-auto w-full px-4 py-6 text-zinc-500 text-xs border-t border-zinc-800 mt-12 flex flex-row items-center justify-between gap-4 select-none">
+        <p class="text-left">본 사이트는 비공식 일정표로 스트리머의 사정에 따라 일정이 변경될 수 있습니다.</p>
+        <div class="flex items-center gap-3 shrink-0">
+            <span id="admin-long-press-trigger" class="text-zinc-600 font-semibold tracking-wide cursor-pointer select-none">made by 윤슬ツ</span>
+        </div>
+    </footer>
+
+    <!-- [모달 1] 날짜 클릭 시 상세 팝업 -->
+    <div id="detail-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
+        <div class="bg-zinc-900 border border-zinc-800 rounded-2xl max-w-lg w-full p-6 text-white shadow-2xl relative">
+            <h3 id="modal-date-title" class="text-lg font-black text-red-500 mb-2"></h3>
+            <div id="modal-content-body" class="space-y-4 my-4 max-h-96 overflow-y-auto pr-1"></div>
+            <div class="flex justify-end gap-2 mt-6">
+                <button onclick="closeDetailModal()" class="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 rounded-xl text-xs font-bold transition cursor-pointer">닫기</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- [모달 2] 관리자 로그인 팝업 -->
+    <div id="admin-login-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
+        <div class="bg-zinc-900 border border-zinc-800 rounded-2xl max-w-sm w-full p-6 text-white shadow-2xl">
+            <h3 class="text-lg font-bold mb-4">관리자 인증</h3>
+            <p class="text-xs text-zinc-400 mb-4">관리자 비밀번호를 입력하세요.</p>
+            <input type="password" id="admin-pw-input" placeholder="비밀번호" class="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-2 text-sm mb-4 focus:outline-none focus:border-red-500" onkeydown="if(event.key==='Enter') verifyAdmin()">
+            <div class="flex justify-end gap-2">
+                <button onclick="closeAdminLogin()" class="px-3 py-2 bg-zinc-800 hover:bg-zinc-700 rounded-xl text-xs font-bold transition cursor-pointer">취소</button>
+                <button onclick="verifyAdmin()" class="px-4 py-2 bg-red-600 hover:bg-red-700 rounded-xl text-xs font-bold transition cursor-pointer">확인</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- [모달 3] 관리자 편집 대시보드 팝업 -->
+    <div id="admin-panel-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden items-center justify-center z-50 p-4 overflow-y-auto">
+        <div class="bg-zinc-900 border border-zinc-800 rounded-2xl max-w-2xl w-full p-6 text-white shadow-2xl my-8 relative">
+
+            <!-- 일정 입력 폼 -->
+            <div class="bg-zinc-800/50 p-4 rounded-xl border border-zinc-700/60 mb-6 space-y-3">
+                <h4 id="form-mode-title" class="font-bold text-sm text-zinc-200">일정 추가</h4>
+                <input type="hidden" id="edit-target-id" value="">
+                <input type="hidden" id="form-item-color" value="default">
+
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <label class="block text-xs text-zinc-400 mb-1">시작일 *</label>
+                        <input type="date" id="form-start-date" class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-zinc-400 mb-1">종료일 (연속 일정시 선택)</label>
+                        <input type="date" id="form-end-date" class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500">
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <label class="block text-xs text-zinc-400 mb-1">방송 종류</label>
+                        <select id="form-type" class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500">
+                            <option value="solo" selected>도현방송</option>
+                            <option value="collab">타스방송</option>
+                            <option value="event">이벤트</option>
+                            <option value="rest">휴방</option>
+                            <option value="none">선택 안함 (일반)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs text-zinc-400 mb-1">게임 / 카테고리</label>
+                        <select id="form-game" class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500">
+                            <option value="">없음</option>
+                            <option value="발로">발로</option>
+                            <option value="마크">마크</option>
+                            <option value="롤">롤</option>
+                            <option value="서든">서든</option>
+                            <option value="소통">소통</option>
+                            <option value="종겜">종겜</option>
+                            <option value="옵치">옵치</option>
+                            <option value="배그">배그</option>
+                            <option value="포나">포나</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- 🎨 개별 일정 항목 배경색 픽커 -->
+                <div>
+                    <label class="block text-xs text-zinc-400 mb-1.5">📌 개별 항목 배경색 선택 (강조용 파스텔 픽커)</label>
+                    <div class="flex flex-wrap gap-2 items-center" id="color-picker-group">
+                        <button type="button" onclick="selectItemColor('default')" data-color-key="default" class="color-btn border-2 border-red-500 bg-zinc-100 text-zinc-800 px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1 transition">
+                            <span class="w-3 h-3 rounded-full bg-zinc-300 border border-zinc-400 inline-block"></span> 기본(회색)
+                        </button>
+                        <button type="button" onclick="selectItemColor('yellow')" data-color-key="yellow" class="color-btn border border-zinc-700 bg-amber-100 text-amber-900 px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1 transition">
+                            <span class="w-3 h-3 rounded-full bg-amber-200 border border-amber-400 inline-block"></span> 연노랑
+                        </button>
+                        <button type="button" onclick="selectItemColor('orange')" data-color-key="orange" class="color-btn border border-zinc-700 bg-orange-100 text-orange-900 px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1 transition">
+                            <span class="w-3 h-3 rounded-full bg-orange-200 border border-orange-400 inline-block"></span> 연주황
+                        </button>
+                        <button type="button" onclick="selectItemColor('pink')" data-color-key="pink" class="color-btn border border-zinc-700 bg-pink-100 text-pink-900 px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1 transition">
+                            <span class="w-3 h-3 rounded-full bg-pink-200 border border-pink-400 inline-block"></span> 연분홍
+                        </button>
+                        <button type="button" onclick="selectItemColor('blue')" data-color-key="blue" class="color-btn border border-zinc-700 bg-sky-100 text-sky-900 px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1 transition">
+                            <span class="w-3 h-3 rounded-full bg-sky-200 border border-sky-400 inline-block"></span> 연하늘
+                        </button>
+                        <button type="button" onclick="selectItemColor('green')" data-color-key="green" class="color-btn border border-zinc-700 bg-emerald-100 text-emerald-900 px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1 transition">
+                            <span class="w-3 h-3 rounded-full bg-emerald-200 border border-emerald-400 inline-block"></span> 연연두
+                        </button>
+                        <button type="button" onclick="selectItemColor('purple')" data-color-key="purple" class="color-btn border border-zinc-700 bg-purple-100 text-purple-900 px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1 transition">
+                            <span class="w-3 h-3 rounded-full bg-purple-200 border border-purple-400 inline-block"></span> 연보라
+                        </button>
+                        <button type="button" onclick="selectItemColor('teal')" data-color-key="teal" class="color-btn border border-zinc-700 bg-teal-100 text-teal-900 px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1 transition">
+                            <span class="w-3 h-3 rounded-full bg-teal-200 border border-teal-400 inline-block"></span> 연청록
+                        </button>
+                        <button type="button" onclick="selectItemColor('apricot')" data-color-key="apricot" class="color-btn border border-zinc-700 bg-fuchsia-100 text-fuchsia-900 px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1 transition">
+                            <span class="w-3 h-3 rounded-full bg-fuchsia-200 border border-fuchsia-400 inline-block"></span> 연살구
+                        </button>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs text-zinc-400 mb-1">방송 요약 내용 (선택사항)</label>
+                    <input type="text" id="form-summary" placeholder="예: 도현x수피 랜드 합방" class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500">
+                </div>
+
+                <div>
+                    <label class="block text-xs text-zinc-400 mb-1">📌 하단 강조 문구 (기념일/공지사항 등)</label>
+                    <input type="text" id="form-anniversary" placeholder="예: 🎉 BIRTHDAY 🎉, 📢 마이크 고장 - 소리이슈" class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500">
+                </div>
+
+                <div>
+                    <label class="block text-xs text-zinc-400 mb-1">👥 참여 멤버 (엔터로 세로 줄바꿈 작성)</label>
+                    <textarea id="form-members" rows="4" placeholder="예:&#10;도현 vs 켄&#10;수피 vs 콩석" class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2.5 text-sm focus:outline-none focus:border-red-500 leading-relaxed"></textarea>
+                </div>
+                <div>
+                    <label class="block text-xs text-zinc-400 mb-1">📝 상세 설명 (선택사항)</label>
+                    <textarea id="form-desc" rows="2" placeholder="예: 멸망전 연습 및 상금 관련 랜드 방송" class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500"></textarea>
+                </div>
+
+                <div class="flex justify-end gap-2 pt-2">
+                    <button onclick="closeAdminPanel()" class="px-3.5 py-1.5 bg-zinc-700 hover:bg-zinc-600 rounded-lg text-xs font-bold transition cursor-pointer">닫기</button>
+                    <button onclick="resetForm()" class="px-3 py-1.5 bg-zinc-700 hover:bg-zinc-600 rounded-lg text-xs font-bold transition cursor-pointer">취소/초기화</button>
+                    <button onclick="saveSchedule()" id="save-btn" class="px-4 py-1.5 bg-red-600 hover:bg-red-700 rounded-lg text-xs font-bold transition cursor-pointer">저장하기</button>
+                </div>
+            </div>
+
+            <!-- 등록된 일정 리스트 -->
+            <div class="border-t border-zinc-800 pt-4">
+                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 mb-3">
+                    <h4 class="font-bold text-sm text-zinc-200">📋 등록된 일정 목록</h4>
+                    <div class="flex flex-wrap items-center gap-1.5 w-full sm:w-auto">
+                        <select id="admin-filter-year" onchange="renderAdminList()" class="bg-zinc-800 text-xs border border-zinc-700 rounded-md px-2 py-1 focus:outline-none text-zinc-300">
+                        </select>
+                        <select id="admin-filter-month" onchange="renderAdminList()" class="bg-zinc-800 text-xs border border-zinc-700 rounded-md px-2 py-1 focus:outline-none text-zinc-300">
+                            <option value="all">전체 월</option>
+                            <option value="0">1월</option>
+                            <option value="1">2월</option>
+                            <option value="2">3월</option>
+                            <option value="3">4월</option>
+                            <option value="4">5월</option>
+                            <option value="5">6월</option>
+                            <option value="6">7월</option>
+                            <option value="7">8월</option>
+                            <option value="8">9월</option>
+                            <option value="9">10월</option>
+                            <option value="10">11월</option>
+                            <option value="11">12월</option>
+                        </select>
+                        <select id="admin-filter-sort" onchange="renderAdminList()" class="bg-zinc-800 text-xs border border-zinc-700 rounded-md px-2 py-1 focus:outline-none text-zinc-300">
+                            <option value="desc">최신순</option>
+                            <option value="asc">과거순</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <input type="text" id="admin-search-input" onkeyup="renderAdminList()" placeholder="🔍 내용, 게임, 멤버, 기념일/공지로 검색..." class="w-full bg-zinc-800/80 border border-zinc-700 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:border-red-500">
+                </div>
+
+                <div id="admin-schedule-list" class="max-h-60 overflow-y-auto space-y-2 pr-1 text-xs"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK 로드 및 메인 로직 -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getDatabase, ref, onValue, set, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyD8gylQ9ETBMTLGN-q0qVcTQgqyM7GpL8Y",
+            authDomain: "dohyeon-calander.firebaseapp.com",
+            projectId: "dohyeon-calander",
+            storageBucket: "dohyeon-calander.firebasestorage.app",
+            messagingSenderId: "78037161640",
+            appId: "1:78037161640:web:8219d7ee47804f777ad49d"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        // 
+        const checkPass = atob("MTUyMDcxMQ==");
+
+        let schedules = {};
+
+        const today = new Date();
+        let currentYear = today.getFullYear();
+        let currentMonth = today.getMonth();
+
+        // 
+        document.addEventListener('keydown', function(event) {
+            if (event.altKey && (event.key === 'a' || event.key === 'A' || event.key === 'ㅁ')) {
+                event.preventDefault();
+                window.openAdminLogin();
+            }
+        });
+
+        // 
+        let pressTimer = null;
+        const triggerEl = document.getElementById('admin-long-press-trigger');
+
+        if (triggerEl) {
+            const startPress = () => {
+                pressTimer = setTimeout(() => {
+                    window.openAdminLogin();
+                }, 1200);
+            };
+
+            const cancelPress = () => {
+                if (pressTimer) {
+                    clearTimeout(pressTimer);
+                    pressTimer = null;
+                }
+            };
+
+            triggerEl.addEventListener('touchstart', startPress);
+            triggerEl.addEventListener('touchend', cancelPress);
+            triggerEl.addEventListener('touchmove', cancelPress);
+            
+            triggerEl.addEventListener('mousedown', startPress);
+            triggerEl.addEventListener('mouseup', cancelPress);
+            triggerEl.addEventListener('mouseleave', cancelPress);
+        }
+
+        const TYPE_COLORS = {
+            solo: '#38bdf8',
+            collab: '#34d399',
+            event: '#fbbf24',
+            rest: '#a1a1aa'
+        };
+
+        const TYPE_NAMES = {
+            solo: '도현방송',
+            collab: '타스방송',
+            event: '이벤트',
+            rest: '휴방'
+        };
+
+        const ITEM_COLOR_MAP = {
+            default: "bg-zinc-100 text-zinc-800 border-zinc-200/80",
+            yellow: "bg-amber-100 text-amber-900 border-amber-300/80",
+            orange: "bg-orange-100 text-orange-900 border-orange-300/80",
+            pink: "bg-pink-100 text-pink-900 border-pink-300/80",
+            blue: "bg-sky-100 text-sky-900 border-sky-300/80",
+            green: "bg-emerald-100 text-emerald-900 border-emerald-300/80",
+            purple: "bg-purple-100 text-purple-900 border-purple-300/80",
+            teal: "bg-teal-100 text-teal-900 border-teal-300/80",
+            apricot: "bg-fuchsia-100 text-fuchsia-900 border-fuchsia-300/80"
+        };
+
+        window.selectItemColor = function(colorKey) {
+            document.getElementById('form-item-color').value = colorKey;
+            const buttons = document.querySelectorAll('.color-btn');
+            buttons.forEach(btn => {
+                if (btn.getAttribute('data-color-key') === colorKey) {
+                    btn.classList.remove('border-zinc-700');
+                    btn.classList.add('border-2', 'border-red-500');
+                } else {
+                    btn.classList.remove('border-2', 'border-red-500');
+                    btn.classList.add('border', 'border-zinc-700');
+                }
+            });
+        };
+
+        function initSelectBoxes() {
+            const yearSelect = document.getElementById('year-select');
+            const monthSelect = document.getElementById('month-select');
+            const adminFilterYear = document.getElementById('admin-filter-year');
+
+            yearSelect.innerHTML = '';
+            adminFilterYear.innerHTML = '<option value="all">전체 연도</option>';
+
+            for (let y = 2024; y <= today.getFullYear() + 2; y++) {
+                const opt = document.createElement('option');
+                opt.value = y;
+                opt.innerText = `${y}년`;
+                yearSelect.appendChild(opt);
+
+                const optFilter = document.createElement('option');
+                optFilter.value = y;
+                optFilter.innerText = `${y}년`;
+                adminFilterYear.appendChild(optFilter);
+            }
+
+            monthSelect.innerHTML = '';
+            for (let m = 1; m <= 12; m++) {
+                const opt = document.createElement('option');
+                opt.value = m - 1;
+                opt.innerText = `${m}월`;
+                monthSelect.appendChild(opt);
+            }
+        }
+
+        function updateSelectBoxesUI() {
+            document.getElementById('year-select').value = currentYear;
+            document.getElementById('month-select').value = currentMonth;
+        }
+
+        window.onSelectYearMonth = function() {
+            currentYear = parseInt(document.getElementById('year-select').value);
+            currentMonth = parseInt(document.getElementById('month-select').value);
+            renderCalendar();
+        };
+
+        function formatDateStr(year, month, day) {
+            const m = String(month + 1).padStart(2, '0');
+            const d = String(day).padStart(2, '0');
+            return `${year}-${m}-${d}`;
+        }
+
+        function renderCalendar() {
+            updateSelectBoxesUI();
+            const grid = document.getElementById('calendar-grid');
+            const title = document.getElementById('calendar-title');
+            grid.innerHTML = '';
+
+            title.innerText = `${currentYear}년 ${currentMonth + 1}월`;
+
+            const firstDayIndex = new Date(currentYear, currentMonth, 1).getDay();
+            const totalDays = new Date(currentYear, currentMonth + 1, 0).getDate();
+
+            for (let i = 0; i < firstDayIndex; i++) {
+                const emptyCell = document.createElement('div');
+                emptyCell.className = "h-44 md:h-52 bg-zinc-50/50 rounded-xl border border-transparent";
+                grid.appendChild(emptyCell);
+            }
+
+            for (let day = 1; day <= totalDays; day++) {
+                const dateStr = formatDateStr(currentYear, currentMonth, day);
+
+                let matchedSchedules = [];
+                for (let id in schedules) {
+                    const item = schedules[id];
+                    const start = item.startDate;
+                    const end = item.endDate || item.startDate;
+
+                    if (dateStr >= start && dateStr <= end) {
+                        matchedSchedules.push(item);
+                    }
+                }
+
+                const cell = document.createElement('div');
+                let cellBaseClass = "h-44 md:h-52 rounded-xl p-1.5 md:p-2 flex flex-col justify-between transition hover:shadow-md cursor-pointer relative overflow-hidden ";
+                
+                let bgStyle = "bg-white border border-zinc-200";
+                let hasRest = matchedSchedules.some(s => s.type === 'rest');
+                
+                const uniqueTypes = [...new Set(matchedSchedules.map(s => s.type).filter(t => t && t !== 'none'))];
+
+                cell.removeAttribute('style');
+
+                if (hasRest) {
+                    bgStyle = "bg-zinc-100 border border-zinc-200 text-zinc-800";
+                } else if (uniqueTypes.length === 1) {
+                    const type = uniqueTypes[0];
+                    if (type === 'solo') bgStyle = "bg-white border-2 border-sky-400";
+                    else if (type === 'collab') bgStyle = "bg-white border-2 border-emerald-400";
+                    else if (type === 'event') bgStyle = "bg-white border-2 border-amber-400";
+                } else if (uniqueTypes.length > 1) {
+                    const colors = uniqueTypes.map(t => TYPE_COLORS[t] || '#38bdf8');
+                    bgStyle = "bg-white border-2";
+
+                    if (colors.length === 2) {
+                        cell.style.borderColor = `${colors[0]} ${colors[1]} ${colors[1]} ${colors[0]}`;
+                    } else if (colors.length === 3) {
+                        cell.style.borderColor = `${colors[0]} ${colors[1]} ${colors[2]} ${colors[2]}`;
+                    } else {
+                        cell.style.borderColor = `${colors[0]} ${colors[1]} ${colors[2]} ${colors[3]}`;
+                    }
+                }
+
+                cell.className = cellBaseClass + bgStyle;
+                cell.onclick = () => window.openDetailModal(dateStr, matchedSchedules);
+
+                const isToday = (day === today.getDate() && currentMonth === today.getMonth() && currentYear === today.getFullYear());
+                
+                const topGroup = document.createElement('div');
+                topGroup.className = "w-full flex flex-col justify-start overflow-hidden";
+
+                const topHeader = document.createElement('div');
+                topHeader.className = "flex items-center gap-1 mb-1.5 flex-wrap";
+
+                const dayNumber = document.createElement('div');
+                dayNumber.className = `text-xs md:text-sm font-bold w-6 h-6 flex items-center justify-center rounded-full shrink-0 ${isToday ? 'bg-red-600 text-white' : 'text-zinc-700'}`;
+                dayNumber.innerText = day;
+                topHeader.appendChild(dayNumber);
+
+                if (matchedSchedules.length > 0) {
+                    const uniqueGames = [...new Set(matchedSchedules.map(s => s.game).filter(Boolean))];
+                    uniqueGames.forEach(gName => {
+                        const gameBadge = document.createElement('span');
+                        gameBadge.className = "text-[9.5px] md:text-[10.5px] bg-white text-black font-extrabold px-1 py-0.5 rounded-full border border-black truncate max-w-[80px]";
+                        gameBadge.innerText = gName;
+                        topHeader.appendChild(gameBadge);
+                    });
+                }
+
+                topGroup.appendChild(topHeader);
+
+                const listContainer = document.createElement('div');
+                listContainer.className = "flex flex-col gap-1 overflow-hidden w-full";
+
+                let validItemCount = 0;
+                matchedSchedules.forEach((sch) => {
+                    if (sch.summary && sch.summary.trim() !== '') {
+                        if (validItemCount < 5) {
+                            const badge = document.createElement('div');
+                            
+                            if (sch.type === 'rest') {
+                                badge.className = "text-[10.5px] md:text-[13px] px-2 py-1 rounded bg-transparent text-zinc-800 font-semibold truncate";
+                            } else {
+                                const customColorStyle = ITEM_COLOR_MAP[sch.color || 'default'] || ITEM_COLOR_MAP['default'];
+                                badge.className = `text-[10.5px] md:text-[13px] px-2 py-1 rounded font-semibold truncate border ${customColorStyle}`;
+                            }
+                            
+                            const gamePrefix = sch.game ? `[${sch.game}] ` : '';
+                            badge.innerText = `${gamePrefix}${sch.summary}`;
+                            listContainer.appendChild(badge);
+                        }
+                        validItemCount++;
+                    }
+                });
+
+                if (validItemCount > 5) {
+                    const moreBadge = document.createElement('div');
+                    moreBadge.className = "text-[9.5px] text-zinc-500 font-bold text-right mt-0.5";
+                    moreBadge.innerText = `+${validItemCount - 5}개 더보기`;
+                    listContainer.appendChild(moreBadge);
+                }
+
+                topGroup.appendChild(listContainer);
+                cell.appendChild(topGroup);
+
+                const allAnniversaries = [];
+                matchedSchedules.forEach(s => {
+                    if (s.anniversary && s.anniversary.trim() !== '') {
+                        allAnniversaries.push(s.anniversary);
+                    }
+                });
+
+                if (allAnniversaries.length > 0) {
+                    const anniFooterContainer = document.createElement('div');
+                    anniFooterContainer.className = "w-full pt-1.5 mt-auto border-t border-red-200/80 truncate text-center flex flex-col items-center gap-0.5";
+                    allAnniversaries.forEach(anni => {
+                        const anniBadge = document.createElement('div');
+                        anniBadge.className = "text-[11.5px] md:text-[12.5px] font-bold text-red-600 truncate w-full text-center";
+                        anniBadge.innerText = anni;
+                        anniFooterContainer.appendChild(anniBadge);
+                    });
+                    cell.appendChild(anniFooterContainer);
+                }
+
+                grid.appendChild(cell);
+            }
+        }
+
+        window.changeMonth = function(direction) {
+            currentMonth += direction;
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            } else if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            }
+            renderCalendar();
+        };
+
+        window.goToday = function() {
+            currentYear = today.getFullYear();
+            currentMonth = today.getMonth();
+            renderCalendar();
+        };
+
+        window.openDetailModal = function(dateStr, matchedSchedules) {
+            document.getElementById('modal-date-title').innerText = `${dateStr} 방송 일정`;
+            const body = document.getElementById('modal-content-body');
+            body.innerHTML = '';
+
+            if (matchedSchedules.length === 0) {
+                body.innerHTML = '<p class="text-zinc-500 text-center py-4">등록된 일정이 없습니다.</p>';
+            } else {
+                const allAnniversaries = [];
+                matchedSchedules.forEach(s => {
+                    if (s.anniversary && s.anniversary.trim() !== '') {
+                        allAnniversaries.push(s.anniversary);
+                    }
+                });
+
+                if (allAnniversaries.length > 0) {
+                    allAnniversaries.forEach(anni => {
+                        const anniBox = document.createElement('div');
+                        anniBox.className = "w-full bg-[#2a0e0e] border border-red-900/60 rounded-xl p-3 text-center text-red-500 font-black text-sm shadow-md";
+                        anniBox.innerText = anni;
+                        body.appendChild(anniBox);
+                    });
+                }
+
+                matchedSchedules.forEach(s => {
+                    if (s.summary || s.desc || s.members) {
+                        const div = document.createElement('div');
+                        div.className = "bg-white text-zinc-900 p-4 rounded-xl border border-zinc-200 shadow-md space-y-2.5";
+                        
+                        const hasValidType = s.type && s.type !== 'none' && TYPE_NAMES[s.type];
+                        const typeColor = TYPE_COLORS[s.type] || '#38bdf8';
+                        const typeName = TYPE_NAMES[s.type] || '';
+
+                        div.innerHTML = `
+                            ${(hasValidType || s.game) ? `
+                            <div class="flex items-center gap-2 font-bold text-xs flex-wrap">
+                                ${hasValidType ? `
+                                    <span class="px-2 py-0.5 rounded text-white font-bold" style="background-color: ${typeColor};">
+                                        ${typeName}
+                                    </span>
+                                ` : ''}
+                                ${s.game ? `
+                                    <span class="px-2 py-0.5 rounded bg-white text-zinc-900 font-extrabold border border-zinc-300">
+                                        ${s.game}
+                                    </span>
+                                ` : ''}
+                            </div>
+                            ` : ''}
+
+                            ${s.summary ? `<h4 class="font-extrabold text-base text-zinc-900">${s.summary}</h4>` : ''}
+                            ${s.desc ? `<p class="text-sm text-zinc-600 font-medium leading-relaxed whitespace-pre-line">${s.desc}</p>` : ''}
+                            ${s.members ? `<div class="text-sm text-zinc-900 whitespace-pre-line bg-zinc-50 p-3 rounded-lg border border-zinc-200 leading-relaxed font-medium">${s.members}</div>` : ''}
+                        `;
+                        body.appendChild(div);
+                    }
+                });
+            }
+            document.getElementById('detail-modal').classList.remove('hidden');
+            document.getElementById('detail-modal').classList.add('flex');
+        };
+
+        window.closeDetailModal = function() {
+            document.getElementById('detail-modal').classList.remove('flex');
+            document.getElementById('detail-modal').classList.add('hidden');
+        };
+
+        window.openAdminLogin = function() {
+            document.getElementById('admin-pw-input').value = '';
+            document.getElementById('admin-login-modal').classList.remove('hidden');
+            document.getElementById('admin-login-modal').classList.add('flex');
+        };
+
+        window.closeAdminLogin = function() {
+            document.getElementById('admin-login-modal').classList.remove('flex');
+            document.getElementById('admin-login-modal').classList.add('hidden');
+        };
+
+        // 관리자 인증 함수
+        window.verifyAdmin = function() {
+            const pwInput = document.getElementById('admin-pw-input').value.trim();
+            if (!pwInput) {
+                alert('비밀번호를 입력해주세요.');
+                return;
+            }
+
+            if (pwInput === checkPass) {
+                closeAdminLogin();
+                openAdminPanel();
+            } else {
+                alert('비밀번호가 틀렸습니다.');
+            }
+        };
+
+        window.openAdminPanel = function() {
+            resetForm();
+            document.getElementById('admin-filter-year').value = currentYear;
+            document.getElementById('admin-filter-month').value = currentMonth;
+            renderAdminList();
+            document.getElementById('admin-panel-modal').classList.remove('hidden');
+            document.getElementById('admin-panel-modal').classList.add('flex');
+        };
+
+        window.closeAdminPanel = function() {
+            document.getElementById('admin-panel-modal').classList.remove('flex');
+            document.getElementById('admin-panel-modal').classList.add('hidden');
+        };
+
+        window.resetForm = function() {
+            document.getElementById('edit-target-id').value = '';
+            document.getElementById('form-start-date').value = formatDateStr(currentYear, currentMonth, 1);
+            document.getElementById('form-end-date').value = '';
+            document.getElementById('form-type').value = 'solo';
+            document.getElementById('form-game').value = '';
+            document.getElementById('form-summary').value = '';
+            document.getElementById('form-anniversary').value = '';
+            document.getElementById('form-members').value = '';
+            document.getElementById('form-desc').value = '';
+            selectItemColor('default');
+            document.getElementById('form-mode-title').innerText = '일정 추가';
+            document.getElementById('save-btn').innerText = '저장하기';
+        };
+
+        window.saveSchedule = function() {
+            const id = document.getElementById('edit-target-id').value || 'sch_' + Date.now();
+            const startDate = document.getElementById('form-start-date').value;
+            const endDate = document.getElementById('form-end-date').value;
+            const type = document.getElementById('form-type').value;
+            const game = document.getElementById('form-game').value;
+            const color = document.getElementById('form-item-color').value;
+            const summary = document.getElementById('form-summary').value;
+            const anniversary = document.getElementById('form-anniversary').value;
+            const members = document.getElementById('form-members').value;
+            const desc = document.getElementById('form-desc').value;
+
+            if (!startDate) {
+                alert('시작일을 입력해주세요.');
+                return;
+            }
+
+            const scheduleData = { startDate, endDate, type, game, color, summary, anniversary, members, desc };
+
+            set(ref(db, 'schedules/' + id), scheduleData).then(() => {
+                alert('저장되었습니다.');
+                resetForm();
+                renderAdminList();
+                renderCalendar();
+            }).catch((error) => {
+                alert('저장 실패: ' + error.message);
+            });
+        };
+
+        window.renderAdminList = function() {
+            const listEl = document.getElementById('admin-schedule-list');
+            listEl.innerHTML = '';
+
+            const filterYear = document.getElementById('admin-filter-year').value;
+            const filterMonth = document.getElementById('admin-filter-month').value;
+            const sortOrder = document.getElementById('admin-filter-sort').value;
+            const keyword = document.getElementById('admin-search-input').value.toLowerCase();
+
+            let items = [];
+            for (let id in schedules) {
+                items.push({ id, ...schedules[id] });
+            }
+
+            items = items.filter(item => {
+                const sDate = item.startDate;
+                const [y, m, d] = sDate.split('-');
+
+                if (filterYear !== 'all' && y !== filterYear) return false;
+                if (filterMonth !== 'all' && parseInt(m) - 1 !== parseInt(filterMonth)) return false;
+
+                if (keyword) {
+                    const matchText = `${item.summary} ${item.game} ${item.members} ${item.anniversary} ${item.desc}`.toLowerCase();
+                    if (!matchText.includes(keyword)) return false;
+                }
+                return true;
+            });
+
+            items.sort((a, b) => {
+                if (sortOrder === 'desc') {
+                    return b.startDate.localeCompare(a.startDate);
+                } else {
+                    return a.startDate.localeCompare(b.startDate);
+                }
+            });
+
+            if (items.length === 0) {
+                listEl.innerHTML = '<p class="text-zinc-500 text-center py-4">등록된 일정이 없습니다.</p>';
+                return;
+            }
+
+            items.forEach(item => {
+                const row = document.createElement('div');
+                row.className = "flex items-center justify-between bg-zinc-800 p-2.5 rounded-lg border border-zinc-700/60";
+                
+                let displayTitle = item.summary && item.summary.trim() !== '' 
+                    ? item.summary 
+                    : (item.anniversary && item.anniversary.trim() !== '' ? item.anniversary : (item.desc || '(내용 없음)'));
+                
+                if (item.game && item.game.trim() !== '') {
+                    displayTitle = `[${item.game}] ${displayTitle}`;
+                }
+
+                row.innerHTML = `
+                    <div class="space-y-0.5 truncate pr-2">
+                        <div class="text-[11px] text-zinc-400 font-bold">${item.startDate} ${item.endDate ? '~ ' + item.endDate : ''}</div>
+                        <div class="font-bold text-white truncate">${displayTitle}</div>
+                    </div>
+                    <div class="flex items-center gap-1.5 shrink-0">
+                        <button onclick="editSchedule('${item.id}')" class="px-2.5 py-1 bg-zinc-700 hover:bg-zinc-600 text-white rounded text-[11px] font-bold cursor-pointer">수정</button>
+                        <button onclick="deleteSchedule('${item.id}')" class="px-2.5 py-1 bg-red-600/80 hover:bg-red-600 text-white rounded text-[11px] font-bold cursor-pointer">삭제</button>
+                    </div>
+                `;
+                listEl.appendChild(row);
+            });
+        };
+
+        window.editSchedule = function(id) {
+            const item = schedules[id];
+            if (!item) return;
+
+            document.getElementById('edit-target-id').value = id;
+            document.getElementById('form-start-date').value = item.startDate || '';
+            document.getElementById('form-end-date').value = item.endDate || '';
+            document.getElementById('form-type').value = item.type || 'solo';
+            document.getElementById('form-game').value = item.game || '';
+            selectItemColor(item.color || 'default');
+            document.getElementById('form-summary').value = item.summary || '';
+            document.getElementById('form-anniversary').value = item.anniversary || '';
+            document.getElementById('form-members').value = item.members || '';
+            document.getElementById('form-desc').value = item.desc || '';
+
+            document.getElementById('form-mode-title').innerText = '일정 수정';
+            document.getElementById('save-btn').innerText = '수정하기';
+        };
+
+        window.deleteSchedule = function(id) {
+            if (confirm('정말 이 일정을 삭제하시겠습니까?')) {
+                remove(ref(db, 'schedules/' + id)).then(() => {
+                    alert('삭제되었습니다.');
+                    renderAdminList();
+                    renderCalendar();
+                }).catch((error) => {
+                    alert('삭제 실패: ' + error.message);
+                });
+            }
+        };
+
+        onValue(ref(db, 'schedules'), (snapshot) => {
+            const data = snapshot.val();
+            schedules = data ? data : {};
+            renderCalendar();
+            if (!document.getElementById('admin-panel-modal').classList.contains('hidden')) {
+                renderAdminList();
+            }
+        });
+
+        initSelectBoxes();
+        resetForm();
+    </script>
+</body>
+</html>
