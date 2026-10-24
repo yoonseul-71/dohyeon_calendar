@@ -409,7 +409,7 @@
             }
         });
 
-        // 
+        //
         let pressTimer = null;
         const triggerEl = document.getElementById('admin-long-press-trigger');
 
@@ -563,8 +563,9 @@
 
                 cell.removeAttribute('style');
 
+                /* ✨ 은은한 연회색 연출: bg-zinc-100 / bg-zinc-200 약한 테두리 사용 */
                 if (hasRest) {
-                    bgStyle = "bg-zinc-200 border border-zinc-300 text-zinc-800";
+                    bgStyle = "bg-zinc-100 border border-zinc-300/80 text-zinc-800";
                 } else if (uniqueTypes.length === 1) {
                     const type = uniqueTypes[0];
                     if (type === 'solo') bgStyle = "bg-white border-2 border-sky-400";
@@ -614,18 +615,25 @@
                 const listContainer = document.createElement('div');
                 listContainer.className = "flex flex-col gap-1 overflow-hidden w-full";
 
+                /* ✨ 휴방 글씨 중앙 정렬 및 휴방 하단에 일반 일정 나열 로직 */
+                if (hasRest) {
+                    const restBadge = document.createElement('div');
+                    // 글자 크기 1~2pt 확대(text-sm/md), 중앙 정렬(text-center)
+                    restBadge.className = "text-sm md:text-base font-black text-center text-zinc-600 py-0.5 my-0.5 tracking-wider";
+                    restBadge.innerText = "휴방";
+                    listContainer.appendChild(restBadge);
+                }
+
                 let validItemCount = 0;
                 matchedSchedules.forEach((sch) => {
+                    // 휴방 아이템 자체 텍스트는 위에서 '휴방' 하나로 통합 처리했으므로 건너뜀
+                    if (sch.type === 'rest') return;
+
                     if (sch.summary && sch.summary.trim() !== '') {
-                        if (validItemCount < 5) {
+                        if (validItemCount < 4) {
                             const badge = document.createElement('div');
-                            
-                            if (sch.type === 'rest') {
-                                badge.className = "text-[10.5px] md:text-[13px] px-2 py-1 rounded bg-transparent text-zinc-800 font-semibold truncate";
-                            } else {
-                                const customColorStyle = ITEM_COLOR_MAP[sch.color || 'default'] || ITEM_COLOR_MAP['default'];
-                                badge.className = `text-[10.5px] md:text-[13px] px-2 py-1 rounded font-semibold truncate border ${customColorStyle}`;
-                            }
+                            const customColorStyle = ITEM_COLOR_MAP[sch.color || 'default'] || ITEM_COLOR_MAP['default'];
+                            badge.className = `text-[10.5px] md:text-[13px] px-2 py-1 rounded font-semibold truncate border ${customColorStyle}`;
                             
                             const gamePrefix = sch.game ? `[${sch.game}] ` : '';
                             badge.innerText = `${gamePrefix}${sch.summary}`;
@@ -635,10 +643,10 @@
                     }
                 });
 
-                if (validItemCount > 5) {
+                if (validItemCount > 4) {
                     const moreBadge = document.createElement('div');
                     moreBadge.className = "text-[9.5px] text-zinc-500 font-bold text-right mt-0.5";
-                    moreBadge.innerText = `+${validItemCount - 5}개 더보기`;
+                    moreBadge.innerText = `+${validItemCount - 4}개 더보기`;
                     listContainer.appendChild(moreBadge);
                 }
 
@@ -711,7 +719,7 @@
                 }
 
                 matchedSchedules.forEach(s => {
-                    if (s.summary || s.desc || s.members) {
+                    if (s.summary || s.desc || s.members || s.type === 'rest') {
                         const div = document.createElement('div');
                         div.className = "bg-white text-zinc-900 p-4 rounded-xl border border-zinc-200 shadow-md space-y-2.5";
                         
@@ -884,7 +892,7 @@
                 
                 let displayTitle = item.summary && item.summary.trim() !== '' 
                     ? item.summary 
-                    : (item.anniversary && item.anniversary.trim() !== '' ? item.anniversary : (item.desc || '(내용 없음)'));
+                    : (item.anniversary && item.anniversary.trim() !== '' ? item.anniversary : (item.desc || (item.type === 'rest' ? '휴방' : '(내용 없음)')));
                 
                 if (item.game && item.game.trim() !== '') {
                     displayTitle = `[${item.game}] ${displayTitle}`;
