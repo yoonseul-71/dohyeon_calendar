@@ -359,6 +359,9 @@
                             <option value="10">11월</option>
                             <option value="11">12월</option>
                         </select>
+                        <select id="admin-filter-day" onchange="renderAdminList()" class="bg-zinc-800 text-xs border border-zinc-700 rounded-md px-2 py-1 focus:outline-none text-zinc-300">
+                            <option value="all">전체 일</option>
+                        </select>
                         <select id="admin-filter-sort" onchange="renderAdminList()" class="bg-zinc-800 text-xs border border-zinc-700 rounded-md px-2 py-1 focus:outline-none text-zinc-300">
                             <option value="desc">최신순</option>
                             <option value="asc">과거순</option>
@@ -507,6 +510,7 @@
             const yearSelect = document.getElementById('year-select');
             const monthSelect = document.getElementById('month-select');
             const adminFilterYear = document.getElementById('admin-filter-year');
+            const adminFilterDay = document.getElementById('admin-filter-day');
 
             yearSelect.innerHTML = '';
             adminFilterYear.innerHTML = '<option value="all">전체 연도</option>';
@@ -529,6 +533,15 @@
                 opt.value = m - 1;
                 opt.innerText = `${m}월`;
                 monthSelect.appendChild(opt);
+            }
+
+            // 관리자 필터에 '일' 선택 옵션 생성 (1일~31일)
+            adminFilterDay.innerHTML = '<option value="all">전체 일</option>';
+            for (let d = 1; d <= 31; d++) {
+                const opt = document.createElement('option');
+                opt.value = d;
+                opt.innerText = `${d}일`;
+                adminFilterDay.appendChild(opt);
             }
         }
 
@@ -581,7 +594,6 @@
                     }
                 }
 
-                // order 기준으로 정렬
                 matchedSchedules.sort((a, b) => (a.order !== undefined ? a.order : 0) - (b.order !== undefined ? b.order : 0));
 
                 const cell = document.createElement('div');
@@ -823,6 +835,7 @@
             resetForm();
             document.getElementById('admin-filter-year').value = currentYear;
             document.getElementById('admin-filter-month').value = currentMonth;
+            document.getElementById('admin-filter-day').value = 'all';
             renderAdminList();
             document.getElementById('admin-panel-modal').classList.remove('hidden');
             document.getElementById('admin-panel-modal').classList.add('flex');
@@ -939,6 +952,7 @@
 
             const filterYear = document.getElementById('admin-filter-year').value;
             const filterMonth = document.getElementById('admin-filter-month').value;
+            const filterDay = document.getElementById('admin-filter-day').value;
             const sortOrder = document.getElementById('admin-filter-sort').value;
             const keyword = document.getElementById('admin-search-input').value.toLowerCase();
 
@@ -953,6 +967,7 @@
 
                 if (filterYear !== 'all' && y !== filterYear) return false;
                 if (filterMonth !== 'all' && parseInt(m) - 1 !== parseInt(filterMonth)) return false;
+                if (filterDay !== 'all' && parseInt(d) !== parseInt(filterDay)) return false;
 
                 if (keyword) {
                     const matchText = `${item.summary} ${item.game} ${item.members} ${item.anniversary} ${item.desc}`.toLowerCase();
