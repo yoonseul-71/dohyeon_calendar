@@ -389,9 +389,6 @@
         // 
         const checkPass = atob("MTUyMDcxMQ==");
 
-        // 💤 휴방 시 나타날 귀여운 캐릭터 SVG (Data URL 형태 - 언제나 백프로 정상 로딩)
-        const REST_IMAGE_SVG = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 60"><path d="M15,45 Q20,25 35,28 Q45,20 60,25 Q75,20 85,35 Q90,50 80,55 Q50,60 15,45 Z" fill="%233f3f46" opacity="0.15"/><circle cx="45" cy="30" r="18" fill="%2318181b"/><circle cx="35" cy="38" r="10" fill="%23f472b6" opacity="0.3"/><circle cx="55" cy="38" r="10" fill="%23f472b6" opacity="0.3"/><path d="M38,28 Q42,32 46,28" stroke="%23ffffff" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M52,28 Q56,32 60,28" stroke="%23ffffff" stroke-width="2" fill="none" stroke-linecap="round"/><ellipse cx="50" cy="33" rx="2" ry="1.5" fill="%23f472b6"/><path d="M25,20 Q20,10 30,12 Z" fill="%2318181b"/><path d="M65,20 Q70,10 60,12 Z" fill="%2318181b"/><text x="70" y="18" font-family="sans-serif" font-weight="bold" font-size="12" fill="%2371717a">Z</text><text x="78" y="12" font-family="sans-serif" font-weight="bold" font-size="9" fill="%23a1a1aa">z</text></svg>`;
-
         let schedules = {};
 
         const today = new Date();
@@ -636,13 +633,28 @@
                 topGroup.appendChild(listContainer);
                 cell.appendChild(topGroup);
 
-                // 💤 휴방일 때 하단 중앙에 들어가는 자는 캐릭터 이미지 (Data URL 적용 완료)
+                // 💤 휴방일 때 하단 중앙에 깔끔하게 배치되는 동적 캐릭터 Element 생성
                 if (hasRest) {
                     const restImageContainer = document.createElement('div');
                     restImageContainer.className = "w-full flex justify-center items-center my-auto py-1 pointer-events-none z-0";
-                    restImageContainer.innerHTML = `
-                        <img src="${REST_IMAGE_SVG}" alt="휴방 캐릭터" class="h-10 md:h-12 object-contain opacity-90 drop-shadow-sm">
+                    
+                    const restSvg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+                    restSvg.setAttribute("viewBox", "0 0 100 60");
+                    restSvg.setAttribute("class", "h-10 md:h-12 object-contain opacity-90 drop-shadow-sm");
+                    restSvg.innerHTML = `
+                        <path d="M15,45 Q20,25 35,28 Q45,20 60,25 Q75,20 85,35 Q90,50 80,55 Q50,60 15,45 Z" fill="#3f3f46" opacity="0.15"/>
+                        <circle cx="45" cy="30" r="18" fill="#18181b"/>
+                        <circle cx="35" cy="38" r="10" fill="#f472b6" opacity="0.3"/>
+                        <circle cx="55" cy="38" r="10" fill="#f472b6" opacity="0.3"/>
+                        <path d="M38,28 Q42,32 46,28" stroke="#ffffff" stroke-width="2" fill="none" stroke-linecap="round"/>
+                        <path d="M52,28 Q56,32 60,28" stroke="#ffffff" stroke-width="2" fill="none" stroke-linecap="round"/>
+                        <ellipse cx="50" cy="33" rx="2" ry="1.5" fill="#f472b6"/>
+                        <path d="M25,20 Q20,10 30,12 Z" fill="#18181b"/>
+                        <path d="M65,20 Q70,10 60,12 Z" fill="#18181b"/>
+                        <text x="70" y="18" font-family="sans-serif" font-weight="bold" font-size="12" fill="#71717a">Z</text>
+                        <text x="78" y="12" font-family="sans-serif" font-weight="bold" font-size="9" fill="#a1a1aa">z</text>
                     `;
+                    restImageContainer.appendChild(restSvg);
                     cell.appendChild(restImageContainer);
                 }
 
