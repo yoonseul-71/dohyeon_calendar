@@ -401,6 +401,43 @@
         let currentYear = today.getFullYear();
         let currentMonth = today.getMonth();
 
+        // 대한민국 공휴일 자동 계산 함수
+        function isKoreanHoliday(year, month, day, dayOfWeek) {
+            // 일요일 판별
+            if (dayOfWeek === 0) return true;
+
+            const m = month + 1;
+            const mmdd = String(m).padStart(2, '0') + String(day).padStart(2, '0');
+
+            // 1. 고정 양력 공휴일
+            const fixedHolidays = [
+                '0101', // 신정
+                '0301', // 삼일절
+                '0505', // 어린이날
+                '0606', // 현충일
+                '0815', // 광복절
+                '1003', // 개천절
+                '1009', // 한글날
+                '1225'  // 성탄절
+            ];
+            if (fixedHolidays.includes(mmdd)) return true;
+
+            // 2. 음력 명절 및 대체공휴일 (주요 연도 데이터)
+            const variableHolidays = {
+                2024: ['0209', '0210', '0211', '0212', '0506', '0515', '0916', '0917', '0918'],
+                2025: ['0128', '0129', '0130', '0303', '0505', '0506', '1005', '1006', '1007', '1008'],
+                2026: ['0216', '0217', '0218', '0302', '0524', '0525', '0924', '0925', '0926'],
+                2027: ['0206', '0207', '0208', '0209', '0513', '0914', '0915', '0916'],
+                2028: ['0126', '0127', '0128', '0502', '1002', '1003', '1004', '1005']
+            };
+
+            if (variableHolidays[year] && variableHolidays[year].includes(mmdd)) {
+                return true;
+            }
+
+            return false;
+        }
+
         // 
         document.addEventListener('keydown', function(event) {
             if (event.altKey && (event.key === 'a' || event.key === 'A' || event.key === 'ㅁ')) {
@@ -541,6 +578,7 @@
 
             for (let day = 1; day <= totalDays; day++) {
                 const dateStr = formatDateStr(currentYear, currentMonth, day);
+                const dayOfWeek = new Date(currentYear, currentMonth, day).getDay();
 
                 let matchedSchedules = [];
                 for (let id in schedules) {
@@ -587,7 +625,8 @@
                 cell.onclick = () => window.openDetailModal(dateStr, matchedSchedules);
 
                 const isToday = (day === today.getDate() && currentMonth === today.getMonth() && currentYear === today.getFullYear());
-                
+                const isHoliday = isKoreanHoliday(currentYear, currentMonth, day, dayOfWeek);
+
                 const topGroup = document.createElement('div');
                 topGroup.className = "w-full flex flex-col justify-start overflow-hidden";
 
@@ -595,7 +634,16 @@
                 topHeader.className = "flex items-center gap-1 mb-1.5 flex-wrap";
 
                 const dayNumber = document.createElement('div');
-                dayNumber.className = `text-xs md:text-sm font-bold w-6 h-6 flex items-center justify-center rounded-full shrink-0 ${isToday ? 'bg-red-600 text-white' : 'text-zinc-700'}`;
+                
+                // 날짜 스타일링 (오늘 표시 원 설정 우선 적용, 공휴일은 빨간 글씨)
+                if (isToday) {
+                    dayNumber.className = "text-xs md:text-sm font-bold w-6 h-6 flex items-center justify-center rounded-full shrink-0 bg-red-600 text-white";
+                } else if (isHoliday) {
+                    dayNumber.className = "text-xs md:text-sm font-bold w-6 h-6 flex items-center justify-center rounded-full shrink-0 text-red-600";
+                } else {
+                    dayNumber.className = "text-xs md:text-sm font-bold w-6 h-6 flex items-center justify-center rounded-full shrink-0 text-zinc-700";
+                }
+                
                 dayNumber.innerText = day;
                 topHeader.appendChild(dayNumber);
 
