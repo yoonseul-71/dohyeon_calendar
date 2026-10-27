@@ -681,7 +681,6 @@
 
                 let validItemCount = 0;
                 matchedSchedules.forEach((sch) => {
-                    // 휴방 또는 장기휴방이면 무조건 상단 리스트 배지에서 제외하여 중복 표시 방지
                     if (sch.type === 'rest' || sch.type === 'longrest') {
                         return;
                     }
@@ -710,7 +709,6 @@
                 topGroup.appendChild(listContainer);
                 cell.appendChild(topGroup);
 
-                // 🌙 휴방 또는 장기휴방 날짜일 경우 칸 중앙에 아이콘과 글씨 배치 (다른 일정이나 공지가 없는 공간 기준 중앙)
                 if (hasRestOrLongRest) {
                     const restItem = matchedSchedules.find(s => s.type === 'rest' || s.type === 'longrest');
                     const restText = restItem.type === 'longrest' ? '장기휴방' : '휴방';
@@ -806,11 +804,12 @@
                         if (s.customLinks && Array.isArray(s.customLinks) && s.customLinks.length > 0) {
                             const linkItems = s.customLinks
                                 .filter(l => l.url && l.url.trim() !== '')
-                                .map(l => `<a href="${l.url}" target="_blank" class="text-[11px] font-bold text-sky-600 hover:text-sky-800 hover:underline flex items-center justify-end gap-0.5">↗ ${l.name || '풀영상 보러가기'}</a>`)
+                                <!-- 🔗 다시보기 링크 글씨 크기를 기존보다 0.6rem 정도 더 키움 (text-[14.5px]) -->
+                                .map(l => `<a href="${l.url}" target="_blank" class="text-[14.5px] font-extrabold text-sky-600 hover:text-sky-800 hover:underline flex items-center justify-end gap-1">↗ ${l.name || '풀영상 보러가기'}</a>`)
                                 .join('');
                             
                             if (linkItems) {
-                                linksHtml = `<div class="absolute top-3.5 right-4 flex flex-col items-end gap-1 z-10">${linkItems}</div>`;
+                                linksHtml = `<div class="absolute top-3.5 right-4 flex flex-col items-end gap-1.5 z-10">${linkItems}</div>`;
                             }
                         }
 
