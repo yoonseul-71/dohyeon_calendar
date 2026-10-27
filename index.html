@@ -257,6 +257,7 @@
                             <option value="collab">타스방송</option>
                             <option value="event">이벤트</option>
                             <option value="rest">휴방</option>
+                            <option value="longrest">장기휴방</option>
                             <option value="none">선택 안함 (일반)</option>
                         </select>
                     </div>
@@ -313,12 +314,12 @@
 
                 <div>
                     <label class="block text-xs text-zinc-400 mb-1">방송 요약 내용 (선택사항)</label>
-                    <input type="text" id="form-summary" placeholder="예: 도현x수피 랜드 합방 (휴방일 경우 '휴방' 또는 '장기휴방' 입력 가능)" class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500">
+                    <input type="text" id="form-summary" placeholder="예: 도현x수피 랜드 합방 (휴방/장기휴방 선택 시 비워두세요)" class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500">
                 </div>
 
                 <div>
                     <label class="block text-xs text-zinc-400 mb-1">📌 하단 강조 문구 (기념일/공지사항 등)</label>
-                    <input type="text" id="form-anniversary" placeholder="예: 🎉 BIRTHDAY 🎉, 📢 마이크 고장 - 소리이슈" class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500">
+                    <input type="text" id="form-anniversary" placeholder="예: 🎉 BIRTHDAY 🎉, 📢 복귀 방송" class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500">
                 </div>
 
                 <div>
@@ -481,14 +482,16 @@
             solo: '#38bdf8',
             collab: '#34d399',
             event: '#fbbf24',
-            rest: '#a1a1aa'
+            rest: '#a1a1aa',
+            longrest: '#a1a1aa'
         };
 
         const TYPE_NAMES = {
             solo: '도현방송',
             collab: '타스방송',
             event: '이벤트',
-            rest: '휴방'
+            rest: '휴방',
+            longrest: '장기휴방'
         };
 
         const ITEM_COLOR_MAP = {
@@ -610,14 +613,13 @@
                 let cellBaseClass = "h-44 md:h-52 rounded-2xl p-2.5 flex flex-col justify-between transition hover:shadow-md cursor-pointer relative overflow-hidden ";
                 
                 let bgStyle = "bg-white border border-zinc-200";
-                let hasRest = matchedSchedules.some(s => s.type === 'rest');
+                let hasRestOrLongRest = matchedSchedules.some(s => s.type === 'rest' || s.type === 'longrest');
                 
                 const uniqueTypes = [...new Set(matchedSchedules.map(s => s.type).filter(t => t && t !== 'none'))];
 
                 cell.removeAttribute('style');
 
-                // 🌙 이미지와 똑같은 연회색 휴방 카드 스타일 적용
-                if (hasRest) {
+                if (hasRestOrLongRest) {
                     bgStyle = "bg-[#e5e5e5] border border-zinc-300 text-zinc-700 shadow-inner";
                 } else if (uniqueTypes.length === 1) {
                     const type = uniqueTypes[0];
@@ -679,8 +681,8 @@
 
                 let validItemCount = 0;
                 matchedSchedules.forEach((sch) => {
-                    // 휴방 아이템이 '휴방' 이외의 다른 개별 텍스트를 적지 않은 경우 상단 목록에서 숨김 처리 (중앙 배치용)
-                    if (sch.type === 'rest' && (!sch.summary || sch.summary.trim() === '' || sch.summary.trim() === '휴방')) {
+                    // 휴방 또는 장기휴방일 때, summary가 없거나 타입 자체로 처리되는 경우 상단 목록 배지에서 제외
+                    if ((sch.type === 'rest' || sch.type === 'longrest') && (!sch.summary || sch.summary.trim() === '')) {
                         return;
                     }
 
@@ -708,10 +710,11 @@
                 topGroup.appendChild(listContainer);
                 cell.appendChild(topGroup);
 
-                // 🌙 휴방(rest) 날짜일 경우 칸의 남은 빈 공간 중앙에 똑같은 달+반짝이 아이콘 및 문구 배치
-                if (hasRest) {
-                    const restItem = matchedSchedules.find(s => s.type === 'rest');
-                    const restText = (restItem && restItem.summary && restItem.summary.trim() !== '') ? restItem.summary : '휴방';
+                // 🌙 휴방 또는 장기휴방 날짜일 경우 칸 중앙에 아이콘과 글씨 배치
+                const hasVisibleSummary = matchedSchedules.some(s => s.summary && s.summary.trim() !== '');
+                if (hasRestOrLongRest && !hasVisibleSummary) {
+                    const restItem = matchedSchedules.find(s => s.type === 'rest' || s.type === 'longrest');
+                    const restText = restItem.type === 'longrest' ? '장기휴방' : '휴방';
                     
                     const centerRestEl = document.createElement('div');
                     centerRestEl.className = "absolute inset-0 flex flex-col items-center justify-center pointer-events-none text-zinc-600 z-0 pt-3";
@@ -792,7 +795,7 @@
                 }
 
                 matchedSchedules.forEach(s => {
-                    if (s.summary || s.desc || s.members || s.type === 'rest') {
+                    if (s.summary || s.desc || s.members || s.type === 'rest' || s.type === 'longrest') {
                         const div = document.createElement('div');
                         div.className = "bg-white text-zinc-900 p-4 rounded-xl border border-zinc-200 shadow-md space-y-2.5 relative";
                         
@@ -812,6 +815,10 @@
                             }
                         }
 
+                        let displaySummary = s.summary;
+                        if (!displaySummary && s.type === 'longrest') displaySummary = '장기휴방';
+                        if (!displaySummary && s.type === 'rest') displaySummary = '휴방';
+
                         div.innerHTML = `
                             ${linksHtml}
                             ${(hasValidType || s.game) ? `
@@ -829,7 +836,7 @@
                             </div>
                             ` : ''}
 
-                            ${s.summary ? `<h4 class="font-extrabold text-base text-zinc-900 pr-28">${s.summary}</h4>` : ''}
+                            ${displaySummary ? `<h4 class="font-extrabold text-base text-zinc-900 pr-28">${displaySummary}</h4>` : ''}
                             ${s.desc ? `<p class="text-sm text-zinc-600 font-medium leading-relaxed whitespace-pre-line">${s.desc}</p>` : ''}
                             ${s.members ? `<div class="text-sm text-zinc-900 whitespace-pre-line bg-zinc-50 p-3 rounded-lg border border-zinc-200 leading-relaxed font-medium">${s.members}</div>` : ''}
                         `;
@@ -1057,7 +1064,7 @@
                 
                 let displayTitle = item.summary && item.summary.trim() !== '' 
                     ? item.summary 
-                    : (item.type === 'rest' ? '휴방' : (item.anniversary && item.anniversary.trim() !== '' ? item.anniversary : (item.desc || '(내용 없음)')));
+                    : (item.type === 'longrest' ? '장기휴방' : (item.type === 'rest' ? '휴방' : (item.anniversary && item.anniversary.trim() !== '' ? item.anniversary : (item.desc || '(내용 없음)'))));
                 
                 if (item.game && item.game.trim() !== '') {
                     displayTitle = `[${item.game}] ${displayTitle}`;
