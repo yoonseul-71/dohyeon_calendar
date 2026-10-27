@@ -313,7 +313,7 @@
 
                 <div>
                     <label class="block text-xs text-zinc-400 mb-1">방송 요약 내용 (선택사항)</label>
-                    <input type="text" id="form-summary" placeholder="예: 도현x수피 랜드 합방 (휴방일 경우 '휴방' 또는 '장기휴방' 입력)" class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500">
+                    <input type="text" id="form-summary" placeholder="예: 도현x수피 랜드 합방 (휴방일 경우 '휴방' 또는 '장기휴방' 입력 가능)" class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500">
                 </div>
 
                 <div>
@@ -607,7 +607,7 @@
                 matchedSchedules.sort((a, b) => (a.order !== undefined ? a.order : 0) - (b.order !== undefined ? b.order : 0));
 
                 const cell = document.createElement('div');
-                let cellBaseClass = "h-44 md:h-52 rounded-xl p-1.5 md:p-2 flex flex-col justify-between transition hover:shadow-md cursor-pointer relative overflow-hidden ";
+                let cellBaseClass = "h-44 md:h-52 rounded-2xl p-2.5 flex flex-col justify-between transition hover:shadow-md cursor-pointer relative overflow-hidden ";
                 
                 let bgStyle = "bg-white border border-zinc-200";
                 let hasRest = matchedSchedules.some(s => s.type === 'rest');
@@ -616,8 +616,9 @@
 
                 cell.removeAttribute('style');
 
+                // 🌙 이미지와 똑같은 연회색 휴방 카드 스타일 적용
                 if (hasRest) {
-                    bgStyle = "bg-zinc-100 border border-zinc-200 text-zinc-800";
+                    bgStyle = "bg-[#e5e5e5] border border-zinc-300 text-zinc-700 shadow-inner";
                 } else if (uniqueTypes.length === 1) {
                     const type = uniqueTypes[0];
                     if (type === 'solo') bgStyle = "bg-white border-2 border-sky-400";
@@ -643,10 +644,10 @@
                 const isHoliday = isKoreanHoliday(currentYear, currentMonth, day, dayOfWeek);
 
                 const topGroup = document.createElement('div');
-                topGroup.className = "w-full flex flex-col justify-start overflow-hidden";
+                topGroup.className = "w-full flex flex-col justify-start overflow-hidden z-10";
 
                 const topHeader = document.createElement('div');
-                topHeader.className = "flex items-center gap-1 mb-1.5 flex-wrap";
+                topHeader.className = "flex items-center gap-1 mb-1 flex-wrap";
 
                 const dayNumber = document.createElement('div');
                 
@@ -678,16 +679,16 @@
 
                 let validItemCount = 0;
                 matchedSchedules.forEach((sch) => {
+                    // 휴방 아이템이 '휴방' 이외의 다른 개별 텍스트를 적지 않은 경우 상단 목록에서 숨김 처리 (중앙 배치용)
+                    if (sch.type === 'rest' && (!sch.summary || sch.summary.trim() === '' || sch.summary.trim() === '휴방')) {
+                        return;
+                    }
+
                     if (sch.summary && sch.summary.trim() !== '') {
                         if (validItemCount < 5) {
                             const badge = document.createElement('div');
-                            
-                            if (sch.type === 'rest') {
-                                badge.className = "text-[10.5px] md:text-[13px] px-2 py-1 rounded bg-transparent text-zinc-800 font-semibold truncate";
-                            } else {
-                                const customColorStyle = ITEM_COLOR_MAP[sch.color || 'default'] || ITEM_COLOR_MAP['default'];
-                                badge.className = `text-[10.5px] md:text-[13px] px-2 py-1 rounded font-semibold truncate border ${customColorStyle}`;
-                            }
+                            const customColorStyle = ITEM_COLOR_MAP[sch.color || 'default'] || ITEM_COLOR_MAP['default'];
+                            badge.className = `text-[10.5px] md:text-[13px] px-2 py-1 rounded font-semibold truncate border ${customColorStyle}`;
                             
                             const gamePrefix = sch.game ? `[${sch.game}] ` : '';
                             badge.innerText = `${gamePrefix}${sch.summary}`;
@@ -707,21 +708,20 @@
                 topGroup.appendChild(listContainer);
                 cell.appendChild(topGroup);
 
-                // 휴방(rest)이면서 다른 일반 일정 텍스트 배지가 없을 때 칸의 남은 빈 공간 정중앙에 아이콘+문구 배치
-                const hasVisibleSummary = matchedSchedules.some(s => s.summary && s.summary.trim() !== '');
-                if (hasRest && !hasVisibleSummary) {
+                // 🌙 휴방(rest) 날짜일 경우 칸의 남은 빈 공간 중앙에 똑같은 달+반짝이 아이콘 및 문구 배치
+                if (hasRest) {
                     const restItem = matchedSchedules.find(s => s.type === 'rest');
                     const restText = (restItem && restItem.summary && restItem.summary.trim() !== '') ? restItem.summary : '휴방';
                     
                     const centerRestEl = document.createElement('div');
-                    centerRestEl.className = "absolute inset-0 flex flex-col items-center justify-center pointer-events-none text-zinc-500";
+                    centerRestEl.className = "absolute inset-0 flex flex-col items-center justify-center pointer-events-none text-zinc-600 z-0 pt-3";
                     centerRestEl.innerHTML = `
-                        <svg viewBox="0 0 24 24" class="w-8 h-8 fill-current mb-1 text-zinc-500">
-                            <path d="M12.3 2C6.6 2 2 6.6 2 12.3c0 3.3 1.6 6.3 4.2 8.1 0.3 0.2 0.7 0.1 0.9-0.2 0.2-0.3 0.1-0.7-0.2-0.9C4.8 18 3.5 15.3 3.5 12.3 3.5 7.5 7.5 3.5 12.3 3.5c3 0 5.7 1.3 7.5 3.5 0.2 0.3 0.6 0.4 0.9 0.2 0.3-0.2 0.4-0.6 0.2-0.9C18.6 3.6 15.6 2 12.3 2z"/>
-                            <path d="M19 10.5c-0.4 0-0.7-0.3-0.7-0.7V8.5h-1.3c-0.4 0-0.7-0.3-0.7-0.7s0.3-0.7 0.7-0.7H18V5.8c0-0.4 0.3-0.7 0.7-0.7s0.7 0.3 0.7 0.7v1.3h1.3c0.4 0 0.7 0.3 0.7 0.7s-0.3 0.7-0.7 0.7h-1.3v1.3C19.7 10.2 19.4 10.5 19 10.5z"/>
-                            <path d="M12.5 7.5c-2.8 0-5 2.2-5 5s2.2 5 5 5c1 0 1.9-0.3 2.7-0.8 0.3-0.2 0.4-0.6 0.2-0.9-0.2-0.3-0.6-0.4-0.9-0.2C13.9 16.2 13.2 16.5 12.5 16.5c-2.2 0-4-1.8-4-4s1.8-4 4-4c0.7 0 1.4 0.3 1.9 0.7 0.3 0.2 0.7 0.2 0.9-0.1 0.2-0.3 0.2-0.7-0.1-0.9C14.4 7.8 13.5 7.5 12.5 7.5z"/>
+                        <svg class="w-9 h-9 mb-1 text-zinc-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                            <path d="M19 3v4"></path>
+                            <path d="M21 5h-4"></path>
                         </svg>
-                        <span class="text-xs font-bold">${restText}</span>
+                        <span class="text-xs font-extrabold tracking-tight text-zinc-600">${restText}</span>
                     `;
                     cell.appendChild(centerRestEl);
                 }
@@ -792,7 +792,7 @@
                 }
 
                 matchedSchedules.forEach(s => {
-                    if (s.summary || s.desc || s.members) {
+                    if (s.summary || s.desc || s.members || s.type === 'rest') {
                         const div = document.createElement('div');
                         div.className = "bg-white text-zinc-900 p-4 rounded-xl border border-zinc-200 shadow-md space-y-2.5 relative";
                         
@@ -1057,7 +1057,7 @@
                 
                 let displayTitle = item.summary && item.summary.trim() !== '' 
                     ? item.summary 
-                    : (item.anniversary && item.anniversary.trim() !== '' ? item.anniversary : (item.desc || '(내용 없음)'));
+                    : (item.type === 'rest' ? '휴방' : (item.anniversary && item.anniversary.trim() !== '' ? item.anniversary : (item.desc || '(내용 없음)')));
                 
                 if (item.game && item.game.trim() !== '') {
                     displayTitle = `[${item.game}] ${displayTitle}`;
