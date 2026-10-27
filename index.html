@@ -681,8 +681,8 @@
 
                 let validItemCount = 0;
                 matchedSchedules.forEach((sch) => {
-                    // 휴방 또는 장기휴방일 때, summary가 없거나 타입 자체로 처리되는 경우 상단 목록 배지에서 제외
-                    if ((sch.type === 'rest' || sch.type === 'longrest') && (!sch.summary || sch.summary.trim() === '')) {
+                    // 휴방 또는 장기휴방이면 무조건 상단 리스트 배지에서 제외하여 중복 표시 방지
+                    if (sch.type === 'rest' || sch.type === 'longrest') {
                         return;
                     }
 
@@ -710,9 +710,8 @@
                 topGroup.appendChild(listContainer);
                 cell.appendChild(topGroup);
 
-                // 🌙 휴방 또는 장기휴방 날짜일 경우 칸 중앙에 아이콘과 글씨 배치
-                const hasVisibleSummary = matchedSchedules.some(s => s.summary && s.summary.trim() !== '');
-                if (hasRestOrLongRest && !hasVisibleSummary) {
+                // 🌙 휴방 또는 장기휴방 날짜일 경우 칸 중앙에 아이콘과 글씨 배치 (다른 일정이나 공지가 없는 공간 기준 중앙)
+                if (hasRestOrLongRest) {
                     const restItem = matchedSchedules.find(s => s.type === 'rest' || s.type === 'longrest');
                     const restText = restItem.type === 'longrest' ? '장기휴방' : '휴방';
                     
@@ -816,8 +815,8 @@
                         }
 
                         let displaySummary = s.summary;
-                        if (!displaySummary && s.type === 'longrest') displaySummary = '장기휴방';
-                        if (!displaySummary && s.type === 'rest') displaySummary = '휴방';
+                        if (s.type === 'longrest') displaySummary = '장기휴방';
+                        else if (s.type === 'rest') displaySummary = '휴방';
 
                         div.innerHTML = `
                             ${linksHtml}
@@ -1062,9 +1061,7 @@
                 const row = document.createElement('div');
                 row.className = "flex items-center justify-between bg-zinc-800 p-2.5 rounded-lg border border-zinc-700/60";
                 
-                let displayTitle = item.summary && item.summary.trim() !== '' 
-                    ? item.summary 
-                    : (item.type === 'longrest' ? '장기휴방' : (item.type === 'rest' ? '휴방' : (item.anniversary && item.anniversary.trim() !== '' ? item.anniversary : (item.desc || '(내용 없음)'))));
+                let displayTitle = item.type === 'longrest' ? '장기휴방' : (item.type === 'rest' ? '휴방' : (item.summary && item.summary.trim() !== '' ? item.summary : (item.anniversary && item.anniversary.trim() !== '' ? item.anniversary : (item.desc || '(내용 없음)'))));
                 
                 if (item.game && item.game.trim() !== '') {
                     displayTitle = `[${item.game}] ${displayTitle}`;
