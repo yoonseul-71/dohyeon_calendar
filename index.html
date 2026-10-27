@@ -800,11 +800,11 @@
                         if (s.customLinks && Array.isArray(s.customLinks) && s.customLinks.length > 0) {
                             const linkItems = s.customLinks
                                 .filter(l => l.url && l.url.trim() !== '')
-                                .map(l => `<a href="${l.url}" target="_blank" class="text-[14.5px] font-extrabold text-sky-600 hover:text-sky-800 hover:underline flex items-center justify-end gap-1">↗ ${l.name || '풀영상 보러가기'}</a>`)
+                                .map(l => `<a href="${l.url}" target="_blank" class="text-[11px] font-bold text-sky-600 hover:text-sky-800 hover:underline flex items-center justify-end gap-0.5">↗ ${l.name || '풀영상 보러가기'}</a>`)
                                 .join('');
                             
                             if (linkItems) {
-                                linksHtml = `<div class="absolute top-3.5 right-4 flex flex-col items-end gap-1.5 z-10">${linkItems}</div>`;
+                                linksHtml = `<div class="absolute top-3.5 right-4 flex flex-col items-end gap-1 z-10">${linkItems}</div>`;
                             }
                         }
 
