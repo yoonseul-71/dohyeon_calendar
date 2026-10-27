@@ -330,6 +330,17 @@
                     <textarea id="form-desc" rows="2" placeholder="예: 멸망전 연습 및 상금 관련 랜드 방송" class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500"></textarea>
                 </div>
 
+                <!-- 🔗 다시보기/외부 링크 다중 입력 영역 -->
+                <div>
+                    <div class="flex items-center justify-between mb-1.5">
+                        <label class="block text-xs text-zinc-400">🔗 다시보기 링크 추가 (여러 개 등록 가능)</label>
+                        <button type="button" onclick="addLinkForm()" class="px-2 py-0.5 bg-zinc-700 hover:bg-zinc-600 text-white rounded text-[11px] font-bold cursor-pointer">+ 링크 추가</button>
+                    </div>
+                    <div id="form-links-container" class="space-y-2">
+                        <!-- 동적 추가됨 -->
+                    </div>
+                </div>
+
                 <div class="flex justify-end gap-2 pt-2">
                     <button onclick="closeAdminPanel()" class="px-3.5 py-1.5 bg-zinc-700 hover:bg-zinc-600 rounded-lg text-xs font-bold transition cursor-pointer">닫기</button>
                     <button onclick="resetForm()" class="px-3 py-1.5 bg-zinc-700 hover:bg-zinc-600 rounded-lg text-xs font-bold transition cursor-pointer">취소/초기화</button>
@@ -535,7 +546,6 @@
                 monthSelect.appendChild(opt);
             }
 
-            // 관리자 필터에 '일' 선택 옵션 생성 (1일~31일)
             adminFilterDay.innerHTML = '<option value="all">전체 일</option>';
             for (let d = 1; d <= 31; d++) {
                 const opt = document.createElement('option');
@@ -765,15 +775,29 @@
                 matchedSchedules.forEach(s => {
                     if (s.summary || s.desc || s.members) {
                         const div = document.createElement('div');
-                        div.className = "bg-white text-zinc-900 p-4 rounded-xl border border-zinc-200 shadow-md space-y-2.5";
+                        div.className = "bg-white text-zinc-900 p-4 rounded-xl border border-zinc-200 shadow-md space-y-2.5 relative";
                         
                         const hasValidType = s.type && s.type !== 'none' && TYPE_NAMES[s.type];
                         const typeColor = TYPE_COLORS[s.type] || '#38bdf8';
                         const typeName = TYPE_NAMES[s.type] || '';
 
+                        // ↗ 오른쪽 상단에 나열될 커스텀 링크 HTML 생성 (입력된 경우에만 표시)
+                        let linksHtml = '';
+                        if (s.customLinks && Array.isArray(s.customLinks) && s.customLinks.length > 0) {
+                            const linkItems = s.customLinks
+                                .filter(l => l.url && l.url.trim() !== '')
+                                .map(l => `<a href="${l.url}" target="_blank" class="text-[11px] font-bold text-sky-600 hover:text-sky-800 hover:underline flex items-center justify-end gap-0.5">↗ ${l.name || '풀영상 보러가기'}</a>`)
+                                .join('');
+                            
+                            if (linkItems) {
+                                linksHtml = `<div class="absolute top-3.5 right-4 flex flex-col items-end gap-1 z-10">${linkItems}</div>`;
+                            }
+                        }
+
                         div.innerHTML = `
+                            ${linksHtml}
                             ${(hasValidType || s.game) ? `
-                            <div class="flex items-center gap-2 font-bold text-xs flex-wrap">
+                            <div class="flex items-center gap-2 font-bold text-xs flex-wrap pr-28">
                                 ${hasValidType ? `
                                     <span class="px-2 py-0.5 rounded text-white font-bold" style="background-color: ${typeColor};">
                                         ${typeName}
@@ -787,7 +811,7 @@
                             </div>
                             ` : ''}
 
-                            ${s.summary ? `<h4 class="font-extrabold text-base text-zinc-900">${s.summary}</h4>` : ''}
+                            ${s.summary ? `<h4 class="font-extrabold text-base text-zinc-900 pr-28">${s.summary}</h4>` : ''}
                             ${s.desc ? `<p class="text-sm text-zinc-600 font-medium leading-relaxed whitespace-pre-line">${s.desc}</p>` : ''}
                             ${s.members ? `<div class="text-sm text-zinc-900 whitespace-pre-line bg-zinc-50 p-3 rounded-lg border border-zinc-200 leading-relaxed font-medium">${s.members}</div>` : ''}
                         `;
@@ -846,6 +870,19 @@
             document.getElementById('admin-panel-modal').classList.add('hidden');
         };
 
+        // 링크 입력 폼 동적 추가 함수
+        window.addLinkForm = function(name = '', url = '') {
+            const container = document.getElementById('form-links-container');
+            const row = document.createElement('div');
+            row.className = "flex items-center gap-2 link-row";
+            row.innerHTML = `
+                <input type="text" placeholder="링크 이름 (예: 풀영상 보러가기)" value="${name}" class="link-name-input w-1/3 bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-xs focus:outline-none focus:border-red-500">
+                <input type="text" placeholder="웹사이트 주소 (URL)" value="${url}" class="link-url-input w-2/3 bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-xs focus:outline-none focus:border-red-500">
+                <button type="button" onclick="this.parentElement.remove()" class="px-2 py-2 bg-red-600/80 hover:bg-red-600 text-white rounded-lg text-xs font-bold shrink-0 cursor-pointer">삭제</button>
+            `;
+            container.appendChild(row);
+        };
+
         window.resetForm = function() {
             document.getElementById('edit-target-id').value = '';
             document.getElementById('form-start-date').value = formatDateStr(currentYear, currentMonth, 1);
@@ -856,6 +893,7 @@
             document.getElementById('form-anniversary').value = '';
             document.getElementById('form-members').value = '';
             document.getElementById('form-desc').value = '';
+            document.getElementById('form-links-container').innerHTML = '';
             selectItemColor('default');
             document.getElementById('form-mode-title').innerText = '일정 추가';
             document.getElementById('save-btn').innerText = '저장하기';
@@ -872,6 +910,16 @@
             const anniversary = document.getElementById('form-anniversary').value;
             const members = document.getElementById('form-members').value;
             const desc = document.getElementById('form-desc').value;
+
+            // 링크 수집
+            const customLinks = [];
+            document.querySelectorAll('.link-row').forEach(row => {
+                const name = row.querySelector('.link-name-input').value.trim();
+                const url = row.querySelector('.link-url-input').value.trim();
+                if (url) {
+                    customLinks.push({ name, url });
+                }
+            });
 
             if (!startDate) {
                 alert('시작일을 입력해주세요.');
@@ -894,7 +942,7 @@
                 order = maxOrder + 1;
             }
 
-            const scheduleData = { startDate, endDate, type, game, color, summary, anniversary, members, desc, order };
+            const scheduleData = { startDate, endDate, type, game, color, summary, anniversary, members, desc, customLinks, order };
 
             set(ref(db, 'schedules/' + id), scheduleData).then(() => {
                 alert('저장되었습니다.');
@@ -1033,6 +1081,15 @@
             document.getElementById('form-anniversary').value = item.anniversary || '';
             document.getElementById('form-members').value = item.members || '';
             document.getElementById('form-desc').value = item.desc || '';
+
+            // 링크 채우기
+            const linksContainer = document.getElementById('form-links-container');
+            linksContainer.innerHTML = '';
+            if (item.customLinks && Array.isArray(item.customLinks)) {
+                item.customLinks.forEach(l => {
+                    addLinkForm(l.name || '', l.url || '');
+                });
+            }
 
             document.getElementById('form-mode-title').innerText = '일정 수정';
             document.getElementById('save-btn').innerText = '수정하기';
