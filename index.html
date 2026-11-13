@@ -211,32 +211,32 @@
         </div>
     </div>
 
-    <!-- [모달 2] 관리자 로그인 팝업 -->
-    <div id="admin-login-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
-        <div class="bg-zinc-900 border border-zinc-800 rounded-2xl max-w-sm w-full p-6 text-white shadow-2xl">
-            <h3 class="text-lg font-bold mb-4">관리자 인증</h3>
-            <p class="text-xs text-zinc-400 mb-4">관리자 비밀번호를 입력하세요.</p>
-            <input type="password" id="admin-pw-input" placeholder="비밀번호" class="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-2 text-sm mb-4 focus:outline-none focus:border-red-500 text-white" onkeydown="if(event.key==='Enter') verifyAdmin()">
+    <!-- [모달 2] 관리자 로그인 팝업 (라이트톤 변경) -->
+    <div id="admin-login-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
+        <div class="bg-white border border-zinc-300 rounded-2xl max-w-sm w-full p-6 text-zinc-900 shadow-2xl">
+            <h3 class="text-lg font-bold mb-1 text-zinc-800">관리자 인증</h3>
+            <p class="text-xs text-zinc-500 mb-4">관리자 비밀번호를 입력하세요.</p>
+            <input type="password" id="admin-pw-input" placeholder="비밀번호" class="w-full bg-zinc-50 border border-zinc-300 rounded-xl px-4 py-2.5 text-sm mb-4 focus:outline-none focus:border-red-500 text-zinc-900" onkeydown="if(event.key==='Enter') verifyAdmin()">
             <div class="flex justify-end gap-2">
-                <button onclick="closeAdminLogin()" class="px-3 py-2 bg-zinc-800 hover:bg-zinc-700 rounded-xl text-xs font-bold transition cursor-pointer">취소</button>
-                <button onclick="verifyAdmin()" class="px-4 py-2 bg-red-600 hover:bg-red-700 rounded-xl text-xs font-bold transition cursor-pointer">확인</button>
+                <button onclick="closeAdminLogin()" class="px-3.5 py-2 bg-zinc-100 hover:bg-zinc-200 text-zinc-700 rounded-xl text-xs font-bold transition cursor-pointer border border-zinc-300">취소</button>
+                <button onclick="verifyAdmin()" class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-xl text-xs font-bold transition cursor-pointer shadow-sm">확인</button>
             </div>
         </div>
     </div>
 
-    <!-- [모달 3] 관리자 편집 대시보드 팝업 -->
-    <div id="admin-panel-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden items-center justify-center z-50 p-4 overflow-y-auto">
-        <div class="bg-zinc-900 border border-zinc-800 rounded-2xl max-w-2xl w-full p-6 text-white shadow-2xl my-8 relative">
+    <!-- [모달 3] 관리자 편집 대시보드 팝업 (라이트톤 변경) -->
+    <div id="admin-panel-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden items-center justify-center z-50 p-4 overflow-y-auto">
+        <div class="bg-white border border-zinc-300 rounded-2xl max-w-2xl w-full p-6 text-zinc-900 shadow-2xl my-8 relative">
 
             <!-- 상단 백업/복구 제어 바 -->
-            <div class="flex items-center justify-between bg-zinc-800/80 p-3 rounded-xl border border-zinc-700/80 mb-6">
+            <div class="flex items-center justify-between bg-zinc-100 p-3 rounded-xl border border-zinc-200 mb-6 shadow-2xs">
                 <div>
-                    <h4 class="font-bold text-xs text-zinc-200">💾 데이터 수동 백업 및 복구</h4>
-                    <p class="text-[11px] text-zinc-400">데이터 소실 방지를 위해 주기적으로 백업 파일을 저장하세요.</p>
+                    <h4 class="font-bold text-xs text-zinc-800">💾 데이터 수동 백업 및 복구</h4>
+                    <p class="text-[11px] text-zinc-500">데이터 소실 방지를 위해 주기적으로 백업 파일을 저장하세요.</p>
                 </div>
                 <div class="flex items-center gap-2">
-                    <button type="button" onclick="exportDataToJson()" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-bold transition cursor-pointer shadow">백업 다운로드</button>
-                    <label class="px-3 py-1.5 bg-sky-600 hover:bg-sky-500 text-white rounded-lg text-xs font-bold transition cursor-pointer shadow inline-block">
+                    <button type="button" onclick="exportDataToJson()" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-bold transition cursor-pointer shadow-2xs">백업 다운로드</button>
+                    <label class="px-3 py-1.5 bg-sky-600 hover:bg-sky-500 text-white rounded-lg text-xs font-bold transition cursor-pointer shadow-2xs inline-block">
                         파일 복구
                         <input type="file" id="import-file-input" accept=".json" onchange="importDataFromJson(event)" class="hidden">
                     </label>
@@ -244,25 +244,25 @@
             </div>
 
             <!-- 일정 입력 폼 -->
-            <div class="bg-zinc-800/50 p-4 rounded-xl border border-zinc-700/60 mb-6 space-y-3">
-                <h4 id="form-mode-title" class="font-bold text-sm text-zinc-200">일정 추가</h4>
+            <div class="bg-zinc-50 p-4 rounded-xl border border-zinc-200 mb-6 space-y-3">
+                <h4 id="form-mode-title" class="font-bold text-sm text-zinc-800">일정 추가</h4>
                 <input type="hidden" id="edit-target-id" value="">
                 <input type="hidden" id="form-item-color" value="default">
 
                 <div class="grid grid-cols-2 gap-2">
                     <div>
-                        <label class="block text-xs text-zinc-400 mb-1">시작일 *</label>
-                        <input type="date" id="form-start-date" class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500">
+                        <label class="block text-xs text-zinc-600 mb-1 font-semibold">시작일 *</label>
+                        <input type="date" id="form-start-date" class="w-full bg-white border border-zinc-300 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500 text-zinc-900 shadow-2xs">
                     </div>
                     <div>
-                        <label class="block text-xs text-zinc-400 mb-1">종료일 (연속 일정시 선택)</label>
-                        <input type="date" id="form-end-date" class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500">
+                        <label class="block text-xs text-zinc-600 mb-1 font-semibold">종료일 (연속 일정시 선택)</label>
+                        <input type="date" id="form-end-date" class="w-full bg-white border border-zinc-300 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500 text-zinc-900 shadow-2xs">
                     </div>
                 </div>
                 <div class="grid grid-cols-2 gap-2">
                     <div>
-                        <label class="block text-xs text-zinc-400 mb-1">방송 종류</label>
-                        <select id="form-type" class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500">
+                        <label class="block text-xs text-zinc-600 mb-1 font-semibold">방송 종류</label>
+                        <select id="form-type" class="w-full bg-white border border-zinc-300 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500 text-zinc-900 shadow-2xs">
                             <option value="solo" selected>도현방송</option>
                             <option value="collab">타스방송</option>
                             <option value="event">이벤트</option>
@@ -272,8 +272,8 @@
                         </select>
                     </div>
                     <div>
-                        <label class="block text-xs text-zinc-400 mb-1">게임 / 카테고리</label>
-                        <select id="form-game" class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500">
+                        <label class="block text-xs text-zinc-600 mb-1 font-semibold">게임 / 카테고리</label>
+                        <select id="form-game" class="w-full bg-white border border-zinc-300 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500 text-zinc-900 shadow-2xs">
                             <option value="">없음</option>
                             <option value="소통">소통</option>
                             <option value="발로">발로</option>
@@ -290,62 +290,62 @@
 
                 <!-- 🎨 개별 일정 항목 배경색 픽커 -->
                 <div>
-                    <label class="block text-xs text-zinc-400 mb-1.5">📌 개별 항목 배경색 선택 (강조용 파스텔 픽커)</label>
+                    <label class="block text-xs text-zinc-600 mb-1.5 font-semibold">📌 개별 항목 배경색 선택 (강조용 파스텔 픽커)</label>
                     <div class="flex flex-wrap gap-2 items-center" id="color-picker-group">
-                        <button type="button" onclick="selectItemColor('default')" data-color-key="default" class="color-btn border-2 border-red-500 bg-zinc-100 text-zinc-800 px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1 transition">
+                        <button type="button" onclick="selectItemColor('default')" data-color-key="default" class="color-btn border-2 border-red-500 bg-white text-zinc-800 px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1 transition shadow-2xs">
                             <span class="w-3 h-3 rounded-full bg-zinc-300 border border-zinc-400 inline-block"></span> 기본(회색)
                         </button>
-                        <button type="button" onclick="selectItemColor('yellow')" data-color-key="yellow" class="color-btn border border-zinc-700 bg-amber-100 text-amber-900 px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1 transition">
+                        <button type="button" onclick="selectItemColor('yellow')" data-color-key="yellow" class="color-btn border border-zinc-300 bg-amber-100 text-amber-900 px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1 transition shadow-2xs">
                             <span class="w-3 h-3 rounded-full bg-amber-200 border border-amber-400 inline-block"></span> 연노랑
                         </button>
-                        <button type="button" onclick="selectItemColor('orange')" data-color-key="orange" class="color-btn border border-zinc-700 bg-orange-100 text-orange-900 px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1 transition">
+                        <button type="button" onclick="selectItemColor('orange')" data-color-key="orange" class="color-btn border border-zinc-300 bg-orange-100 text-orange-900 px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1 transition shadow-2xs">
                             <span class="w-3 h-3 rounded-full bg-orange-200 border border-orange-400 inline-block"></span> 연주황
                         </button>
-                        <button type="button" onclick="selectItemColor('pink')" data-color-key="pink" class="color-btn border border-zinc-700 bg-pink-100 text-pink-900 px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1 transition">
+                        <button type="button" onclick="selectItemColor('pink')" data-color-key="pink" class="color-btn border border-zinc-300 bg-pink-100 text-pink-900 px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1 transition shadow-2xs">
                             <span class="w-3 h-3 rounded-full bg-pink-200 border border-pink-400 inline-block"></span> 연분홍
                         </button>
-                        <button type="button" onclick="selectItemColor('blue')" data-color-key="blue" class="color-btn border border-zinc-700 bg-sky-100 text-sky-900 px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1 transition">
+                        <button type="button" onclick="selectItemColor('blue')" data-color-key="blue" class="color-btn border border-zinc-300 bg-sky-100 text-sky-900 px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1 transition shadow-2xs">
                             <span class="w-3 h-3 rounded-full bg-sky-200 border border-sky-400 inline-block"></span> 연하늘
                         </button>
-                        <button type="button" onclick="selectItemColor('green')" data-color-key="green" class="color-btn border border-zinc-700 bg-emerald-100 text-emerald-900 px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1 transition">
+                        <button type="button" onclick="selectItemColor('green')" data-color-key="green" class="color-btn border border-zinc-300 bg-emerald-100 text-emerald-900 px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1 transition shadow-2xs">
                             <span class="w-3 h-3 rounded-full bg-emerald-200 border border-emerald-400 inline-block"></span> 연연두
                         </button>
-                        <button type="button" onclick="selectItemColor('purple')" data-color-key="purple" class="color-btn border border-zinc-700 bg-purple-100 text-purple-900 px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1 transition">
+                        <button type="button" onclick="selectItemColor('purple')" data-color-key="purple" class="color-btn border border-zinc-300 bg-purple-100 text-purple-900 px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1 transition shadow-2xs">
                             <span class="w-3 h-3 rounded-full bg-purple-200 border border-purple-400 inline-block"></span> 연보라
                         </button>
-                        <button type="button" onclick="selectItemColor('teal')" data-color-key="teal" class="color-btn border border-zinc-700 bg-teal-100 text-teal-900 px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1 transition">
+                        <button type="button" onclick="selectItemColor('teal')" data-color-key="teal" class="color-btn border border-zinc-300 bg-teal-100 text-teal-900 px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1 transition shadow-2xs">
                             <span class="w-3 h-3 rounded-full bg-teal-200 border border-teal-400 inline-block"></span> 연청록
                         </button>
-                        <button type="button" onclick="selectItemColor('apricot')" data-color-key="apricot" class="color-btn border border-zinc-700 bg-fuchsia-100 text-fuchsia-900 px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1 transition">
+                        <button type="button" onclick="selectItemColor('apricot')" data-color-key="apricot" class="color-btn border border-zinc-300 bg-fuchsia-100 text-fuchsia-900 px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1 transition shadow-2xs">
                             <span class="w-3 h-3 rounded-full bg-fuchsia-200 border border-fuchsia-400 inline-block"></span> 연살구
                         </button>
                     </div>
                 </div>
 
                 <div>
-                    <label class="block text-xs text-zinc-400 mb-1">방송 요약 내용 (선택사항)</label>
-                    <input type="text" id="form-summary" placeholder="예: 도현x수피 랜드 합방 (휴방/장기휴방 선택 시 비워두세요)" class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500">
+                    <label class="block text-xs text-zinc-600 mb-1 font-semibold">방송 요약 내용 (선택사항)</label>
+                    <input type="text" id="form-summary" placeholder="예: 도현x수피 랜드 합방 (휴방/장기휴방 선택 시 비워두세요)" class="w-full bg-white border border-zinc-300 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500 text-zinc-900 shadow-2xs">
                 </div>
 
                 <div>
-                    <label class="block text-xs text-zinc-400 mb-1">📌 하단 강조 문구 (기념일/공지사항 등)</label>
-                    <input type="text" id="form-anniversary" placeholder="예: 🎉 BIRTHDAY 🎉, 📢 복귀 방송" class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500">
+                    <label class="block text-xs text-zinc-600 mb-1 font-semibold">📌 하단 강조 문구 (기념일/공지사항 등)</label>
+                    <input type="text" id="form-anniversary" placeholder="예: 🎉 BIRTHDAY 🎉, 📢 복귀 방송" class="w-full bg-white border border-zinc-300 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500 text-zinc-900 shadow-2xs">
                 </div>
 
                 <div>
-                    <label class="block text-xs text-zinc-400 mb-1">👥 참여 멤버 (엔터로 세로 줄바꿈 작성)</label>
-                    <textarea id="form-members" rows="4" placeholder="예:&#10;도현 vs 켄&#10;수피 vs 콩석" class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2.5 text-sm focus:outline-none focus:border-red-500 leading-relaxed"></textarea>
+                    <label class="block text-xs text-zinc-600 mb-1 font-semibold">👥 참여 멤버 (엔터로 세로 줄바꿈 작성)</label>
+                    <textarea id="form-members" rows="4" placeholder="예:&#10;도현 vs 켄&#10;수피 vs 콩석" class="w-full bg-white border border-zinc-300 rounded-lg p-2.5 text-sm focus:outline-none focus:border-red-500 leading-relaxed text-zinc-900 shadow-2xs"></textarea>
                 </div>
                 <div>
-                    <label class="block text-xs text-zinc-400 mb-1">📝 상세 설명 (선택사항)</label>
-                    <textarea id="form-desc" rows="2" placeholder="예: 멸망전 연습 및 상금 관련 랜드 방송" class="w-full bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500"></textarea>
+                    <label class="block text-xs text-zinc-600 mb-1 font-semibold">📝 상세 설명 (선택사항)</label>
+                    <textarea id="form-desc" rows="2" placeholder="예: 멸망전 연습 및 상금 관련 랜드 방송" class="w-full bg-white border border-zinc-300 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500 text-zinc-900 shadow-2xs"></textarea>
                 </div>
 
                 <!-- 🔗 다시보기/외부 링크 다중 입력 영역 -->
                 <div>
                     <div class="flex items-center justify-between mb-1.5">
-                        <label class="block text-xs text-zinc-400">🔗 다시보기 링크 추가 (여러 개 등록 가능)</label>
-                        <button type="button" onclick="addLinkForm()" class="px-2 py-0.5 bg-zinc-700 hover:bg-zinc-600 text-white rounded text-[11px] font-bold cursor-pointer">+ 링크 추가</button>
+                        <label class="block text-xs text-zinc-600 font-semibold">🔗 다시보기 링크 추가 (여러 개 등록 가능)</label>
+                        <button type="button" onclick="addLinkForm()" class="px-2.5 py-1 bg-zinc-200 hover:bg-zinc-300 text-zinc-800 rounded text-[11px] font-bold cursor-pointer">+ 링크 추가</button>
                     </div>
                     <div id="form-links-container" class="space-y-2">
                         <!-- 동적 추가됨 -->
@@ -353,20 +353,20 @@
                 </div>
 
                 <div class="flex justify-end gap-2 pt-2">
-                    <button onclick="closeAdminPanel()" class="px-3.5 py-1.5 bg-zinc-700 hover:bg-zinc-600 rounded-lg text-xs font-bold transition cursor-pointer">닫기</button>
-                    <button onclick="resetForm()" class="px-3 py-1.5 bg-zinc-700 hover:bg-zinc-600 rounded-lg text-xs font-bold transition cursor-pointer">취소/초기화</button>
-                    <button onclick="saveSchedule()" id="save-btn" class="px-4 py-1.5 bg-red-600 hover:bg-red-700 rounded-lg text-xs font-bold transition cursor-pointer">저장하기</button>
+                    <button onclick="closeAdminPanel()" class="px-3.5 py-1.5 bg-zinc-200 hover:bg-zinc-300 text-zinc-700 rounded-lg text-xs font-bold transition cursor-pointer border border-zinc-300">닫기</button>
+                    <button onclick="resetForm()" class="px-3 py-1.5 bg-zinc-200 hover:bg-zinc-300 text-zinc-700 rounded-lg text-xs font-bold transition cursor-pointer border border-zinc-300">취소/초기화</button>
+                    <button onclick="saveSchedule()" id="save-btn" class="px-4 py-1.5 bg-red-600 hover:bg-red-700 text-white rounded-lg text-xs font-bold transition cursor-pointer shadow-2xs">저장하기</button>
                 </div>
             </div>
 
             <!-- 등록된 일정 리스트 -->
-            <div class="border-t border-zinc-800 pt-4">
+            <div class="border-t border-zinc-200 pt-4">
                 <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 mb-3">
-                    <h4 class="font-bold text-sm text-zinc-200">📋 등록된 일정 목록</h4>
+                    <h4 class="font-bold text-sm text-zinc-800">📋 등록된 일정 목록</h4>
                     <div class="flex flex-wrap items-center gap-1.5 w-full sm:w-auto">
-                        <select id="admin-filter-year" onchange="renderAdminList()" class="bg-zinc-800 text-xs border border-zinc-700 rounded-md px-2 py-1 focus:outline-none text-zinc-300">
+                        <select id="admin-filter-year" onchange="renderAdminList()" class="bg-white text-xs border border-zinc-300 rounded-md px-2 py-1 focus:outline-none text-zinc-800 font-semibold shadow-2xs">
                         </select>
-                        <select id="admin-filter-month" onchange="renderAdminList()" class="bg-zinc-800 text-xs border border-zinc-700 rounded-md px-2 py-1 focus:outline-none text-zinc-300">
+                        <select id="admin-filter-month" onchange="renderAdminList()" class="bg-white text-xs border border-zinc-300 rounded-md px-2 py-1 focus:outline-none text-zinc-800 font-semibold shadow-2xs">
                             <option value="all">전체 월</option>
                             <option value="0">1월</option>
                             <option value="1">2월</option>
@@ -381,10 +381,10 @@
                             <option value="10">11월</option>
                             <option value="11">12월</option>
                         </select>
-                        <select id="admin-filter-day" onchange="renderAdminList()" class="bg-zinc-800 text-xs border border-zinc-700 rounded-md px-2 py-1 focus:outline-none text-zinc-300">
+                        <select id="admin-filter-day" onchange="renderAdminList()" class="bg-white text-xs border border-zinc-300 rounded-md px-2 py-1 focus:outline-none text-zinc-800 font-semibold shadow-2xs">
                             <option value="all">전체 일</option>
                         </select>
-                        <select id="admin-filter-sort" onchange="renderAdminList()" class="bg-zinc-800 text-xs border border-zinc-700 rounded-md px-2 py-1 focus:outline-none text-zinc-300">
+                        <select id="admin-filter-sort" onchange="renderAdminList()" class="bg-white text-xs border border-zinc-300 rounded-md px-2 py-1 focus:outline-none text-zinc-800 font-semibold shadow-2xs">
                             <option value="desc">최신순</option>
                             <option value="asc">과거순</option>
                         </select>
@@ -392,7 +392,7 @@
                 </div>
 
                 <div class="mb-3">
-                    <input type="text" id="admin-search-input" onkeyup="renderAdminList()" placeholder="🔍 내용, 게임, 멤버, 기념일/공지로 검색..." class="w-full bg-zinc-800/80 border border-zinc-700 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:border-red-500">
+                    <input type="text" id="admin-search-input" onkeyup="renderAdminList()" placeholder="🔍 내용, 게임, 멤버, 기념일/공지로 검색..." class="w-full bg-white border border-zinc-300 rounded-lg px-3 py-1.5 text-xs text-zinc-900 focus:outline-none focus:border-red-500 shadow-2xs">
                 </div>
 
                 <div id="admin-schedule-list" class="max-h-60 overflow-y-auto space-y-2 pr-1 text-xs"></div>
@@ -518,11 +518,11 @@
             const buttons = document.querySelectorAll('.color-btn');
             buttons.forEach(btn => {
                 if (btn.getAttribute('data-color-key') === colorKey) {
-                    btn.classList.remove('border-zinc-700');
-                    btn.classList.add('border-2', 'border-red-500');
+                    btn.classList.remove('border-zinc-300', 'bg-white');
+                    btn.classList.add('border-2', 'border-red-500', 'bg-zinc-50');
                 } else {
-                    btn.classList.remove('border-2', 'border-red-500');
-                    btn.classList.add('border', 'border-zinc-700');
+                    btn.classList.remove('border-2', 'border-red-500', 'bg-zinc-50');
+                    btn.classList.add('border', 'border-zinc-300', 'bg-white');
                 }
             });
         };
@@ -941,9 +941,9 @@
             const row = document.createElement('div');
             row.className = "flex items-center gap-2 link-row";
             row.innerHTML = `
-                <input type="text" placeholder="링크 이름 (예: 풀영상 보러가기)" value="${name}" class="link-name-input w-1/3 bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-xs focus:outline-none focus:border-red-500 text-white">
-                <input type="text" placeholder="웹사이트 주소 (URL)" value="${url}" class="link-url-input w-2/3 bg-zinc-800 border border-zinc-700 rounded-lg p-2 text-xs focus:outline-none focus:border-red-500 text-white">
-                <button type="button" onclick="this.parentElement.remove()" class="px-2 py-2 bg-red-600/80 hover:bg-red-600 text-white rounded-lg text-xs font-bold shrink-0 cursor-pointer">삭제</button>
+                <input type="text" placeholder="링크 이름 (예: 풀영상 보러가기)" value="${name}" class="link-name-input w-1/3 bg-white border border-zinc-300 rounded-lg p-2 text-xs focus:outline-none focus:border-red-500 text-zinc-900 shadow-2xs">
+                <input type="text" placeholder="웹사이트 주소 (URL)" value="${url}" class="link-url-input w-2/3 bg-white border border-zinc-300 rounded-lg p-2 text-xs focus:outline-none focus:border-red-500 text-zinc-900 shadow-2xs">
+                <button type="button" onclick="this.parentElement.remove()" class="px-2 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg text-xs font-bold shrink-0 cursor-pointer">삭제</button>
             `;
             container.appendChild(row);
         };
@@ -1102,7 +1102,7 @@
 
             items.forEach(item => {
                 const row = document.createElement('div');
-                row.className = "flex items-center justify-between bg-zinc-800 p-2.5 rounded-lg border border-zinc-700/60";
+                row.className = "flex items-center justify-between bg-zinc-50 p-2.5 rounded-lg border border-zinc-200 shadow-2xs";
                 
                 let displayTitle = item.type === 'longrest' ? '장기휴방' : (item.type === 'rest' ? '휴방' : (item.summary && item.summary.trim() !== '' ? item.summary : (item.anniversary && item.anniversary.trim() !== '' ? item.anniversary : (item.desc || '(내용 없음)'))));
                 
@@ -1112,16 +1112,16 @@
 
                 row.innerHTML = `
                     <div class="space-y-0.5 truncate pr-2">
-                        <div class="text-[11px] text-zinc-400 font-bold">${item.startDate} ${item.endDate ? '~ ' + item.endDate : ''}</div>
-                        <div class="font-bold text-white truncate">${displayTitle}</div>
+                        <div class="text-[11px] text-zinc-500 font-bold">${item.startDate} ${item.endDate ? '~ ' + item.endDate : ''}</div>
+                        <div class="font-bold text-zinc-900 truncate">${displayTitle}</div>
                     </div>
                     <div class="flex items-center gap-1 shrink-0">
-                        <button onclick="moveSchedule('${item.id}', -2)" title="위로 2칸" class="px-1.5 py-1 bg-zinc-700 hover:bg-zinc-600 text-white rounded text-[10px] font-bold cursor-pointer">▲2</button>
-                        <button onclick="moveSchedule('${item.id}', -1)" title="위로 1칸" class="px-1.5 py-1 bg-zinc-700 hover:bg-zinc-600 text-white rounded text-[10px] font-bold cursor-pointer">▲</button>
-                        <button onclick="moveSchedule('${item.id}', 1)" title="아래로 1칸" class="px-1.5 py-1 bg-zinc-700 hover:bg-zinc-600 text-white rounded text-[10px] font-bold cursor-pointer">▼</button>
-                        <button onclick="moveSchedule('${item.id}', 2)" title="아래로 2칸" class="px-1.5 py-1 bg-zinc-700 hover:bg-zinc-600 text-white rounded text-[10px] font-bold cursor-pointer">▼2</button>
-                        <button onclick="editSchedule('${item.id}')" class="px-2.5 py-1 bg-zinc-700 hover:bg-zinc-600 text-white rounded text-[11px] font-bold cursor-pointer ml-1">수정</button>
-                        <button onclick="deleteSchedule('${item.id}')" class="px-2.5 py-1 bg-red-600/80 hover:bg-red-600 text-white rounded text-[11px] font-bold cursor-pointer">삭제</button>
+                        <button onclick="moveSchedule('${item.id}', -2)" title="위로 2칸" class="px-1.5 py-1 bg-zinc-200 hover:bg-zinc-300 text-zinc-700 rounded text-[10px] font-bold cursor-pointer">▲2</button>
+                        <button onclick="moveSchedule('${item.id}', -1)" title="위로 1칸" class="px-1.5 py-1 bg-zinc-200 hover:bg-zinc-300 text-zinc-700 rounded text-[10px] font-bold cursor-pointer">▲</button>
+                        <button onclick="moveSchedule('${item.id}', 1)" title="아래로 1칸" class="px-1.5 py-1 bg-zinc-200 hover:bg-zinc-300 text-zinc-700 rounded text-[10px] font-bold cursor-pointer">▼</button>
+                        <button onclick="moveSchedule('${item.id}', 2)" title="아래로 2칸" class="px-1.5 py-1 bg-zinc-200 hover:bg-zinc-300 text-zinc-700 rounded text-[10px] font-bold cursor-pointer">▼2</button>
+                        <button onclick="editSchedule('${item.id}')" class="px-2.5 py-1 bg-zinc-200 hover:bg-zinc-300 text-zinc-700 rounded text-[11px] font-bold cursor-pointer ml-1">수정</button>
+                        <button onclick="deleteSchedule('${item.id}')" class="px-2.5 py-1 bg-red-600 hover:bg-red-700 text-white rounded text-[11px] font-bold cursor-pointer shadow-2xs">삭제</button>
                     </div>
                 `;
                 listEl.appendChild(row);
