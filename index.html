@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+=<!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
@@ -24,7 +24,7 @@
 
     <div>
         <!-- 상단 배너 영역 -->
-        <header class="w-full bg-[#EFECE6] border-b border-red-900/30 relative overflow-hidden shadow-sm">
+        <header class="w-full bg-[#EFECE6] border-b border-red-500/40 relative overflow-hidden shadow-sm">
             <div class="max-w-[1550px] mx-auto px-4 pt-8 pb-4 md:pt-10 md:pb-5 flex flex-col md:flex-row items-center justify-between gap-6">
                 
                 <!-- 🖌️ 글씨체가 변경된 타이틀 영역 ('도현' 영어는 검정색, CALENDAR는 빨간색) -->
@@ -39,7 +39,7 @@
                     
                     <!-- 1. SOOP 방송국 -->
                     <div class="relative group flex items-center justify-center">
-                        <a href="https://www.sooplive.com/station/dobby1031" target="_blank" class="w-9 h-9 bg-red-700 hover:bg-red-600 border border-red-500/80 rounded-full flex items-center justify-center transition hover:scale-105 active:scale-95 shadow-sm">
+                        <a href="https://www.sooplive.com/station/dobby1031" target="_blank" class="w-9 h-9 bg-red-600 hover:bg-red-500 border border-red-400 rounded-full flex items-center justify-center transition hover:scale-105 active:scale-95 shadow-sm">
                             <svg viewBox="0 0 24 24" class="w-5 h-5 fill-current text-white block">
                                 <path d="M12 3L2 12h3v8h5v-6h4v6h5v-8h3L12 3z"/>
                             </svg>
@@ -138,7 +138,8 @@
                     </div>
                 </nav>
             </div>
-            <div class="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-red-600 via-red-900 to-transparent"></div>
+            <!-- 쨍하고 밝은 레드 그라데이션 포인트 라인 -->
+            <div class="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-red-500 via-rose-600 to-red-400"></div>
         </header>
 
         <!-- 메인 콘텐츠 -->
@@ -483,6 +484,7 @@
             triggerEl.addEventListener('mouseleave', cancelPress);
         }
 
+        // 도현방송(파랑)과 타스방송(초록)의 채도와 대비를 확실하게 구분
         const TYPE_COLORS = {
             solo: '#0284c7',
             collab: '#059669',
@@ -628,12 +630,12 @@
                     bgStyle = "bg-zinc-100 border border-zinc-300 text-zinc-700 shadow-inner";
                 } else if (uniqueTypes.length === 1) {
                     const type = uniqueTypes[0];
-                    if (type === 'solo') bgStyle = "bg-white border-2 border-sky-500";
-                    else if (type === 'collab') bgStyle = "bg-white border-2 border-emerald-500";
-                    else if (type === 'event') bgStyle = "bg-white border-2 border-amber-500";
+                    if (type === 'solo') bgStyle = "bg-white border-[2.5px] border-sky-500 shadow-xs";
+                    else if (type === 'collab') bgStyle = "bg-white border-[2.5px] border-emerald-600 shadow-xs";
+                    else if (type === 'event') bgStyle = "bg-white border-[2.5px] border-amber-500 shadow-xs";
                 } else if (uniqueTypes.length > 1) {
                     const colors = uniqueTypes.map(t => TYPE_COLORS[t] || '#0284c7');
-                    bgStyle = "bg-white border-2";
+                    bgStyle = "bg-white border-[2.5px]";
 
                     if (colors.length === 2) {
                         cell.style.borderColor = `${colors[0]} ${colors[1]} ${colors[1]} ${colors[0]}`;
@@ -673,7 +675,8 @@
                     const uniqueGames = [...new Set(matchedSchedules.map(s => s.game).filter(Boolean))];
                     uniqueGames.forEach(gName => {
                         const gameBadge = document.createElement('span');
-                        gameBadge.className = "text-[9.5px] md:text-[10.5px] bg-zinc-900 text-white font-extrabold px-1.5 py-0.5 rounded-full truncate max-w-[80px]";
+                        // 🏷️ 카테고리 뱃지: 흰색 배경 + 검정 글씨 + 검정 테두리 스타일
+                        gameBadge.className = "text-[9.5px] md:text-[10.5px] bg-white text-black font-extrabold px-1.5 py-0.5 rounded-full border border-black truncate max-w-[80px]";
                         gameBadge.innerText = gName;
                         topHeader.appendChild(gameBadge);
                     });
