@@ -2,8 +2,8 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <!-- 📱 모바일에서 PC 화면처럼 넓게 보이고 확대/축소가 가능하도록 뷰포트 설정 -->
-    <meta name="viewport" content="width=1350, initial-scale=1.0">
+    <!-- 📱 PC 가로 레이아웃 비율을 유지하면서 모바일 화면 너비에 맞춰 표시 + 확대/축소 허용 -->
+    <meta name="viewport" content="width=1280, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>방송 일정표</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
@@ -201,8 +201,8 @@
     </footer>
 
     <!-- [모달 1] 날짜 클릭 시 상세 팝업 -->
-    <div id="detail-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
-        <div class="bg-white border border-zinc-200 rounded-2xl max-w-lg w-full p-6 text-zinc-900 shadow-2xl relative">
+    <div id="detail-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden items-center justify-center z-50 p-4 overflow-y-auto">
+        <div class="bg-white border border-zinc-200 rounded-2xl max-w-lg w-full p-6 text-zinc-900 shadow-2xl relative my-auto">
             <h3 id="modal-date-title" class="text-lg font-black text-red-600 mb-2"></h3>
             <div id="modal-content-body" class="space-y-4 my-4 max-h-96 overflow-y-auto pr-1"></div>
             <div class="flex justify-end gap-2 mt-6">
@@ -211,9 +211,9 @@
         </div>
     </div>
 
-    <!-- [모달 2] 관리자 로그인 팝업 (라이트톤 변경) -->
-    <div id="admin-login-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
-        <div class="bg-white border border-zinc-300 rounded-2xl max-w-sm w-full p-6 text-zinc-900 shadow-2xl">
+    <!-- [모달 2] 관리자 로그인 팝업 -->
+    <div id="admin-login-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden items-center justify-center z-50 p-4 overflow-y-auto">
+        <div class="bg-white border border-zinc-300 rounded-2xl max-w-sm w-full p-6 text-zinc-900 shadow-2xl my-auto">
             <h3 class="text-lg font-bold mb-1 text-zinc-800">관리자 인증</h3>
             <p class="text-xs text-zinc-500 mb-4">관리자 비밀번호를 입력하세요.</p>
             <input type="password" id="admin-pw-input" placeholder="비밀번호" class="w-full bg-zinc-50 border border-zinc-300 rounded-xl px-4 py-2.5 text-sm mb-4 focus:outline-none focus:border-red-500 text-zinc-900" onkeydown="if(event.key==='Enter') verifyAdmin()">
@@ -224,9 +224,9 @@
         </div>
     </div>
 
-    <!-- [모달 3] 관리자 편집 대시보드 팝업 (라이트톤 변경) -->
-    <div id="admin-panel-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden items-center justify-center z-50 p-4 overflow-y-auto">
-        <div class="bg-white border border-zinc-300 rounded-2xl max-w-2xl w-full p-6 text-zinc-900 shadow-2xl my-8 relative">
+    <!-- [모달 3] 관리자 편집 대시보드 팝업 -->
+    <div id="admin-panel-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden items-start justify-center z-50 p-4 overflow-y-auto">
+        <div class="bg-white border border-zinc-300 rounded-2xl max-w-2xl w-full p-6 text-zinc-900 shadow-2xl my-6 relative">
 
             <!-- 상단 백업/복구 제어 바 -->
             <div class="flex items-center justify-between bg-zinc-100 p-3 rounded-xl border border-zinc-200 mb-6 shadow-2xs">
@@ -484,11 +484,10 @@
             triggerEl.addEventListener('mouseleave', cancelPress);
         }
 
-        // 🎨 캘린더 테두리 색상 설정
         const TYPE_COLORS = {
-            solo: '#38bdf8',    // 밝은 하늘색 (도현방송)
-            collab: '#34d399',  // 밝은 연두/민트색 (타스방송)
-            event: '#fbbf24',   // 화사하고 밝은 노란색 (이벤트)
+            solo: '#38bdf8',
+            collab: '#34d399',
+            event: '#fbbf24',
             rest: '#71717a',
             longrest: '#71717a'
         };
@@ -889,8 +888,10 @@
             document.getElementById('admin-filter-month').value = currentMonth;
             document.getElementById('admin-filter-day').value = 'all';
             renderAdminList();
-            document.getElementById('admin-panel-modal').classList.remove('hidden');
-            document.getElementById('admin-panel-modal').classList.add('flex');
+            const panel = document.getElementById('admin-panel-modal');
+            panel.classList.remove('hidden');
+            panel.classList.add('flex');
+            panel.scrollTop = 0;
         };
 
         window.closeAdminPanel = function() {
@@ -898,7 +899,6 @@
             document.getElementById('admin-panel-modal').classList.add('hidden');
         };
 
-        // 데이터 백업 내보내기 기능
         window.exportDataToJson = function() {
             const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(schedules, null, 2));
             const downloadAnchor = document.createElement('a');
@@ -910,7 +910,6 @@
             downloadAnchor.remove();
         };
 
-        // 백업 파일 불러오기(복구) 기능
         window.importDataFromJson = function(event) {
             const file = event.target.files[0];
             if (!file) return;
