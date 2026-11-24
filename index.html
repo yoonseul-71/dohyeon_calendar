@@ -162,9 +162,9 @@
                 </div>
             </div>
 
-            <!-- 캘린더 본체 (순백색 유지) -->
+            <!-- 캘린더 본체 (순백색 유지, 가로폭 확장) -->
             <div class="bg-white text-zinc-900 rounded-2xl shadow-xl p-2.5 sm:p-3 md:p-5 border border-zinc-200 overflow-x-auto">
-                <div class="min-w-[680px]">
+                <div class="min-w-[960px] md:min-w-0">
                     <!-- 상단 네비게이션 -->
                     <div class="flex justify-between items-center mb-4 md:mb-6 px-1 md:px-2">
                         <button onclick="changeMonth(-1)" class="px-3 py-1.5 md:px-3.5 md:py-2 bg-zinc-100 hover:bg-zinc-200 text-zinc-700 rounded-xl font-bold transition text-xs md:text-sm cursor-pointer border border-zinc-200">&lt; 이전달</button>
@@ -595,7 +595,7 @@
 
             for (let i = 0; i < firstDayIndex; i++) {
                 const emptyCell = document.createElement('div');
-                emptyCell.className = "h-36 md:h-52 bg-zinc-200/30 rounded-xl border border-transparent";
+                emptyCell.className = "h-44 md:h-52 bg-zinc-200/30 rounded-xl border border-transparent";
                 grid.appendChild(emptyCell);
             }
 
@@ -617,7 +617,7 @@
                 matchedSchedules.sort((a, b) => (a.order !== undefined ? a.order : 0) - (b.order !== undefined ? b.order : 0));
 
                 const cell = document.createElement('div');
-                let cellBaseClass = "h-36 md:h-52 rounded-2xl p-2 md:p-2.5 flex flex-col justify-between transition hover:shadow-md cursor-pointer relative overflow-hidden ";
+                let cellBaseClass = "h-44 md:h-52 rounded-2xl p-2 md:p-2.5 flex flex-col justify-between transition hover:shadow-md cursor-pointer relative overflow-hidden ";
                 
                 let bgStyle = "bg-white border border-zinc-200";
                 let hasRestOrLongRest = matchedSchedules.some(s => s.type === 'rest' || s.type === 'longrest');
@@ -696,7 +696,7 @@
                         if (validItemCount < 5) {
                             const badge = document.createElement('div');
                             const customColorStyle = ITEM_COLOR_MAP[sch.color || 'default'] || ITEM_COLOR_MAP['default'];
-                            badge.className = `text-[10.5px] md:text-[13px] px-2 py-0.5 md:py-1 rounded font-bold truncate border shadow-xs ${customColorStyle}`;
+                            badge.className = `text-[11.5px] md:text-[13px] px-2 py-0.5 md:py-1 rounded font-bold truncate border shadow-xs ${customColorStyle}`;
                             
                             const gamePrefix = sch.game ? `[${sch.game}] ` : '';
                             badge.innerText = `${gamePrefix}${sch.summary}`;
@@ -745,7 +745,7 @@
                     anniFooterContainer.className = "w-full pt-1 mt-auto border-t border-red-200 truncate text-center flex flex-col items-center gap-0.5 z-20";
                     allAnniversaries.forEach(anni => {
                         const anniBadge = document.createElement('div');
-                        anniBadge.className = "text-[10.5px] md:text-[12.5px] font-extrabold text-red-600 truncate w-full text-center";
+                        anniBadge.className = "text-[11px] md:text-[12.5px] font-extrabold text-red-600 truncate w-full text-center";
                         anniBadge.innerText = anni;
                         anniFooterContainer.appendChild(anniBadge);
                     });
