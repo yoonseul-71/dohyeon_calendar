@@ -2,8 +2,8 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <!-- 📱 모바일 화면 비율에 맞게 표시 + 핀치 줌(확대/축소) 허용 -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <!-- 📱 모바일 첫 화면에서 PC 전체 비율로 축소 표시 + 핀치 줌(확대/축소) 허용 -->
+    <meta name="viewport" content="width=device-width, initial-scale=0.32, minimum-scale=0.2, maximum-scale=5.0, user-scalable=yes">
     <title>방송 일정표</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
@@ -20,26 +20,26 @@
         }
     </style>
 </head>
-<body class="bg-[#F4F6F8] text-zinc-900">
+<body class="bg-[#F4F6F8] text-zinc-900 min-w-[1160px]">
 
     <!-- 상단 배너 영역 -->
     <header class="w-full bg-[#EAECEF] border-b border-zinc-300/80 relative overflow-hidden shadow-sm">
-        <div class="max-w-[1550px] mx-auto px-3 sm:px-4 pt-4 pb-3 md:pt-10 md:pb-5 flex flex-row items-center justify-between gap-2 md:gap-6">
+        <div class="max-w-[1550px] mx-auto px-4 pt-8 pb-5 flex flex-row items-center justify-between gap-6">
             
             <!-- 🖌️ 가로 한 줄로 표시되는 타이틀 영역 -->
             <div class="text-left z-10 min-w-0">
-                <h1 class="brush-title text-lg sm:text-3xl md:text-5xl font-black tracking-wider text-black whitespace-nowrap drop-shadow-[0_1px_3px_rgba(0,0,0,0.1)]">
+                <h1 class="brush-title text-5xl font-black tracking-wider text-black whitespace-nowrap drop-shadow-[0_1px_3px_rgba(0,0,0,0.1)]">
                     DOHYEON <span class="text-red-600">CALENDAR</span>
                 </h1>
             </div>
             
             <!-- 배너 공식 링크 모음 -->
-            <nav class="flex flex-wrap items-center justify-end gap-1 sm:gap-2.5 z-10 self-end shrink-0">
+            <nav class="flex flex-wrap items-center justify-end gap-2.5 z-10 self-end shrink-0">
                 
                 <!-- 1. SOOP 방송국 -->
                 <div class="relative group flex items-center justify-center">
-                    <a href="https://www.sooplive.com/station/dobby1031" target="_blank" class="w-6 h-6 sm:w-9 sm:h-9 bg-red-600 hover:bg-red-500 border border-red-400 rounded-full flex items-center justify-center transition hover:scale-105 active:scale-95 shadow-sm">
-                        <svg viewBox="0 0 24 24" class="w-3.5 h-3.5 sm:w-5 sm:h-5 fill-current text-white block">
+                    <a href="https://www.sooplive.com/station/dobby1031" target="_blank" class="w-9 h-9 bg-red-600 hover:bg-red-500 border border-red-400 rounded-full flex items-center justify-center transition hover:scale-105 active:scale-95 shadow-sm">
+                        <svg viewBox="0 0 24 24" class="w-5 h-5 fill-current text-white block">
                             <path d="M12 3L2 12h3v8h5v-6h4v6h5v-8h3L12 3z"/>
                         </svg>
                     </a>
@@ -51,7 +51,7 @@
 
                 <!-- 2. 도튜브 -->
                 <div class="relative group flex items-center justify-center">
-                    <a href="https://www.youtube.com/@d_obby" target="_blank" class="w-6 h-6 sm:w-9 sm:h-9 bg-zinc-800/90 hover:bg-zinc-700 border border-zinc-700 rounded-full flex items-center justify-center transition shadow-md hover:scale-105 active:scale-95 p-1 sm:p-2">
+                    <a href="https://www.youtube.com/@d_obby" target="_blank" class="w-9 h-9 bg-zinc-800/90 hover:bg-zinc-700 border border-zinc-700 rounded-full flex items-center justify-center transition shadow-md hover:scale-105 active:scale-95 p-2">
                         <svg viewBox="0 0 24 24" class="w-full h-full fill-current text-white">
                             <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
                         </svg>
@@ -64,7 +64,7 @@
 
                 <!-- 3. 도밥천국 -->
                 <div class="relative group flex items-center justify-center">
-                    <a href="https://cafe.naver.com/jamdo" target="_blank" class="w-6 h-6 sm:w-9 sm:h-9 bg-zinc-800/90 hover:bg-zinc-700 border border-zinc-700 rounded-full flex items-center justify-center transition shadow-md hover:scale-105 active:scale-95 p-1 sm:p-2">
+                    <a href="https://cafe.naver.com/jamdo" target="_blank" class="w-9 h-9 bg-zinc-800/90 hover:bg-zinc-700 border border-zinc-700 rounded-full flex items-center justify-center transition shadow-md hover:scale-105 active:scale-95 p-2">
                         <svg viewBox="0 0 24 24" class="w-full h-full fill-current text-white">
                             <path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.89 2-2V5c0-1.1-.9-2-2-2zm0 5h-2V5h2v3zM2 21h20v-2H2v2z"/>
                         </svg>
@@ -77,7 +77,7 @@
 
                 <!-- 4. 아카이브 -->
                 <div class="relative group flex items-center justify-center">
-                    <a href="https://app.notion.com/p/SOOP-DOHYEON-ARCHIVE-237f94d7dc8680e3ac2cdb67d3997e05" target="_blank" class="w-6 h-6 sm:w-9 sm:h-9 bg-zinc-800/90 hover:bg-zinc-700 border border-zinc-700 rounded-full flex items-center justify-center transition shadow-md hover:scale-105 active:scale-95 p-1 sm:p-2">
+                    <a href="https://app.notion.com/p/SOOP-DOHYEON-ARCHIVE-237f94d7dc8680e3ac2cdb67d3997e05" target="_blank" class="w-9 h-9 bg-zinc-800/90 hover:bg-zinc-700 border border-zinc-700 rounded-full flex items-center justify-center transition shadow-md hover:scale-105 active:scale-95 p-2">
                         <svg viewBox="0 0 24 24" class="w-full h-full fill-current text-white">
                             <path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H8V4h12v12z"/>
                         </svg>
@@ -90,7 +90,7 @@
 
                 <!-- 5. 🦊 도현 이모티콘 -->
                 <div class="relative group flex items-center justify-center">
-                    <a href="https://ogqmarket.sooplive.com/emoticon/63fee49b8e6ff" target="_blank" class="w-6 h-6 sm:w-9 sm:h-9 bg-zinc-800/90 hover:bg-zinc-700 border border-zinc-700 rounded-full flex items-center justify-center transition shadow-md hover:scale-105 active:scale-95 p-1 sm:p-1.5">
+                    <a href="https://ogqmarket.sooplive.com/emoticon/63fee49b8e6ff" target="_blank" class="w-9 h-9 bg-zinc-800/90 hover:bg-zinc-700 border border-zinc-700 rounded-full flex items-center justify-center transition shadow-md hover:scale-105 active:scale-95 p-1.5">
                         <svg viewBox="0 0 100 100" class="w-full h-full drop-shadow">
                             <polygon points="15,10 40,40 10,45" fill="#c4b5fd" />
                             <polygon points="85,10 60,40 90,45" fill="#c4b5fd" />
@@ -115,7 +115,7 @@
 
                 <!-- 6. 🦊 도현 움직이는 이모티콘 -->
                 <div class="relative group flex items-center justify-center">
-                    <a href="https://ogqmarket.sooplive.com/emoticon/65c3ea120a90d" target="_blank" class="w-6 h-6 sm:w-9 sm:h-9 bg-zinc-800/90 hover:bg-zinc-700 border border-zinc-700 rounded-full flex items-center justify-center transition shadow-md hover:scale-105 active:scale-95 p-1 sm:p-1.5">
+                    <a href="https://ogqmarket.sooplive.com/emoticon/65c3ea120a90d" target="_blank" class="w-9 h-9 bg-zinc-800/90 hover:bg-zinc-700 border border-zinc-700 rounded-full flex items-center justify-center transition shadow-md hover:scale-105 active:scale-95 p-1.5">
                         <svg viewBox="0 0 100 100" class="w-full h-full drop-shadow">
                             <polygon points="15,10 40,40 10,45" fill="#c4b5fd" />
                             <polygon points="85,10 60,40 90,45" fill="#c4b5fd" />
@@ -142,59 +142,57 @@
     </header>
 
     <!-- 메인 콘텐츠 -->
-    <main class="max-w-[1550px] mx-auto px-2 sm:px-4 pt-4 pb-2 md:pt-8 md:pb-3">
+    <main class="max-w-[1550px] mx-auto px-4 pt-6 pb-2">
         
         <!-- 범례 및 컨트롤러 바 -->
-        <div class="flex flex-row items-center justify-between gap-2 md:gap-4 mb-4 md:mb-6 bg-[#EAECEF] p-2.5 sm:p-3.5 md:p-4 rounded-xl border border-zinc-300/80 shadow-sm">
+        <div class="flex flex-row items-center justify-between gap-4 mb-5 bg-[#EAECEF] p-3.5 rounded-xl border border-zinc-300/80 shadow-sm">
             <!-- 범례 -->
-            <div class="flex flex-wrap items-center justify-start gap-2 sm:gap-3.5 md:gap-4 text-[10px] sm:text-xs md:text-sm font-bold text-zinc-800">
-                <div class="flex items-center gap-1"><span class="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 rounded-full bg-sky-400 inline-block"></span><span>도현방송</span></div>
-                <div class="flex items-center gap-1"><span class="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 rounded-full bg-emerald-400 inline-block"></span><span>타스방송</span></div>
-                <div class="flex items-center gap-1"><span class="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 rounded-full bg-amber-400 inline-block"></span><span>이벤트</span></div>
-                <div class="flex items-center gap-1"><span class="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 rounded-full bg-zinc-400 inline-block"></span><span>휴방</span></div>
+            <div class="flex flex-wrap items-center justify-start gap-4 text-sm font-bold text-zinc-800">
+                <div class="flex items-center gap-1.5"><span class="w-3.5 h-3.5 rounded-full bg-sky-400 inline-block"></span><span>도현방송</span></div>
+                <div class="flex items-center gap-1.5"><span class="w-3.5 h-3.5 rounded-full bg-emerald-400 inline-block"></span><span>타스방송</span></div>
+                <div class="flex items-center gap-1.5"><span class="w-3.5 h-3.5 rounded-full bg-amber-400 inline-block"></span><span>이벤트</span></div>
+                <div class="flex items-center gap-1.5"><span class="w-3.5 h-3.5 rounded-full bg-zinc-400 inline-block"></span><span>휴방</span></div>
             </div>
 
             <!-- 연도/월 선택 박스 -->
-            <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
-                <select id="year-select" onchange="onSelectYearMonth()" class="bg-white text-zinc-900 font-bold px-2 py-1 sm:px-3 sm:py-1.5 rounded-lg border border-zinc-300 text-xs sm:text-sm focus:outline-none focus:border-red-500 cursor-pointer shadow-sm"></select>
-                <select id="month-select" onchange="onSelectYearMonth()" class="bg-white text-zinc-900 font-bold px-2 py-1 sm:px-3 sm:py-1.5 rounded-lg border border-zinc-300 text-xs sm:text-sm focus:outline-none focus:border-red-500 cursor-pointer shadow-sm"></select>
+            <div class="flex items-center gap-2 shrink-0">
+                <select id="year-select" onchange="onSelectYearMonth()" class="bg-white text-zinc-900 font-bold px-3 py-1.5 rounded-lg border border-zinc-300 text-sm focus:outline-none focus:border-red-500 cursor-pointer shadow-sm"></select>
+                <select id="month-select" onchange="onSelectYearMonth()" class="bg-white text-zinc-900 font-bold px-3 py-1.5 rounded-lg border border-zinc-300 text-sm focus:outline-none focus:border-red-500 cursor-pointer shadow-sm"></select>
             </div>
         </div>
 
-        <!-- 캘린더 본체 (가로 스크롤 없이 한 화면에 7일 꽉 차게 배치) -->
-        <div class="bg-white text-zinc-900 rounded-2xl shadow-xl p-1.5 sm:p-3 md:p-5 border border-zinc-200 w-full">
-            <div class="w-full">
-                <!-- 상단 네비게이션 -->
-                <div class="flex justify-between items-center mb-3 md:mb-6 px-1 md:px-2">
-                    <button onclick="changeMonth(-1)" class="px-2.5 py-1 sm:px-3 sm:py-1.5 md:px-3.5 md:py-2 bg-zinc-100 hover:bg-zinc-200 text-zinc-700 rounded-xl font-bold transition text-[11px] sm:text-xs md:text-sm cursor-pointer border border-zinc-200">&lt; 이전달</button>
-                    <div class="flex items-center gap-1.5 sm:gap-2 md:gap-3">
-                        <h2 id="calendar-title" class="text-base sm:text-xl md:text-2xl font-black text-zinc-800"></h2>
-                        <button onclick="goToday()" class="px-2 py-0.5 sm:px-2.5 sm:py-1 bg-red-50 text-red-600 border border-red-200 hover:bg-red-100 rounded-lg text-[10px] sm:text-xs font-bold transition cursor-pointer">오늘</button>
-                    </div>
-                    <button onclick="changeMonth(1)" class="px-2.5 py-1 sm:px-3 sm:py-1.5 md:px-3.5 md:py-2 bg-zinc-100 hover:bg-zinc-200 text-zinc-700 rounded-xl font-bold transition text-[11px] sm:text-xs md:text-sm cursor-pointer border border-zinc-200">다음달 &gt;</button>
+        <!-- 캘린더 본체 (PC 비율 그대로 전체 표시, 모바일 핀치 줌 지원) -->
+        <div class="bg-white text-zinc-900 rounded-2xl shadow-xl p-5 border border-zinc-200 w-full">
+            <!-- 상단 네비게이션 -->
+            <div class="flex justify-between items-center mb-5 px-2">
+                <button onclick="changeMonth(-1)" class="px-3.5 py-2 bg-zinc-100 hover:bg-zinc-200 text-zinc-700 rounded-xl font-bold transition text-sm cursor-pointer border border-zinc-200">&lt; 이전달</button>
+                <div class="flex items-center gap-3">
+                    <h2 id="calendar-title" class="text-2xl font-black text-zinc-800"></h2>
+                    <button onclick="goToday()" class="px-2.5 py-1 bg-red-50 text-red-600 border border-red-200 hover:bg-red-100 rounded-lg text-xs font-bold transition cursor-pointer">오늘</button>
                 </div>
-
-                <!-- 요일 헤더 -->
-                <div class="grid grid-cols-7 gap-1 sm:gap-1.5 md:gap-2 text-center font-bold text-zinc-600 text-[11px] sm:text-xs md:text-sm mb-1.5 sm:mb-2">
-                    <div class="text-red-600">일</div>
-                    <div>월</div>
-                    <div>화</div>
-                    <div>수</div>
-                    <div>목</div>
-                    <div>금</div>
-                    <div class="text-blue-600">토</div>
-                </div>
-
-                <!-- 날짜 그리드 -->
-                <div id="calendar-grid" class="grid grid-cols-7 gap-1 sm:gap-1.5 md:gap-2"></div>
+                <button onclick="changeMonth(1)" class="px-3.5 py-2 bg-zinc-100 hover:bg-zinc-200 text-zinc-700 rounded-xl font-bold transition text-sm cursor-pointer border border-zinc-200">다음달 &gt;</button>
             </div>
+
+            <!-- 요일 헤더 -->
+            <div class="grid grid-cols-7 gap-2 text-center font-bold text-zinc-600 text-sm mb-2">
+                <div class="text-red-600">일</div>
+                <div>월</div>
+                <div>화</div>
+                <div>수</div>
+                <div>목</div>
+                <div>금</div>
+                <div class="text-blue-600">토</div>
+            </div>
+
+            <!-- 날짜 그리드 -->
+            <div id="calendar-grid" class="grid grid-cols-7 gap-2"></div>
         </div>
     </main>
 
     <!-- 푸터 (캘린더 바로 아래 붙어 불필요한 배경 여백 방지) -->
-    <footer class="max-w-[1550px] mx-auto w-full px-3 sm:px-4 py-3 sm:py-4 md:py-5 text-zinc-600 text-[11px] sm:text-xs border-t border-zinc-300/60 mt-2 md:mt-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-1.5 sm:gap-2 select-none">
+    <footer class="max-w-[1550px] mx-auto w-full px-4 py-4 text-zinc-600 text-xs border-t border-zinc-300/60 mt-3 flex flex-row items-center justify-between gap-2 select-none">
         <p class="text-left font-medium">본 사이트는 비공식 일정표로 스트리머의 사정에 따라 일정이 변경될 수 있습니다.</p>
-        <div class="flex items-center gap-3 shrink-0 self-end sm:self-auto">
+        <div class="flex items-center gap-3 shrink-0">
             <span id="admin-long-press-trigger" class="text-zinc-700 font-bold tracking-wide cursor-pointer select-none py-1 px-1.5 rounded hover:bg-zinc-200/70">made by 윤슬ツ</span>
         </div>
     </footer>
@@ -593,7 +591,7 @@
 
             for (let i = 0; i < firstDayIndex; i++) {
                 const emptyCell = document.createElement('div');
-                emptyCell.className = "h-28 sm:h-36 md:h-52 bg-zinc-200/30 rounded-lg sm:rounded-xl border border-transparent";
+                emptyCell.className = "h-52 bg-zinc-200/30 rounded-xl border border-transparent";
                 grid.appendChild(emptyCell);
             }
 
@@ -615,7 +613,7 @@
                 matchedSchedules.sort((a, b) => (a.order !== undefined ? a.order : 0) - (b.order !== undefined ? b.order : 0));
 
                 const cell = document.createElement('div');
-                let cellBaseClass = "h-28 sm:h-36 md:h-52 rounded-lg sm:rounded-2xl p-1 sm:p-2 md:p-2.5 flex flex-col justify-between transition hover:shadow-md cursor-pointer relative overflow-hidden ";
+                let cellBaseClass = "h-52 rounded-2xl p-2.5 flex flex-col justify-between transition hover:shadow-md cursor-pointer relative overflow-hidden ";
                 
                 let bgStyle = "bg-white border border-zinc-200";
                 let hasRestOrLongRest = matchedSchedules.some(s => s.type === 'rest' || s.type === 'longrest');
@@ -628,12 +626,12 @@
                     bgStyle = "bg-zinc-100 border border-zinc-300 text-zinc-700 shadow-inner";
                 } else if (uniqueTypes.length === 1) {
                     const type = uniqueTypes[0];
-                    if (type === 'solo') bgStyle = "bg-white border-[2px] sm:border-[3px] border-[#38bdf8] shadow-xs";
-                    else if (type === 'collab') bgStyle = "bg-white border-[2px] sm:border-[3px] border-[#34d399] shadow-xs";
-                    else if (type === 'event') bgStyle = "bg-white border-[2px] sm:border-[3px] border-[#fbbf24] shadow-xs";
+                    if (type === 'solo') bgStyle = "bg-white border-[3px] border-[#38bdf8] shadow-xs";
+                    else if (type === 'collab') bgStyle = "bg-white border-[3px] border-[#34d399] shadow-xs";
+                    else if (type === 'event') bgStyle = "bg-white border-[3px] border-[#fbbf24] shadow-xs";
                 } else if (uniqueTypes.length > 1) {
                     const colors = uniqueTypes.map(t => TYPE_COLORS[t] || '#38bdf8');
-                    bgStyle = "bg-white border-[2px] sm:border-[3px]";
+                    bgStyle = "bg-white border-[3px]";
 
                     if (colors.length === 2) {
                         cell.style.borderColor = `${colors[0]} ${colors[1]} ${colors[1]} ${colors[0]}`;
@@ -654,16 +652,16 @@
                 topGroup.className = "w-full flex flex-col justify-start overflow-hidden z-10";
 
                 const topHeader = document.createElement('div');
-                topHeader.className = "flex items-center gap-0.5 sm:gap-1 mb-0.5 sm:mb-1 flex-wrap";
+                topHeader.className = "flex items-center gap-1 mb-1 flex-wrap";
 
                 const dayNumber = document.createElement('div');
                 
                 if (isToday) {
-                    dayNumber.className = "text-[10px] sm:text-xs md:text-sm font-bold w-4 h-4 sm:w-6 sm:h-6 flex items-center justify-center rounded-full shrink-0 bg-red-600 text-white shadow-sm";
+                    dayNumber.className = "text-sm font-bold w-6 h-6 flex items-center justify-center rounded-full shrink-0 bg-red-600 text-white shadow-sm";
                 } else if (isHoliday) {
-                    dayNumber.className = "text-[10px] sm:text-xs md:text-sm font-bold w-4 h-4 sm:w-6 sm:h-6 flex items-center justify-center rounded-full shrink-0 text-red-600";
+                    dayNumber.className = "text-sm font-bold w-6 h-6 flex items-center justify-center rounded-full shrink-0 text-red-600";
                 } else {
-                    dayNumber.className = "text-[10px] sm:text-xs md:text-sm font-bold w-4 h-4 sm:w-6 sm:h-6 flex items-center justify-center rounded-full shrink-0 text-zinc-800";
+                    dayNumber.className = "text-sm font-bold w-6 h-6 flex items-center justify-center rounded-full shrink-0 text-zinc-800";
                 }
                 
                 dayNumber.innerText = day;
@@ -673,7 +671,7 @@
                     const uniqueGames = [...new Set(matchedSchedules.map(s => s.game).filter(Boolean))];
                     uniqueGames.forEach(gName => {
                         const gameBadge = document.createElement('span');
-                        gameBadge.className = "text-[7.5px] sm:text-[10px] md:text-[10.5px] bg-white text-black font-extrabold px-1 sm:px-1.5 py-0.2 sm:py-0.5 rounded-full border border-black truncate max-w-[42px] sm:max-w-[90px]";
+                        gameBadge.className = "text-[10.5px] bg-white text-black font-extrabold px-1.5 py-0.5 rounded-full border border-black truncate max-w-[90px]";
                         gameBadge.innerText = gName;
                         topHeader.appendChild(gameBadge);
                     });
@@ -682,7 +680,7 @@
                 topGroup.appendChild(topHeader);
 
                 const listContainer = document.createElement('div');
-                listContainer.className = "flex flex-col gap-0.5 sm:gap-1 overflow-hidden w-full";
+                listContainer.className = "flex flex-col gap-1 overflow-hidden w-full";
 
                 let validItemCount = 0;
                 matchedSchedules.forEach((sch) => {
@@ -694,7 +692,7 @@
                         if (validItemCount < 5) {
                             const badge = document.createElement('div');
                             const customColorStyle = ITEM_COLOR_MAP[sch.color || 'default'] || ITEM_COLOR_MAP['default'];
-                            badge.className = `text-[8px] sm:text-[11px] md:text-[13px] px-1 sm:px-2 py-0.5 md:py-1 rounded font-bold truncate border shadow-xs leading-tight ${customColorStyle}`;
+                            badge.className = `text-[13px] px-2 py-1 rounded font-bold truncate border shadow-xs ${customColorStyle}`;
                             
                             const gamePrefix = sch.game ? `[${sch.game}] ` : '';
                             badge.innerText = `${gamePrefix}${sch.summary}`;
@@ -706,8 +704,8 @@
 
                 if (validItemCount > 5) {
                     const moreBadge = document.createElement('div');
-                    moreBadge.className = "text-[7.5px] sm:text-[9.5px] text-zinc-600 font-bold text-right mt-0.5";
-                    moreBadge.innerText = `+${validItemCount - 5}`;
+                    moreBadge.className = "text-[9.5px] text-zinc-600 font-bold text-right mt-0.5";
+                    moreBadge.innerText = `+${validItemCount - 5}개 더보기`;
                     listContainer.appendChild(moreBadge);
                 }
 
@@ -719,14 +717,14 @@
                     const restText = restItem.type === 'longrest' ? '장기휴방' : '휴방';
                     
                     const centerRestEl = document.createElement('div');
-                    centerRestEl.className = "absolute inset-0 flex flex-col items-center justify-center pointer-events-none text-zinc-700 z-0 pt-2 sm:pt-3";
+                    centerRestEl.className = "absolute inset-0 flex flex-col items-center justify-center pointer-events-none text-zinc-700 z-0 pt-3";
                     centerRestEl.innerHTML = `
-                        <svg class="w-4 h-4 sm:w-8 sm:h-8 md:w-9 md:h-9 mb-0.5 sm:mb-1 text-zinc-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <svg class="w-9 h-9 mb-1 text-zinc-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
                             <path d="M19 3v4"></path>
                             <path d="M21 5h-4"></path>
                         </svg>
-                        <span class="text-[8px] sm:text-xs font-extrabold tracking-tight text-zinc-700">${restText}</span>
+                        <span class="text-xs font-extrabold tracking-tight text-zinc-700">${restText}</span>
                     `;
                     cell.appendChild(centerRestEl);
                 }
@@ -740,10 +738,10 @@
 
                 if (allAnniversaries.length > 0) {
                     const anniFooterContainer = document.createElement('div');
-                    anniFooterContainer.className = "w-full pt-0.5 sm:pt-1 mt-auto border-t border-red-200 truncate text-center flex flex-col items-center gap-0.5 z-20";
+                    anniFooterContainer.className = "w-full pt-1 mt-auto border-t border-red-200 truncate text-center flex flex-col items-center gap-0.5 z-20";
                     allAnniversaries.forEach(anni => {
                         const anniBadge = document.createElement('div');
-                        anniBadge.className = "text-[7.5px] sm:text-[11px] md:text-[12.5px] font-extrabold text-red-600 truncate w-full text-center leading-tight";
+                        anniBadge.className = "text-[12.5px] font-extrabold text-red-600 truncate w-full text-center";
                         anniBadge.innerText = anni;
                         anniFooterContainer.appendChild(anniBadge);
                     });
