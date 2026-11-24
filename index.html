@@ -162,9 +162,9 @@
                 </div>
             </div>
 
-            <!-- 캘린더 본체 (순백색 유지, 모바일 가로폭 대폭 확장) -->
+            <!-- 캘린더 본체 (순백색 유지, 모바일에서 날짜 칸 가로폭 넓게 확보) -->
             <div class="bg-white text-zinc-900 rounded-2xl shadow-xl p-2.5 sm:p-3 md:p-5 border border-zinc-200 overflow-x-auto">
-                <div class="min-w-[1160px] md:min-w-0">
+                <div class="min-w-[1400px]">
                     <!-- 상단 네비게이션 -->
                     <div class="flex justify-between items-center mb-4 md:mb-6 px-1 md:px-2">
                         <button onclick="changeMonth(-1)" class="px-3 py-1.5 md:px-3.5 md:py-2 bg-zinc-100 hover:bg-zinc-200 text-zinc-700 rounded-xl font-bold transition text-xs md:text-sm cursor-pointer border border-zinc-200">&lt; 이전달</button>
@@ -675,7 +675,7 @@
                     const uniqueGames = [...new Set(matchedSchedules.map(s => s.game).filter(Boolean))];
                     uniqueGames.forEach(gName => {
                         const gameBadge = document.createElement('span');
-                        gameBadge.className = "text-[9.5px] md:text-[10.5px] bg-white text-black font-extrabold px-1.5 py-0.5 rounded-full border border-black truncate max-w-[80px]";
+                        gameBadge.className = "text-[10.5px] bg-white text-black font-extrabold px-1.5 py-0.5 rounded-full border border-black truncate max-w-[90px]";
                         gameBadge.innerText = gName;
                         topHeader.appendChild(gameBadge);
                     });
@@ -696,7 +696,7 @@
                         if (validItemCount < 5) {
                             const badge = document.createElement('div');
                             const customColorStyle = ITEM_COLOR_MAP[sch.color || 'default'] || ITEM_COLOR_MAP['default'];
-                            badge.className = `text-[11.5px] md:text-[13px] px-2 py-0.5 md:py-1 rounded font-bold truncate border shadow-xs ${customColorStyle}`;
+                            badge.className = `text-[13px] px-2 py-0.5 md:py-1 rounded font-bold truncate border shadow-xs ${customColorStyle}`;
                             
                             const gamePrefix = sch.game ? `[${sch.game}] ` : '';
                             badge.innerText = `${gamePrefix}${sch.summary}`;
@@ -745,7 +745,7 @@
                     anniFooterContainer.className = "w-full pt-1 mt-auto border-t border-red-200 truncate text-center flex flex-col items-center gap-0.5 z-20";
                     allAnniversaries.forEach(anni => {
                         const anniBadge = document.createElement('div');
-                        anniBadge.className = "text-[11px] md:text-[12.5px] font-extrabold text-red-600 truncate w-full text-center";
+                        anniBadge.className = "text-[12.5px] font-extrabold text-red-600 truncate w-full text-center";
                         anniBadge.innerText = anni;
                         anniFooterContainer.appendChild(anniBadge);
                     });
