@@ -2,8 +2,8 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <!-- 📱 모바일 첫 화면에서 PC 전체 비율로 축소 표시 + 핀치 줌(확대/축소) 허용 -->
-    <meta name="viewport" content="width=device-width, initial-scale=0.32, minimum-scale=0.2, maximum-scale=5.0, user-scalable=yes">
+    <!-- 📱 모바일 첫 화면에서 0.38 비율로 표시 + 핀치 줌(확대/축소) 허용 -->
+    <meta name="viewport" content="width=device-width, initial-scale=0.38, minimum-scale=0.2, maximum-scale=5.0, user-scalable=yes">
     <title>방송 일정표</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
@@ -20,11 +20,11 @@
         }
     </style>
 </head>
-<body class="bg-[#F4F6F8] text-zinc-900 min-w-[1160px]">
+<body class="bg-[#F4F6F8] text-zinc-900 min-w-[1160px] overflow-x-clip">
 
     <!-- 상단 배너 영역 -->
     <header class="w-full bg-[#EAECEF] border-b border-zinc-300/80 relative overflow-hidden shadow-sm">
-        <div class="max-w-[1550px] mx-auto px-4 pt-8 pb-5 flex flex-row items-center justify-between gap-6">
+        <div class="max-w-[1550px] mx-auto px-4 pt-6 pb-4 flex flex-row items-center justify-between gap-6">
             
             <!-- 🖌️ 가로 한 줄로 표시되는 타이틀 영역 -->
             <div class="text-left z-10 min-w-0">
@@ -142,10 +142,10 @@
     </header>
 
     <!-- 메인 콘텐츠 -->
-    <main class="max-w-[1550px] mx-auto px-4 pt-6 pb-2">
+    <main class="max-w-[1550px] mx-auto px-4 pt-5 pb-1">
         
         <!-- 범례 및 컨트롤러 바 -->
-        <div class="flex flex-row items-center justify-between gap-4 mb-5 bg-[#EAECEF] p-3.5 rounded-xl border border-zinc-300/80 shadow-sm">
+        <div class="flex flex-row items-center justify-between gap-4 mb-4 bg-[#EAECEF] p-3 rounded-xl border border-zinc-300/80 shadow-sm">
             <!-- 범례 -->
             <div class="flex flex-wrap items-center justify-start gap-4 text-sm font-bold text-zinc-800">
                 <div class="flex items-center gap-1.5"><span class="w-3.5 h-3.5 rounded-full bg-sky-400 inline-block"></span><span>도현방송</span></div>
@@ -162,9 +162,9 @@
         </div>
 
         <!-- 캘린더 본체 (PC 비율 그대로 전체 표시, 모바일 핀치 줌 지원) -->
-        <div class="bg-white text-zinc-900 rounded-2xl shadow-xl p-5 border border-zinc-200 w-full">
+        <div class="bg-white text-zinc-900 rounded-2xl shadow-xl p-4 border border-zinc-200 w-full">
             <!-- 상단 네비게이션 -->
-            <div class="flex justify-between items-center mb-5 px-2">
+            <div class="flex justify-between items-center mb-4 px-2">
                 <button onclick="changeMonth(-1)" class="px-3.5 py-2 bg-zinc-100 hover:bg-zinc-200 text-zinc-700 rounded-xl font-bold transition text-sm cursor-pointer border border-zinc-200">&lt; 이전달</button>
                 <div class="flex items-center gap-3">
                     <h2 id="calendar-title" class="text-2xl font-black text-zinc-800"></h2>
@@ -189,8 +189,8 @@
         </div>
     </main>
 
-    <!-- 푸터 (캘린더 바로 아래 붙어 불필요한 배경 여백 방지) -->
-    <footer class="max-w-[1550px] mx-auto w-full px-4 py-4 text-zinc-600 text-xs border-t border-zinc-300/60 mt-3 flex flex-row items-center justify-between gap-2 select-none">
+    <!-- 푸터 (캘린더 바로 아래 붙어 불필요한 배경 여백 최소화) -->
+    <footer class="max-w-[1550px] mx-auto w-full px-4 py-3 text-zinc-600 text-xs border-t border-zinc-300/60 mt-2 mb-0 flex flex-row items-center justify-between gap-2 select-none">
         <p class="text-left font-medium">본 사이트는 비공식 일정표로 스트리머의 사정에 따라 일정이 변경될 수 있습니다.</p>
         <div class="flex items-center gap-3 shrink-0">
             <span id="admin-long-press-trigger" class="text-zinc-700 font-bold tracking-wide cursor-pointer select-none py-1 px-1.5 rounded hover:bg-zinc-200/70">made by 윤슬ツ</span>
@@ -591,7 +591,7 @@
 
             for (let i = 0; i < firstDayIndex; i++) {
                 const emptyCell = document.createElement('div');
-                emptyCell.className = "h-52 bg-zinc-200/30 rounded-xl border border-transparent";
+                emptyCell.className = "h-44 rounded-xl border border-transparent";
                 grid.appendChild(emptyCell);
             }
 
@@ -613,7 +613,7 @@
                 matchedSchedules.sort((a, b) => (a.order !== undefined ? a.order : 0) - (b.order !== undefined ? b.order : 0));
 
                 const cell = document.createElement('div');
-                let cellBaseClass = "h-52 rounded-2xl p-2.5 flex flex-col justify-between transition hover:shadow-md cursor-pointer relative overflow-hidden ";
+                let cellBaseClass = "h-44 rounded-2xl p-2.5 flex flex-col justify-between transition hover:shadow-md cursor-pointer relative overflow-hidden ";
                 
                 let bgStyle = "bg-white border border-zinc-200";
                 let hasRestOrLongRest = matchedSchedules.some(s => s.type === 'rest' || s.type === 'longrest');
@@ -692,7 +692,7 @@
                         if (validItemCount < 5) {
                             const badge = document.createElement('div');
                             const customColorStyle = ITEM_COLOR_MAP[sch.color || 'default'] || ITEM_COLOR_MAP['default'];
-                            badge.className = `text-[13px] px-2 py-1 rounded font-bold truncate border shadow-xs ${customColorStyle}`;
+                            badge.className = `text-[13px] px-2 py-0.5 rounded font-bold truncate border shadow-xs ${customColorStyle}`;
                             
                             const gamePrefix = sch.game ? `[${sch.game}] ` : '';
                             badge.innerText = `${gamePrefix}${sch.summary}`;
@@ -719,7 +719,7 @@
                     const centerRestEl = document.createElement('div');
                     centerRestEl.className = "absolute inset-0 flex flex-col items-center justify-center pointer-events-none text-zinc-700 z-0 pt-3";
                     centerRestEl.innerHTML = `
-                        <svg class="w-9 h-9 mb-1 text-zinc-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <svg class="w-8 h-8 mb-1 text-zinc-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
                             <path d="M19 3v4"></path>
                             <path d="M21 5h-4"></path>
