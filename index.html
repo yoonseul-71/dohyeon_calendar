@@ -151,7 +151,7 @@
                 <div class="flex flex-wrap items-center justify-center gap-3.5 md:gap-4 text-xs md:text-sm font-bold text-zinc-800">
                     <div class="flex items-center gap-1.5"><span class="w-3.5 h-3.5 rounded-full bg-sky-400 inline-block"></span><span>도현방송</span></div>
                     <div class="flex items-center gap-1.5"><span class="w-3.5 h-3.5 rounded-full bg-emerald-400 inline-block"></span><span>타스방송</span></div>
-                    <div class="flex items-center gap-1.5"><span class="w-3.5 h-3.5 rounded-full bg-amber-400 inline-block"></span><span>이벤트</span></div>
+                    <div class="flex items-center gap-1.5"><span class="w-3.5 h-3.5 rounded-full bg-amber-400 inline-block"></span><span>대회/이벤트</span></div>
                     <div class="flex items-center gap-1.5"><span class="w-3.5 h-3.5 rounded-full bg-zinc-400 inline-block"></span><span>휴방</span></div>
                 </div>
 
@@ -162,7 +162,7 @@
                 </div>
             </div>
 
-            <!-- 캘린더 본체 (순백색 유지, 모바일에서 날짜 칸 가로폭 넓게 확보) -->
+            <!-- 캘린더 본체 (순백색 유지, 모바일에서 날짜 칸 가로폭 넓게 확보 + 좌우 스크롤 이동) -->
             <div class="bg-white text-zinc-900 rounded-2xl shadow-xl p-2.5 sm:p-3 md:p-5 border border-zinc-200 overflow-x-auto">
                 <div class="min-w-[1400px]">
                     <!-- 상단 네비게이션 -->
@@ -266,7 +266,7 @@
                         <select id="form-type" class="w-full bg-white border border-zinc-300 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500 text-zinc-900 shadow-2xs">
                             <option value="solo" selected>도현방송</option>
                             <option value="collab">타스방송</option>
-                            <option value="event">이벤트</option>
+                            <option value="event">대회/이벤트</option>
                             <option value="rest">휴방</option>
                             <option value="longrest">장기휴방</option>
                             <option value="none">선택 안함 (일반)</option>
@@ -496,7 +496,7 @@
         const TYPE_NAMES = {
             solo: '도현방송',
             collab: '타스방송',
-            event: '이벤트',
+            event: '대회/이벤트',
             rest: '휴방',
             longrest: '장기휴방'
         };
