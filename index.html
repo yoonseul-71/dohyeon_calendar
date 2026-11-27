@@ -2,7 +2,8 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <!-- 📱 인앱 브라우저에서도 전체가 1번 화면처럼 축소되어 뜨고 핀치 줌(확대/축소) 가능 -->
+    <meta name="viewport" content="width=1160, initial-scale=0.35, minimum-scale=0.2, maximum-scale=5.0, user-scalable=yes">
     <title>방송 일정표</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
@@ -19,21 +20,21 @@
         }
     </style>
 </head>
-<body class="bg-[#F4F6F8] text-zinc-900 overflow-x-clip">
+<body class="bg-[#F4F6F8] text-zinc-900 min-w-[1160px] overflow-x-clip">
 
     <!-- 상단 배너 영역 -->
     <header class="w-full bg-[#EAECEF] border-b border-zinc-300/80 relative overflow-hidden shadow-sm">
-        <div class="max-w-[1550px] mx-auto px-4 pt-5 pb-3.5 flex flex-wrap items-center justify-between gap-4">
+        <div class="max-w-[1550px] mx-auto px-4 pt-6 pb-4 flex flex-row items-center justify-between gap-6">
             
             <!-- 🖌️ 가로 한 줄로 표시되는 타이틀 영역 -->
             <div class="text-left z-10 min-w-0 shrink-0">
-                <h1 class="brush-title text-3xl sm:text-5xl font-black tracking-wider text-black whitespace-nowrap drop-shadow-[0_1px_3px_rgba(0,0,0,0.1)]">
+                <h1 class="brush-title text-5xl font-black tracking-wider text-black whitespace-nowrap drop-shadow-[0_1px_3px_rgba(0,0,0,0.1)]">
                     DOHYEON <span class="text-red-600">CALENDAR</span>
                 </h1>
             </div>
             
             <!-- 배너 공식 링크 모음 -->
-            <nav class="flex flex-nowrap items-center justify-end gap-2 sm:gap-2.5 z-10 self-end shrink-0">
+            <nav class="flex flex-nowrap items-center justify-end gap-2.5 z-10 self-end shrink-0">
                 
                 <!-- 1. SOOP 방송국 -->
                 <div class="relative group flex items-center justify-center">
@@ -141,12 +142,12 @@
     </header>
 
     <!-- 메인 콘텐츠 -->
-    <main class="max-w-[1550px] mx-auto px-4 pt-4 pb-0">
+    <main class="max-w-[1550px] mx-auto px-4 pt-5 pb-1">
         
         <!-- 범례 및 컨트롤러 바 -->
-        <div class="flex flex-wrap items-center justify-between gap-3 mb-3.5 bg-[#EAECEF] p-3 rounded-xl border border-zinc-300/80 shadow-sm">
+        <div class="flex flex-row items-center justify-between gap-4 mb-4 bg-[#EAECEF] p-3 rounded-xl border border-zinc-300/80 shadow-sm">
             <!-- 범례 -->
-            <div class="flex flex-wrap items-center justify-start gap-3 sm:gap-4 text-xs sm:text-sm font-bold text-zinc-800">
+            <div class="flex flex-wrap items-center justify-start gap-4 text-sm font-bold text-zinc-800">
                 <div class="flex items-center gap-1.5"><span class="w-3.5 h-3.5 rounded-full bg-sky-400 inline-block"></span><span>도현방송</span></div>
                 <div class="flex items-center gap-1.5"><span class="w-3.5 h-3.5 rounded-full bg-emerald-400 inline-block"></span><span>타스방송</span></div>
                 <div class="flex items-center gap-1.5"><span class="w-3.5 h-3.5 rounded-full bg-amber-400 inline-block"></span><span>대회/이벤트</span></div>
@@ -160,38 +161,36 @@
             </div>
         </div>
 
-        <!-- 캘린더 본체 (좁은 화면에서 달력 비율을 유지하도록 가로 스크롤 지원) -->
-        <div class="bg-white text-zinc-900 rounded-2xl shadow-xl p-4 border border-zinc-200 w-full overflow-x-auto">
-            <div class="min-w-[980px]">
-                <!-- 상단 네비게이션 -->
-                <div class="flex justify-between items-center mb-4 px-2">
-                    <button onclick="changeMonth(-1)" class="px-3.5 py-2 bg-zinc-100 hover:bg-zinc-200 text-zinc-700 rounded-xl font-bold transition text-sm cursor-pointer border border-zinc-200">&lt; 이전달</button>
-                    <div class="flex items-center gap-3">
-                        <h2 id="calendar-title" class="text-2xl font-black text-zinc-800"></h2>
-                        <button onclick="goToday()" class="px-2.5 py-1 bg-red-50 text-red-600 border border-red-200 hover:bg-red-100 rounded-lg text-xs font-bold transition cursor-pointer">오늘</button>
-                    </div>
-                    <button onclick="changeMonth(1)" class="px-3.5 py-2 bg-zinc-100 hover:bg-zinc-200 text-zinc-700 rounded-xl font-bold transition text-sm cursor-pointer border border-zinc-200">다음달 &gt;</button>
+        <!-- 캘린더 본체 -->
+        <div class="bg-white text-zinc-900 rounded-2xl shadow-xl p-4 border border-zinc-200 w-full">
+            <!-- 상단 네비게이션 -->
+            <div class="flex justify-between items-center mb-4 px-2">
+                <button onclick="changeMonth(-1)" class="px-3.5 py-2 bg-zinc-100 hover:bg-zinc-200 text-zinc-700 rounded-xl font-bold transition text-sm cursor-pointer border border-zinc-200">&lt; 이전달</button>
+                <div class="flex items-center gap-3">
+                    <h2 id="calendar-title" class="text-2xl font-black text-zinc-800"></h2>
+                    <button onclick="goToday()" class="px-2.5 py-1 bg-red-50 text-red-600 border border-red-200 hover:bg-red-100 rounded-lg text-xs font-bold transition cursor-pointer">오늘</button>
                 </div>
-
-                <!-- 요일 헤더 -->
-                <div class="grid grid-cols-7 gap-2 text-center font-bold text-zinc-600 text-sm mb-2">
-                    <div class="text-red-600">일</div>
-                    <div>월</div>
-                    <div>화</div>
-                    <div>수</div>
-                    <div>목</div>
-                    <div>금</div>
-                    <div class="text-blue-600">토</div>
-                </div>
-
-                <!-- 날짜 그리드 -->
-                <div id="calendar-grid" class="grid grid-cols-7 gap-2"></div>
+                <button onclick="changeMonth(1)" class="px-3.5 py-2 bg-zinc-100 hover:bg-zinc-200 text-zinc-700 rounded-xl font-bold transition text-sm cursor-pointer border border-zinc-200">다음달 &gt;</button>
             </div>
+
+            <!-- 요일 헤더 -->
+            <div class="grid grid-cols-7 gap-2 text-center font-bold text-zinc-600 text-sm mb-2">
+                <div class="text-red-600">일</div>
+                <div>월</div>
+                <div>화</div>
+                <div>수</div>
+                <div>목</div>
+                <div>금</div>
+                <div class="text-blue-600">토</div>
+            </div>
+
+            <!-- 날짜 그리드 -->
+            <div id="calendar-grid" class="grid grid-cols-7 gap-2"></div>
         </div>
     </main>
 
     <!-- 푸터 -->
-    <footer class="max-w-[1550px] mx-auto w-full px-4 py-2.5 text-zinc-600 text-xs border-t border-zinc-300/60 mt-1 mb-0 flex flex-row items-center justify-between gap-2 select-none">
+    <footer class="max-w-[1550px] mx-auto w-full px-4 py-3 text-zinc-600 text-xs border-t border-zinc-300/60 mt-2 mb-0 flex flex-row items-center justify-between gap-2 select-none">
         <p class="text-left font-medium">본 사이트는 비공식 일정표로 스트리머의 사정에 따라 일정이 변경될 수 있습니다.</p>
         <div class="flex items-center gap-3 shrink-0">
             <span id="admin-long-press-trigger" class="text-zinc-700 font-bold tracking-wide cursor-pointer select-none py-1 px-1.5 rounded hover:bg-zinc-200/70">made by 윤슬ツ</span>
