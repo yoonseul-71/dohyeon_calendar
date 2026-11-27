@@ -2,8 +2,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <!-- 📱 인앱 브라우저에서도 전체가 1번 화면처럼 축소되어 뜨고 핀치 줌(확대/축소) 가능 -->
-    <meta name="viewport" content="width=1160, initial-scale=0.35, minimum-scale=0.2, maximum-scale=5.0, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>방송 일정표</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
@@ -20,7 +19,7 @@
         }
     </style>
 </head>
-<body class="bg-[#F4F6F8] text-zinc-900 min-w-[1160px] overflow-x-clip">
+<body class="bg-[#F4F6F8] text-zinc-900 overflow-x-clip">
 
     <!-- 상단 배너 영역 -->
     <header class="w-full bg-[#EAECEF] border-b border-zinc-300/80 relative overflow-hidden shadow-sm">
@@ -142,7 +141,7 @@
     </header>
 
     <!-- 메인 콘텐츠 -->
-    <main class="max-w-[1550px] mx-auto px-4 pt-5 pb-1">
+    <main class="max-w-[1550px] mx-auto px-4 pt-5 pb-0">
         
         <!-- 범례 및 컨트롤러 바 -->
         <div class="flex flex-row items-center justify-between gap-4 mb-4 bg-[#EAECEF] p-3 rounded-xl border border-zinc-300/80 shadow-sm">
@@ -150,7 +149,7 @@
             <div class="flex flex-wrap items-center justify-start gap-4 text-sm font-bold text-zinc-800">
                 <div class="flex items-center gap-1.5"><span class="w-3.5 h-3.5 rounded-full bg-sky-400 inline-block"></span><span>도현방송</span></div>
                 <div class="flex items-center gap-1.5"><span class="w-3.5 h-3.5 rounded-full bg-emerald-400 inline-block"></span><span>타스방송</span></div>
-                <div class="flex items-center gap-1.5"><span class="w-3.5 h-3.5 rounded-full bg-amber-400 inline-block"></span><span>대회/이벤트</span></div>
+                <div class="flex items-center gap-1.5"><span class="w-3.5 h-3.5 rounded-full bg-amber-400 inline-block"></span><span>이벤트</span></div>
                 <div class="flex items-center gap-1.5"><span class="w-3.5 h-3.5 rounded-full bg-zinc-400 inline-block"></span><span>휴방</span></div>
             </div>
 
@@ -190,7 +189,7 @@
     </main>
 
     <!-- 푸터 -->
-    <footer class="max-w-[1550px] mx-auto w-full px-4 py-3 text-zinc-600 text-xs border-t border-zinc-300/60 mt-2 mb-0 flex flex-row items-center justify-between gap-2 select-none">
+    <footer class="max-w-[1550px] mx-auto w-full px-4 py-2.5 text-zinc-600 text-xs border-t border-zinc-300/60 mt-1 mb-0 flex flex-row items-center justify-between gap-2 select-none">
         <p class="text-left font-medium">본 사이트는 비공식 일정표로 스트리머의 사정에 따라 일정이 변경될 수 있습니다.</p>
         <div class="flex items-center gap-3 shrink-0">
             <span id="admin-long-press-trigger" class="text-zinc-700 font-bold tracking-wide cursor-pointer select-none py-1 px-1.5 rounded hover:bg-zinc-200/70">made by 윤슬ツ</span>
@@ -262,7 +261,7 @@
                         <select id="form-type" class="w-full bg-white border border-zinc-300 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500 text-zinc-900 shadow-2xs">
                             <option value="solo" selected>도현방송</option>
                             <option value="collab">타스방송</option>
-                            <option value="event">대회/이벤트</option>
+                            <option value="event">이벤트</option>
                             <option value="rest">휴방</option>
                             <option value="longrest">장기휴방</option>
                             <option value="none">선택 안함 (일반)</option>
@@ -492,7 +491,7 @@
         const TYPE_NAMES = {
             solo: '도현방송',
             collab: '타스방송',
-            event: '대회/이벤트',
+            event: '이벤트',
             rest: '휴방',
             longrest: '장기휴방'
         };
@@ -591,7 +590,7 @@
 
             for (let i = 0; i < firstDayIndex; i++) {
                 const emptyCell = document.createElement('div');
-                emptyCell.className = "h-44 rounded-xl border border-transparent";
+                emptyCell.className = "min-h-44 rounded-xl border border-transparent";
                 grid.appendChild(emptyCell);
             }
 
@@ -613,7 +612,7 @@
                 matchedSchedules.sort((a, b) => (a.order !== undefined ? a.order : 0) - (b.order !== undefined ? b.order : 0));
 
                 const cell = document.createElement('div');
-                let cellBaseClass = "h-44 rounded-2xl p-2.5 flex flex-col justify-between transition hover:shadow-md cursor-pointer relative overflow-hidden ";
+                let cellBaseClass = "min-h-44 rounded-2xl p-2.5 flex flex-col justify-between transition hover:shadow-md cursor-pointer relative overflow-hidden ";
                 
                 let bgStyle = "bg-white border border-zinc-200";
                 let hasRestOrLongRest = matchedSchedules.some(s => s.type === 'rest' || s.type === 'longrest');
