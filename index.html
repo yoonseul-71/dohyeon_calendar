@@ -590,7 +590,7 @@
 
             for (let i = 0; i < firstDayIndex; i++) {
                 const emptyCell = document.createElement('div');
-                emptyCell.className = "min-h-44 rounded-xl border border-transparent";
+                emptyCell.className = "min-h-60 rounded-xl border border-transparent";
                 grid.appendChild(emptyCell);
             }
 
@@ -612,7 +612,7 @@
                 matchedSchedules.sort((a, b) => (a.order !== undefined ? a.order : 0) - (b.order !== undefined ? b.order : 0));
 
                 const cell = document.createElement('div');
-                let cellBaseClass = "min-h-44 rounded-2xl p-2.5 flex flex-col justify-between transition hover:shadow-md cursor-pointer relative overflow-hidden ";
+                let cellBaseClass = "min-h-60 rounded-2xl p-2.5 flex flex-col justify-between transition hover:shadow-md cursor-pointer relative overflow-hidden ";
                 
                 let bgStyle = "bg-white border border-zinc-200";
                 let hasRestOrLongRest = matchedSchedules.some(s => s.type === 'rest' || s.type === 'longrest');
