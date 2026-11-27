@@ -7,11 +7,11 @@
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <style>
-        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+        @import url('https://webfontworld.github.io/NanumSquareNeo/NanumSquareNeo.css');
         /* 🖌️ STREAM STARTING SOON 느낌의 거친 붓터치 브러시 폰트 불러오기 */
         @import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap');
 
-        body { font-family: 'Pretendard', sans-serif; }
+        body { font-family: 'NanumSquareNeo', sans-serif; }
         
         /* 타이틀 전용 붓터치 폰트 스타일 */
         .brush-title {
@@ -656,11 +656,11 @@
                 const dayNumber = document.createElement('div');
                 
                 if (isToday) {
-                    dayNumber.className = "text-sm font-bold w-6 h-6 flex items-center justify-center rounded-full shrink-0 bg-red-600 text-white shadow-sm";
+                    dayNumber.className = "text-[14.5px] font-bold w-6 h-6 flex items-center justify-center rounded-full shrink-0 bg-red-600 text-white shadow-sm";
                 } else if (isHoliday) {
-                    dayNumber.className = "text-sm font-bold w-6 h-6 flex items-center justify-center rounded-full shrink-0 text-red-600";
+                    dayNumber.className = "text-[14.5px] font-bold w-6 h-6 flex items-center justify-center rounded-full shrink-0 text-red-600";
                 } else {
-                    dayNumber.className = "text-sm font-bold w-6 h-6 flex items-center justify-center rounded-full shrink-0 text-zinc-800";
+                    dayNumber.className = "text-[14.5px] font-bold w-6 h-6 flex items-center justify-center rounded-full shrink-0 text-zinc-800";
                 }
                 
                 dayNumber.innerText = day;
@@ -670,7 +670,7 @@
                     const uniqueGames = [...new Set(matchedSchedules.map(s => s.game).filter(Boolean))];
                     uniqueGames.forEach(gName => {
                         const gameBadge = document.createElement('span');
-                        gameBadge.className = "text-[10.5px] bg-white text-black font-extrabold px-1.5 py-0.5 rounded-full border border-black truncate max-w-[90px]";
+                        gameBadge.className = "text-[11px] bg-white text-black font-extrabold px-1.5 py-0.5 rounded-full border border-black truncate max-w-[90px]";
                         gameBadge.innerText = gName;
                         topHeader.appendChild(gameBadge);
                     });
@@ -691,7 +691,7 @@
                         if (validItemCount < 5) {
                             const badge = document.createElement('div');
                             const customColorStyle = ITEM_COLOR_MAP[sch.color || 'default'] || ITEM_COLOR_MAP['default'];
-                            badge.className = `text-[13px] px-2 py-0.5 rounded font-bold truncate border shadow-xs ${customColorStyle}`;
+                            badge.className = `text-[13.5px] px-2 py-0.5 rounded font-bold truncate border shadow-xs ${customColorStyle}`;
                             
                             const gamePrefix = sch.game ? `[${sch.game}] ` : '';
                             badge.innerText = `${gamePrefix}${sch.summary}`;
@@ -703,7 +703,7 @@
 
                 if (validItemCount > 5) {
                     const moreBadge = document.createElement('div');
-                    moreBadge.className = "text-[9.5px] text-zinc-600 font-bold text-right mt-0.5";
+                    moreBadge.className = "text-[10px] text-zinc-600 font-bold text-right mt-0.5";
                     moreBadge.innerText = `+${validItemCount - 5}개 더보기`;
                     listContainer.appendChild(moreBadge);
                 }
@@ -740,7 +740,7 @@
                     anniFooterContainer.className = "w-full pt-1 mt-auto border-t border-red-200 truncate text-center flex flex-col items-center gap-0.5 z-20";
                     allAnniversaries.forEach(anni => {
                         const anniBadge = document.createElement('div');
-                        anniBadge.className = "text-[12.5px] font-extrabold text-red-600 truncate w-full text-center";
+                        anniBadge.className = "text-[13px] font-extrabold text-red-600 truncate w-full text-center";
                         anniBadge.innerText = anni;
                         anniFooterContainer.appendChild(anniBadge);
                     });
